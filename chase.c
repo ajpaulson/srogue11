@@ -27,7 +27,7 @@ struct coord ch_ret;	/* Where chasing takes you */
  * runners:
  *	Make all the running monsters move.
  */
-runners()
+int runners()
 {
 	reg struct thing *tp;
 	reg struct linked_list *mon,*nextmon;
@@ -55,7 +55,7 @@ runners()
  * do_chase:
  *	Make one thing chase another.
  */
-do_chase(mon)
+int do_chase(mon)
 struct linked_list *mon;
 {
 	reg struct thing *th;
@@ -242,7 +242,7 @@ struct linked_list *mon;
  *	chasee.  Returns TRUE if we want to keep on chasing
  *	later FALSE if we reach the goal.
  */
-chase(tp, ee, runaway, dofight)
+int chase(tp, ee, runaway, dofight)
 struct thing *tp;
 struct coord *ee;
 bool runaway, dofight;
@@ -386,7 +386,7 @@ bool runaway, dofight;
  * runto:
  *	Set a monster running after something
  */
-runto(runner, spot)
+void runto(runner, spot)
 struct coord *runner;
 struct coord *spot;
 {
@@ -394,10 +394,10 @@ struct coord *spot;
 	reg struct thing *tp;
 
 	if ((item = find_mons(runner->y, runner->x)) == NULL)
-		return 0;
+		return;
 	tp = THINGPTR(item);
 	if (tp->t_flags & ISPARA)
-		return 0;
+		return;
 	tp->t_dest = spot;
 	tp->t_flags |= ISRUN;
 	tp->t_flags &= ~ISHELD;
@@ -448,7 +448,7 @@ int y, x;
  * diag_ok:
  *	Check to see if the move is legal if it is diagonal
  */
-diag_ok(sp, ep)
+int diag_ok(sp, ep)
 struct coord *sp, *ep;
 {
 	if (ep->x == sp->x || ep->y == sp->y)
@@ -463,7 +463,7 @@ struct coord *sp, *ep;
  * cansee:
  *	returns true if the hero can see a certain coordinate.
  */
-cansee(y, x)
+int cansee(y, x)
 int y, x;
 {
 	reg struct room *rer;

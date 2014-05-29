@@ -21,7 +21,7 @@
  * wear:
  *	The player wants to wear something, so let the hero try
  */
-wear()
+void wear()
 {
 	reg struct linked_list *item;
 	reg struct object *obj;
@@ -29,14 +29,14 @@ wear()
 	if (cur_armor != NULL) {
 		msg("You are already wearing some.");
 		after = FALSE;
-		return 0;
+		return;
 	}
 	if ((item = get_item("wear", ARMOR)) == NULL)
-		return 0;
+		return;
 	obj = OBJPTR(item);
 	if (obj->o_type != ARMOR) {
 		msg("You can't wear that.");
-		return 0;
+		return;
 	}
 	waste_time();
 	msg("Wearing %s.", a_magic[obj->o_which].mi_name);
@@ -50,16 +50,16 @@ wear()
  * take_off:
  *	Get the armor off of the players back
  */
-take_off()
+void take_off()
 {
 	reg struct object *obj;
 
 	if ((obj = cur_armor) == NULL) {
 		msg("Not wearing any armor.");
-		return 0;
+		return;
 	}
 	if (!dropcheck(cur_armor))
-		return 0;
+		return;
 	cur_armor = NULL;
 	msg("Was wearing %c) %s",pack_char(obj),inv_name(obj,TRUE));
 	nochange = FALSE;
@@ -69,7 +69,7 @@ take_off()
  * initarmor:
  *		Initialize some armor.
  */
-initarmor(obj, what)
+void initarmor(obj, what)
 struct object *obj;
 int what;
 {
@@ -90,7 +90,7 @@ int what;
  * hurt_armor:
  *	Returns TRUE if armor is damaged
  */
-hurt_armor(obj)
+int hurt_armor(obj)
 struct object *obj;
 {
 	reg int type, ac;
