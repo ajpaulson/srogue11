@@ -29,7 +29,7 @@ CFILES= vers.c armor.c chase.c command.c daemon.c daemons.c disply.c encumb.c \
 MISC=	Makefile LICENSE.TXT rogue.nr
 
 CC    = clang
-CFLAGS= -g -O3 -std=gnu11
+CFLAGS= -g -O0 -std=gnu11
 CRLIB = -lcurses
 RM    = rm -f
 TAR   = tar
