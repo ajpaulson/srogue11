@@ -4,3 +4,6 @@ compiler:       clang
 before_install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq [ libncurses5-dev ]
+notifications:
+  email:
+    - whileforkdofork@gmail.com
