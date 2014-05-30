@@ -88,7 +88,7 @@ endmsg()
  */
 doadd(char *fmt, va_list ap)
 {
-	vsprintf(&msgbuf[newpos], fmt, ap);
+	vnsprintf(&msgbuf[newpos], fmt, ap);
 	newpos = strlen(msgbuf);
 }
 
@@ -161,7 +161,7 @@ int fromfuse;
 	 */
 	if (nochange)
 		return 0;
-	nochange = TRUE;
+	nochange = true;
 	updpack();					/* get all weight info */
 	stef = &player.t_stats.s_ef;
 	stre = &player.t_stats.s_re;
@@ -177,37 +177,37 @@ int fromfuse;
 		ch = '*';
 	else
 		ch = ' ';
-	sprintf(buf, "Str: %2d(%c%2d)", stef->a_str, ch, stre->a_str);
+	snprintf(buf, "Str: %2d(%c%2d)", stef->a_str, ch, stre->a_str);
 	pb = &buf[strlen(buf)];
 	if (stre->a_dex < stmx->a_dex)
 		ch = '*';
 	else
 		ch = ' ';
-	sprintf(pb, "  Dex: %2d(%c%2d)", stef->a_dex, ch, stre->a_dex);
+	snprintf(pb, "  Dex: %2d(%c%2d)", stef->a_dex, ch, stre->a_dex);
 	pb = &buf[strlen(buf)];
 	if (stre->a_wis < stmx->a_wis)
 		ch = '*';
 	else
 		ch = ' ';
-	sprintf(pb, "  Wis: %2d(%c%2d)", stef->a_wis, ch, stre->a_wis);
+	snprintf(pb, "  Wis: %2d(%c%2d)", stef->a_wis, ch, stre->a_wis);
 	pb = &buf[strlen(buf)];
 	if (stre->a_con < stmx->a_con)
 		ch = '*';
 	else
 		ch = ' ';
-	sprintf(pb, "  Con: %2d(%c%2d)", stef->a_con, ch, stre->a_con);
+	snprintf(pb, "  Con: %2d(%c%2d)", stef->a_con, ch, stre->a_con);
 	pb = &buf[strlen(buf)];
-	sprintf(pb, "  Carry: %3d(%3d)", carwght, totwght);
+	snprintf(pb, "  Carry: %3d(%3d)", carwght, totwght);
 	mvwaddstr(cw, LINES - 1, 0, buf);
-	sprintf(buf, "Level: %d  Gold: %5d  Hp: ",level, purse);
+	snprintf(buf, "Level: %d  Gold: %5d  Hp: ",level, purse);
 	pb = &buf[strlen(buf)];
-	sprintf(pb, hwidth, him->s_hpt, him->s_maxhp);
+	snprintf(pb, hwidth, him->s_hpt, him->s_maxhp);
 	pb = &buf[strlen(buf)];
-	sprintf(pb,"  Ac: %-2d  Exp: %d/%ld",cur_armor == NULL ? him->s_arm :
+	snprintf(pb,"  Ac: %-2d  Exp: %d/%ld",cur_armor == NULL ? him->s_arm :
 	  cur_armor->o_ac, him->s_lvl, him->s_exp);
 	carwght = (packvol * 100) / V_PACK;
 	pb = &buf[strlen(buf)];
-	sprintf(pb, "  Vol: %3d%%", carwght);
+	snprintf(pb, "  Vol: %3d%%", carwght);
 	mvwaddstr(cw, LINES - 2, 0, buf);
 	waddstr(cw, hungstr[hungry_state]);
 	wclrtoeol(cw);
@@ -309,7 +309,7 @@ char *message;
 restscr(scr)
 WINDOW *scr;
 {
-	clearok(scr,TRUE);
+	clearok(scr,true);
 	touchwin(scr);
 }
 
