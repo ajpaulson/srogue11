@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * do_passages:

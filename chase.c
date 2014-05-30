@@ -17,6 +17,7 @@
 #include "rogue.h"
 #include "rogue.ext"
 #include <stdlib.h>
+#include "intern.h"
 
 #define FARAWAY	32767
 #define RDIST(a, b)	(DISTANCE((a)->y, (a)->x, (b).y, (b).x))

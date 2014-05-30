@@ -17,6 +17,7 @@
 #include <string.h>
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * ring_on:

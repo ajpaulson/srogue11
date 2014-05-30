@@ -22,6 +22,7 @@
 #include <fcntl.h>
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 static char scoreline[100];
 

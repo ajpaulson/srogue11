@@ -17,6 +17,7 @@
 #include <ctype.h>
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 
 /*
