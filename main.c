@@ -15,17 +15,18 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
-#include <time.h>
-#include <termios.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <signal.h>
+#include <curses.h>
+#include <limits.h>
 #include <pwd.h>
-#include <linux/limits.h>
-#include <sys/stat.h>
-#include "rogue.h"
-#include <string.h>
+#include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <termios.h>
+#include <time.h>
+
+#include "rogue.h"
 
 #ifdef ATT
 #include <time.h>

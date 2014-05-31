@@ -15,6 +15,8 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
+#include <stddef.h>
+
 #include "rogue.h"
 #include "rogue.ext"
 

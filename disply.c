@@ -10,8 +10,11 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
-#include "rogue.h"
 #include <ctype.h>
+#include <curses.h>
+#include <stddef.h>
+
+#include "rogue.h"
 #include "rogue.ext"
 
 /*

@@ -14,9 +14,12 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
+#include <curses.h>
+#include <stddef.h>
+
+#include "intern.h"
 #include "rogue.h"
 #include "rogue.ext"
-#include "intern.h"
 
 /*
  * wear:

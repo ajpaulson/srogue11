@@ -15,6 +15,9 @@
  */
 
 #include <ctype.h>
+#include <curses.h>
+#include <stdio.h>
+
 #include "rogue.h"
 #include "rogue.ext"
 

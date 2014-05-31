@@ -17,6 +17,8 @@
 #include "rogue.h"
 #include "rogue.ext"
 #include <stdlib.h>
+#include <curses.h>
+#include <stdbool.h>
 #include "intern.h"
 
 #define FARAWAY	32767
@@ -49,6 +51,7 @@ int runners()
 			tp->t_turn ^= TRUE;
 		}
 	}
+	return 0;
 }
 
 

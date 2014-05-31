@@ -14,7 +14,10 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
+#include <curses.h>
+#include <stdbool.h>
 #include <string.h>
+
 #include "rogue.h"
 #include "rogue.ext"
 

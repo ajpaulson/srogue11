@@ -14,10 +14,14 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
+#include <ctype.h>
+#include <curses.h>
+#include <stdbool.h>
 #include <string.h>
+
+#include "intern.h"
 #include "rogue.h"
 #include "rogue.ext"
-#include "intern.h"
 
 /*
  * ring_on:

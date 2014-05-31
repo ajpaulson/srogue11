@@ -14,6 +14,10 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
+#include <curses.h>
+#include <stdbool.h>
+#include <stdio.h>
+
 #include "rogue.h"
 
 struct room rooms[MAXROOMS];		/* One for each room -- A level */

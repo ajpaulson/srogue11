@@ -58,12 +58,13 @@
 #define RSID_ROOMS        0XABCD0017
 
 
+#include <assert.h>
 #include <curses.h>
-#include <sys/stat.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <string.h>
+
 #include "rogue.h"
 #include "rogue.ext"
 

@@ -14,15 +14,17 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
-#include <string.h>
-#include <signal.h>
-#include <ctype.h>
-#include <sys/types.h>
-#include <pwd.h>
+#include <bits/fcntl-linux.h>
+#include <curses.h>
 #include <fcntl.h>
+#include <pwd.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "rogue.h"
 #include "rogue.ext"
-#include "intern.h"
 
 static char scoreline[100];
 
@@ -58,6 +60,7 @@ char	*killname();
  */
 
 #include <time.h>
+
 death(monst)
 char monst;
 {

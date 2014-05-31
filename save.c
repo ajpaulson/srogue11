@@ -14,15 +14,17 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <ctype.h>
+#include <bits/fcntl-linux.h>
+#include <curses.h>
 #include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <signal.h>
-#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 #include "rogue.h"
 #include "rogue.ext"
 

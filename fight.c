@@ -15,9 +15,14 @@
  */
 
 #include <ctype.h>
+#include <curses.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "intern.h"
 #include "rogue.h"
 #include "rogue.ext"
-#include "intern.h"
 
 
 /*

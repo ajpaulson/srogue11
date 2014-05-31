@@ -14,11 +14,14 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
+#include <ctype.h>
+#include <curses.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 #include <termios.h>
-#include <ctype.h>
+
 #include "rogue.h"
-#include <pwd.h>
 #include "rogue.ext"
 
 extern struct termios terminal;

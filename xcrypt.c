@@ -49,9 +49,6 @@
  * against crypt.o exportable or re-exportable from the USA.
  */
 
-#include <sys/types.h>
-#include <sys/param.h>
-#include <pwd.h>
 #include <string.h>
 
 #ifdef DEBUG

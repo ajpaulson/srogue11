@@ -15,9 +15,12 @@
  */
 
 #include <ctype.h>
+#include <curses.h>
 #include <signal.h>
-#include <limits.h>
+#include <stdio.h>
 #include <string.h>
+#include <unctrl.h>
+
 #include "rogue.h"
 #include "rogue.ext"
 #ifdef __DJGPP__
