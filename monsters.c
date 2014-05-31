@@ -27,19 +27,20 @@
  *	Pick a monster to show up.  The lower the level,
  *	the meaner the monster.
  */
-rnd_mon(wander,baddie)
+rnd_mon(wander, baddie)
 bool wander;
-bool baddie;		/* TRUE when from a polymorph stick */
+bool baddie; /* TRUE when from a polymorph stick */
 {
 	reg int i, ok, cnt;
 
 	cnt = 0;
-	if (levcount == 0)			/* if only asmodeus possible */
-		return(MAXMONS);
+	if (levcount == 0) /* if only asmodeus possible */
+		return (MAXMONS);
 	if (baddie) {
 		while (1) {
-			i = rnd(MAXMONS);					/* pick ANY monster */
-			if (monsters[i].m_lev.l_lev < 0)	/* skip genocided ones */
+			i = rnd(MAXMONS); /* pick ANY monster */
+			if (monsters[i].m_lev.l_lev <
+			    0) /* skip genocided ones */
 				continue;
 			return i;
 		}
@@ -56,7 +57,7 @@ bool baddie;		/* TRUE when from a polymorph stick */
 		 */
 		if (!wander || mtlev[i]->m_lev.d_wand || ++cnt > 500)
 			ok = TRUE;
-	} while(!ok);
+	} while (!ok);
 	return (midx(mtlev[i]->m_show));
 }
 
@@ -78,17 +79,15 @@ lev_mon()
 				break;
 		}
 	}
-	if (levcount == 0)					/* if no monsters are possible */
-		mtlev[0] = &monsters[MAXMONS];	/* then asmodeus 'A' */
+	if (levcount == 0)		       /* if no monsters are possible */
+		mtlev[0] = &monsters[MAXMONS]; /* then asmodeus 'A' */
 }
 
 /*
  * new_monster:
  *	Pick a new monster and add it to the list
  */
-struct linked_list *
-new_monster(type, cp, treas)
-struct coord *cp;
+struct linked_list *new_monster(type, cp, treas) struct coord *cp;
 bool treas;
 char type;
 {
@@ -96,13 +95,13 @@ char type;
 	reg struct thing *tp;
 	reg struct monster *mp;
 	reg struct stats *st;
-	float killexp;		/* experience gotten for killing him */
+	float killexp; /* experience gotten for killing him */
 
 	item = new_item(sizeof(struct thing));
 	attach(mlist, item);
 	tp = THINGPTR(item);
 	st = &tp->t_stats;
-	mp = &monsters[type];		/* point to this monsters structure */
+	mp = &monsters[type]; /* point to this monsters structure */
 	tp->t_type = mp->m_show;
 	tp->t_indx = type;
 	tp->t_pos = *cp;
@@ -147,12 +146,12 @@ char type;
 	 * Adjust experience point we get for killing it by the
 	 *  strength of this particular monster by ~~ +- 50%
 	 */
-	killexp = mp->m_stats.s_exp * (0.47 + (float)st->s_hpt /
-		(8 * (float)st->s_lvl));
+	killexp = mp->m_stats.s_exp *
+		  (0.47 + (float)st->s_hpt / (8 * (float)st->s_lvl));
 
-	st->s_exp = killexp;			/* use float for accuracy */
-	if(st->s_exp < 1)
-		st->s_exp = 1;				/* minimum 1 experience point */
+	st->s_exp = killexp; /* use float for accuracy */
+	if (st->s_exp < 1)
+		st->s_exp = 1; /* minimum 1 experience point */
 	tp->t_flags = mp->m_flags;
 	/*
 	 * If monster in treasure room, then MEAN
@@ -173,19 +172,20 @@ char type;
 			mch = (OBJPTR(tp->t_pack))->o_type;
 		else {
 			switch (rnd(level >= AMLEVEL ? 9 : 8)) {
-				case 0: mch = GOLD;
-				when 1: mch = POTION;
-				when 2: mch = SCROLL;
-				when 3: mch = STAIRS;
-				when 4: mch = WEAPON;
-				when 5: mch = ARMOR;
-				when 6: mch = RING;
-				when 7: mch = STICK;
-				when 8: mch = AMULET;
+			case 0:
+				mch = GOLD;
+				when 1 : mch = POTION;
+				when 2 : mch = SCROLL;
+				when 3 : mch = STAIRS;
+				when 4 : mch = WEAPON;
+				when 5 : mch = ARMOR;
+				when 6 : mch = RING;
+				when 7 : mch = STICK;
+				when 8 : mch = AMULET;
 			}
 		}
 		if (treas)
-			mch = 'M';		/* no disguise in treasure room */
+			mch = 'M'; /* no disguise in treasure room */
 		tp->t_disguise = mch;
 	}
 	return item;
@@ -210,7 +210,7 @@ wanderer()
 			ch = mvinch(mp.y, mp.x);
 		}
 	} while (!step_ok(ch));
-	item = new_monster(rnd_mon(TRUE,FALSE), &mp, FALSE);
+	item = new_monster(rnd_mon(TRUE, FALSE), &mp, FALSE);
 	tp = THINGPTR(item);
 	tp->t_flags |= ISRUN;
 	tp->t_dest = &hero;
@@ -220,9 +220,7 @@ wanderer()
  * wake_monster:
  *	What to do when the hero steps next to a monster
  */
-struct linked_list *
-wake_monster(y, x)
-int y, x;
+struct linked_list *wake_monster(y, x) int y, x;
 {
 	reg struct thing *tp;
 	reg struct linked_list *it;
@@ -238,25 +236,27 @@ int y, x;
 	 * Every time he sees mean monster, it might start chasing him
 	 */
 	rp = player.t_room;
-	if (rp != NULL && rf_on(rp,ISTREAS)) {
+	if (rp != NULL && rf_on(rp, ISTREAS)) {
 		tp->t_flags &= ~ISHELD;
 		treas = TRUE;
 	}
-	if (treas || (rnd(100) > 33 && on(*tp,ISMEAN) && off(*tp,ISHELD) &&
-	  !iswearing(R_STEALTH))) {
+	if (treas || (rnd(100) > 33 && on(*tp, ISMEAN) && off(*tp, ISHELD) &&
+		      !iswearing(R_STEALTH))) {
 		tp->t_dest = &hero;
 		tp->t_flags |= ISRUN;
 	}
 	if (ch == 'U' && pl_off(ISBLIND)) {
-		if ((rp != NULL && !rf_on(rp,ISDARK) && levtype != MAZELEV)
-		  || DISTANCE(y, x, hero.y, hero.x) < 3) {
-			if (off(*tp,ISFOUND) && !save(VS_PETRIFICATION)
-			  && !iswearing(R_SUSAB) && pl_off(ISINVINC)) {
+		if ((rp != NULL && !rf_on(rp, ISDARK) && levtype != MAZELEV) ||
+		    DISTANCE(y, x, hero.y, hero.x) < 3) {
+			if (off(*tp, ISFOUND) && !save(VS_PETRIFICATION) &&
+			    !iswearing(R_SUSAB) && pl_off(ISINVINC)) {
 				msg("The umber hulk's gaze has confused you.");
 				if (pl_on(ISHUH))
-					lengthen(unconfuse,rnd(20)+HUHDURATION);
+					lengthen(unconfuse,
+						 rnd(20) + HUHDURATION);
 				else
-					fuse(unconfuse,TRUE,rnd(20)+HUHDURATION);
+					fuse(unconfuse, TRUE,
+					     rnd(20) + HUHDURATION);
 				player.t_flags |= ISHUH;
 			}
 			tp->t_flags |= ISFOUND;
@@ -296,26 +296,26 @@ genocide()
 		return 0;
 	}
 tryagain:
-	i = TRUE;		/* assume an error now */
+	i = TRUE; /* assume an error now */
 	while (i) {
 		msg("Which monster (remember UPPER & lower case)?");
-		c = readchar();		/* get a char */
-		if (c == ESCAPE) {	/* he can abort (the fool) */
+		c = readchar();    /* get a char */
+		if (c == ESCAPE) { /* he can abort (the fool) */
 			msg("");
 			return 0;
 		}
-		if (isalpha(c))		/* valid char here */
-			i = FALSE;		/* exit the loop */
-		else {				/* he didn't type a letter */
+		if (isalpha(c))    /* valid char here */
+			i = FALSE; /* exit the loop */
+		else {		   /* he didn't type a letter */
 			mpos = 0;
 			msg("Please specify a letter between 'A' and 'z'");
 		}
 	}
-	i = midx(c);						/* get index to monster */
+	i = midx(c); /* get index to monster */
 	mm = &monsters[i];
 	if (mm->m_lev.l_lev < 0) {
 		mpos = 0;
-		msg("You have already eliminated the %s.",mm->m_name);
+		msg("You have already eliminated the %s.", mm->m_name);
 		goto tryagain;
 	}
 	for (ip = mlist; ip != NULL; ip = nip) {
@@ -324,11 +324,11 @@ tryagain:
 		if (mp->t_type == c)
 			remove_monster(&mp->t_pos, ip);
 	}
-	mm->m_lev.l_lev = -1;				/* get rid of it */
+	mm->m_lev.l_lev = -1; /* get rid of it */
 	mm->m_lev.h_lev = -1;
-	lev_mon();							/* redo monster list */
+	lev_mon(); /* redo monster list */
 	mpos = 0;
-	msg("You have wiped out the %s.",mm->m_name);
+	msg("You have wiped out the %s.", mm->m_name);
 }
 
 /*
@@ -339,11 +339,11 @@ unhold(whichmon)
 char whichmon;
 {
 	switch (whichmon) {
-		case 'F':
-			fung_hit = 0;
-			strcpy(monsters[midx('F')].m_stats.s_dmg, "000d0");
-		case 'd':
-			player.t_flags &= ~ISHELD;
+	case 'F':
+		fung_hit = 0;
+		strcpy(monsters[midx('F')].m_stats.s_dmg, "000d0");
+	case 'd':
+		player.t_flags &= ~ISHELD;
 	}
 }
 
@@ -355,11 +355,11 @@ midx(whichmon)
 char whichmon;
 {
 	if (isupper(whichmon))
-		return(whichmon - 'A');			/* 0 to 25 for uppercase */
+		return (whichmon - 'A'); /* 0 to 25 for uppercase */
 	else if (islower(whichmon))
-		return(whichmon - 'a' + 26);	/* 26 to 51 for lowercase */
+		return (whichmon - 'a' + 26); /* 26 to 51 for lowercase */
 	else
-		return(MAXMONS);				/* 52 for Asmodeus */
+		return (MAXMONS); /* 52 for Asmodeus */
 }
 
 /*
@@ -375,16 +375,16 @@ struct thing *th;
 
 	st = &th->t_stats;
 	ewis = st->s_ef.a_wis;
-	if (ewis <= MONWIS)				/* stupid monsters dont know */
+	if (ewis <= MONWIS) /* stupid monsters dont know */
 		return FALSE;
-	f1 = st->s_maxhp / 4;			/* base hpt for being hurt */
-	f2 = (ewis - MONWIS) * 5 / 3;	/* bonus for smart monsters */
-	if (th->t_flags & ISWOUND)		/* if recovering from being */
-		f1 *= 2;					/* wounded, then double the base */
-	crithp = f1 + f2;				/* get critical hpt for hurt */
-	if (crithp > st->s_maxhp)		/* only up to max hpt */
+	f1 = st->s_maxhp / 4;	 /* base hpt for being hurt */
+	f2 = (ewis - MONWIS) * 5 / 3; /* bonus for smart monsters */
+	if (th->t_flags & ISWOUND)    /* if recovering from being */
+		f1 *= 2;	      /* wounded, then double the base */
+	crithp = f1 + f2;	     /* get critical hpt for hurt */
+	if (crithp > st->s_maxhp)     /* only up to max hpt */
 		crithp = st->s_maxhp;
-	if (st->s_hpt < crithp)			/* if < critical, then still hurt */
+	if (st->s_hpt < crithp) /* if < critical, then still hurt */
 		return TRUE;
 	return FALSE;
 }

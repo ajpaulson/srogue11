@@ -37,45 +37,40 @@ struct linked_list *what;
 	reg struct linked_list *item;
 	reg int wh;
 
-	if (what == NULL) {				/* we need to ask */
+	if (what == NULL) { /* we need to ask */
 		if ((item = get_item("identify", 0)) == NULL)
 			return 0;
-	}
-	else							/* no need to ask */
+	} else /* no need to ask */
 		item = what;
 	obj = OBJPTR(item);
 	setoflg(obj, ISKNOW);
 	wh = obj->o_which;
 	switch (obj->o_type) {
-		case SCROLL:
-			s_know[wh] = TRUE;
-			if (s_guess[wh]) {
-				free(s_guess[wh]);
-				s_guess[wh] = NULL;
-			}
-	    when POTION:
-			p_know[wh] = TRUE;
-			if (p_guess[wh]) {
-				free(p_guess[wh]);
-				p_guess[wh] = NULL;
-			}
-		when STICK:
-			ws_know[wh] = TRUE;
-			if (ws_guess[wh]) {
-				free(ws_guess[wh]);
+	case SCROLL:
+		s_know[wh] = TRUE;
+		if (s_guess[wh]) {
+			free(s_guess[wh]);
+			s_guess[wh] = NULL;
+		}
+		when POTION : p_know[wh] = TRUE;
+		if (p_guess[wh]) {
+			free(p_guess[wh]);
+			p_guess[wh] = NULL;
+		}
+		when STICK : ws_know[wh] = TRUE;
+		if (ws_guess[wh]) {
+			free(ws_guess[wh]);
 			ws_guess[wh] = NULL;
-			}
-	    when RING:
-			r_know[wh] = TRUE;
-			if (r_guess[wh]) {
-				free(r_guess[wh]);
-				r_guess[wh] = NULL;
-			}
+		}
+		when RING : r_know[wh] = TRUE;
+		if (r_guess[wh]) {
+			free(r_guess[wh]);
+			r_guess[wh] = NULL;
+		}
 	}
 	if (what == NULL)
 		msg(inv_name(obj, FALSE));
 }
-
 
 /*
  * create_obj:
@@ -105,16 +100,17 @@ bool fscr;
 	if (nogood) {
 		inhw = TRUE;
 		wclear(hw);
-		wprintw(hw,"Item\tKey\n\n");
+		wprintw(hw, "Item\tKey\n\n");
 		for (otype = 0; otype < NUMTHINGS; otype++) {
 			if (otype != TYP_AMULET || wizard) {
 				mf = &thnginfo[otype];
-				wprintw(hw,"%s\t %c\n",things[otype].mi_name,mf->mf_show);
+				wprintw(hw, "%s\t %c\n", things[otype].mi_name,
+					mf->mf_show);
 			}
 		}
 		if (wizard)
-			waddstr(hw,"monster\t (A-z)");
-		wprintw(hw,"\n\nWhat do you want to create? ");
+			waddstr(hw, "monster\t (A-z)");
+		wprintw(hw, "\n\nWhat do you want to create? ");
 		draw(hw);
 		do {
 			ch = readchar();
@@ -124,21 +120,26 @@ bool fscr;
 				return 0;
 			}
 			switch (ch) {
-				case RING:		case STICK:	case POTION:
-				case SCROLL:	case ARMOR:	case WEAPON:
-				case FOOD:		case AMULET:
+			case RING:
+			case STICK:
+			case POTION:
+			case SCROLL:
+			case ARMOR:
+			case WEAPON:
+			case FOOD:
+			case AMULET:
+				nogood = FALSE;
+				break;
+			default:
+				if (isalpha(ch))
 					nogood = FALSE;
-					break;
-				default:
-					if (isalpha(ch))
-						nogood = FALSE;
 			}
 		} while (nogood);
 	}
 	if (isalpha(ch)) {
 		if (inhw)
 			restscr(cw);
-		makemons(ch);		/* make monster & be done with it */
+		makemons(ch); /* make monster & be done with it */
 		return 0;
 	}
 	otype = getindex(ch);
@@ -154,11 +155,10 @@ bool fscr;
 	oname = things[otype].mi_name;
 	msz = mf->mf_max;
 	nogood = TRUE;
-	if (msz == 1) {		/* if only one type of item */
+	if (msz == 1) { /* if only one type of item */
 		ch = 'a';
 		nogood = FALSE;
-	}
-	else if (!fscr && wizard) {
+	} else if (!fscr && wizard) {
 		if (!inhw) {
 			msg("Which %s?%s: ", oname, starlist);
 			ch = readchar();
@@ -174,23 +174,25 @@ bool fscr;
 
 		mpos = 0;
 		inhw = TRUE;
-		switch(newitem) {
-			case POTION:	wmi = &p_magic[0];
-			when SCROLL:	wmi = &s_magic[0];
-			when RING:		wmi = &r_magic[0];
-			when STICK:		wmi = &ws_magic[0];
-			when WEAPON:	wmi = &w_magic[0];
-			otherwise:		wmi = &a_magic[0];
+		switch (newitem) {
+		case POTION:
+			wmi = &p_magic[0];
+			when SCROLL : wmi = &s_magic[0];
+			when RING : wmi = &r_magic[0];
+			when STICK : wmi = &ws_magic[0];
+			when WEAPON : wmi = &w_magic[0];
+		otherwise:
+			wmi = &a_magic[0];
 		}
 		wclear(hw);
-		for (ii = 0 ; ii < msz ; ii++) {
-			mvwaddch(hw,ii % 13,ii > 12 ? COLS/2 : 0, ii + 'a');
-			waddstr(hw,") ");
-			waddstr(hw,wmi->mi_name);
+		for (ii = 0; ii < msz; ii++) {
+			mvwaddch(hw, ii % 13, ii > 12 ? COLS / 2 : 0, ii + 'a');
+			waddstr(hw, ") ");
+			waddstr(hw, wmi->mi_name);
 			wmi++;
 		}
-		sprintf(prbuf,"Which %s? ", oname);
-		mvwaddstr(hw,LINES - 1, 0, prbuf);
+		sprintf(prbuf, "Which %s? ", oname);
+		mvwaddstr(hw, LINES - 1, 0, prbuf);
 		draw(hw);
 		do {
 			ch = readchar();
@@ -201,11 +203,11 @@ bool fscr;
 			}
 		} while (!isalpha(ch));
 	}
-	if (inhw)			/* restore screen if need be */
+	if (inhw) /* restore screen if need be */
 		restscr(cw);
 
 	newtype = tolower(ch) - 'a';
-	if (newtype < 0 || newtype >= msz) {	/* if an illegal value */
+	if (newtype < 0 || newtype >= msz) { /* if an illegal value */
 		mpos = 0;
 		after = FALSE;
 		if (inhw)
@@ -218,9 +220,9 @@ bool fscr;
 	obj = OBJPTR(item);
 	wh = obj->o_type;
 	if (wh == WEAPON || wh == ARMOR || wh == RING) {
-		if (fscr)					/* users get +3 to -3 */
+		if (fscr) /* users get +3 to -3 */
 			ch = rnd(7) - 3;
-		else {						/* wizard gets to choose */
+		else { /* wizard gets to choose */
 			if (wh == RING)
 				init_ring(obj, TRUE);
 			else
@@ -237,12 +239,11 @@ bool fscr;
 	}
 	mpos = 0;
 	if (fscr)
-		whatis(item);			/* identify for aquirement scroll */
+		whatis(item); /* identify for aquirement scroll */
 	wh = add_pack(item, FALSE);
-	if (wh == FALSE)			/* won't fit in pack */
+	if (wh == FALSE) /* won't fit in pack */
 		discard(item);
 }
-
 
 /*
  * getbless:
@@ -273,10 +274,11 @@ int what;
 	struct coord mp;
 
 	oktomake = FALSE;
-	for (x = hero.x - 1 ; x <= hero.x + 1 ; x++) {
-		for (y = hero.y - 1 ; y <= hero.y + 1 ; y++) {
+	for (x = hero.x - 1; x <= hero.x + 1; x++) {
+		for (y = hero.y - 1; y <= hero.y + 1; y++) {
 			if (x != hero.x || y != hero.y) {
-				if (step_ok(winat(y, x)) && rnd(++appear) == 0) {
+				if (step_ok(winat(y, x)) &&
+				    rnd(++appear) == 0) {
 					mp.x = x;
 					mp.y = y;
 					oktomake = TRUE;
@@ -309,15 +311,14 @@ struct thing *th;
 	oldspot = th->t_pos;
 	y = th->t_pos.y;
 	x = th->t_pos.x;
-	mvwaddch(cw, y, x, th->t_oldch); 
+	mvwaddch(cw, y, x, th->t_oldch);
 	if (!ishero)
 		mvwaddch(mw, y, x, ' ');
 	rp = roomin(&spot);
 	if (spot.y < 0 || !step_ok(winat(spot.y, spot.x))) {
 		rp = &rooms[rnd_room()];
 		th->t_pos = *rnd_pos(rp);
-	}
-	else
+	} else
 		th->t_pos = spot;
 	rm = rp - &rooms[0];
 	th->t_room = rp;
@@ -335,10 +336,9 @@ struct thing *th;
 			unhold('F');
 		count = 0;
 		running = FALSE;
-		flushinp();			/* flush typeahead */
+		flushinp(); /* flush typeahead */
 		nochange = FALSE;
-	}
-	else
+	} else
 		mvwaddch(mw, th->t_pos.y, th->t_pos.x, th->t_type);
 	return rm;
 }
@@ -357,12 +357,12 @@ passwd()
 	mpos = 0;
 	sp = buf;
 	while ((c = getchar()) != '\n' && c != '\r' && c != ESCAPE)
-	if (c == terminal.c_cc[VKILL])
-		sp = buf;
-	else if (c == terminal.c_cc[VERASE] && sp > buf)
-		sp--;
-	else
-		*sp++ = c;
+		if (c == terminal.c_cc[VKILL])
+			sp = buf;
+		else if (c == terminal.c_cc[VERASE] && sp > buf)
+			sp--;
+		else
+			*sp++ = c;
 	if (sp == buf)
 		passok = FALSE;
 	else {

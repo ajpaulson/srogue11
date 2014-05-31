@@ -65,7 +65,7 @@ int dy, dx;
 	 * Do a confused move (maybe)
 	 */
 	if ((rnd(100) < 80 && pl_on(ISHUH)) ||
-	  (iswearing(R_DELUS) && rnd(100) < 25))
+	    (iswearing(R_DELUS) && rnd(100) < 25))
 		nh = *rndmove(&player);
 	else {
 		nh.y = hero.y + dy;
@@ -75,8 +75,7 @@ int dy, dx;
 	 * Check if he tried to move off the screen or make
 	 *  an illegal diagonal move, and stop him if he did.
 	 */
-	if (!cordok(nh.y, nh.x) ||
-	  (pl_off(ISETHER) && !diag_ok(&hero, &nh))) {
+	if (!cordok(nh.y, nh.x) || (pl_off(ISETHER) && !diag_ok(&hero, &nh))) {
 		after = running = FALSE;
 		return 0;
 	}
@@ -87,24 +86,23 @@ int dy, dx;
 
 			gox = goy = apsg = 0;
 			if (dy == 0) {
-				ch = show(hero.y+1,hero.x);
+				ch = show(hero.y + 1, hero.x);
 				if (ch == PASSAGE) {
 					apsg += 1;
 					goy = 1;
 				}
-				ch = show(hero.y-1,hero.x);
+				ch = show(hero.y - 1, hero.x);
 				if (ch == PASSAGE) {
 					apsg += 1;
 					goy = -1;
 				}
-			}
-			else if (dx == 0) {
-				ch = show(hero.y,hero.x+1);
+			} else if (dx == 0) {
+				ch = show(hero.y, hero.x + 1);
 				if (ch == PASSAGE) {
 					gox = 1;
 					apsg += 1;
 				}
-				ch = show(hero.y,hero.x-1);
+				ch = show(hero.y, hero.x - 1);
 				if (ch == PASSAGE) {
 					gox = -1;
 					apsg += 1;
@@ -113,21 +111,21 @@ int dy, dx;
 			if (apsg != 1) {
 				running = after = FALSE;
 				return 0;
-			}
-			else {			/* can still run here */
+			} else { /* can still run here */
 				nh.y = hero.y + goy;
 				nh.x = hero.x + gox;
 				whichway = (goy + 1) * 3 + gox + 1;
-				switch(whichway) {
-					case 0: runch = 'y';
-					when 1: runch = 'k';
-					when 2: runch = 'u';
-					when 3: runch = 'h';
-					when 4: runch = '.';	/* shouldn't do */
-					when 5: runch = 'l';
-					when 6: runch = 'b';
-					when 7: runch = 'j';
-					when 8: runch = 'n';
+				switch (whichway) {
+				case 0:
+					runch = 'y';
+					when 1 : runch = 'k';
+					when 2 : runch = 'u';
+					when 3 : runch = 'h';
+					when 4 : runch = '.'; /* shouldn't do */
+					when 5 : runch = 'l';
+					when 6 : runch = 'b';
+					when 7 : runch = 'j';
+					when 8 : runch = 'n';
 				}
 			}
 		}
@@ -145,35 +143,38 @@ int dy, dx;
 			if (nlmove) {
 				nlmove = FALSE;
 				return 0;
-			}
-			else if (ch == POOL)
+			} else if (ch == POOL)
 				inpool = TRUE;
-		}
-	 	else if (dead_end(ch)) {
+		} else if (dead_end(ch)) {
 			after = running = FALSE;
 			return 0;
-		}
-		else {
-			switch(ch) {
-				case GOLD:	case POTION:	case SCROLL:
-				case FOOD:	case WEAPON:	case ARMOR:
-				case RING:	case AMULET:	case STICK:
+		} else {
+			switch (ch) {
+			case GOLD:
+			case POTION:
+			case SCROLL:
+			case FOOD:
+			case WEAPON:
+			case ARMOR:
+			case RING:
+			case AMULET:
+			case STICK:
+				running = FALSE;
+				take = ch;
+			default:
+				if (illeg_ch(ch)) {
 					running = FALSE;
-					take = ch;
-				default:
-					if (illeg_ch(ch)) {
-						running = FALSE;
-						mvaddch(nh.y, nh.x, FLOOR);
-						teleport(rndspot, &player);
-						light(&nh);
-						msg("The spatial warp disappears !");
-						return 0;
-					}
+					mvaddch(nh.y, nh.x, FLOOR);
+					teleport(rndspot, &player);
+					light(&nh);
+					msg("The spatial warp disappears !");
+					return 0;
+				}
 			}
 		}
 	}
 	rp = roomin(&nh);
-	if (ch == DOOR) {		/* just stepped on a door */
+	if (ch == DOOR) { /* just stepped on a door */
 		running = FALSE;
 		if (rp != NULL && rf_on(rp, ISTREAS)) {
 			struct linked_list *item;
@@ -185,8 +186,7 @@ int dy, dx;
 					runto(&tp->t_pos, &hero);
 			}
 		}
-	}
-	else if (ch == STAIRS && pl_off(ISETHER))
+	} else if (ch == STAIRS && pl_off(ISETHER))
 		running = FALSE;
 	else if (isalpha(ch) && pl_off(ISETHER)) {
 		running = FALSE;
@@ -194,9 +194,9 @@ int dy, dx;
 		return 0;
 	}
 	if (rp == NULL && player.t_room != NULL)
-		light(&hero);		/* exiting a room */
+		light(&hero); /* exiting a room */
 	else if (rp != NULL && player.t_room == NULL)
-		light(&nh);			/* just entering a room */
+		light(&nh); /* just entering a room */
 	if (pl_on(ISBLIND))
 		ch = ' ';
 	else
@@ -260,28 +260,29 @@ struct coord *cp;
 				if (item == NULL) {
 					ch = FLOOR;
 					mvaddch(y, x, ch);
-				}
-				else {
+				} else {
 					mit = THINGPTR(item);
 					if (mit->t_oldch == ' ')
-						if (!rf_on(rp,ISDARK))
-							mit->t_oldch = mvinch(y, x);
+						if (!rf_on(rp, ISDARK))
+							mit->t_oldch =
+							    mvinch(y, x);
 					if (levtype == MAZELEV)
 						ch = mvinch(y, x);
 				}
 			}
-			if (rf_on(rp,ISDARK)) {
+			if (rf_on(rp, ISDARK)) {
 				rch = mvwinch(cw, y, x);
 				if (isatrap(rch)) {
-					ch = rch;			/* if its a trap */
-				}
-				else {					/* try other things */
+					ch = rch; /* if its a trap */
+				} else {	  /* try other things */
 					switch (rch) {
-						case DOOR:	case STAIRS:	case '|':
-						case '-':
-							ch = rch;
-						otherwise:
-							ch = ' ';
+					case DOOR:
+					case STAIRS:
+					case '|':
+					case '-':
+						ch = rch;
+					otherwise:
+						ch = ' ';
 					}
 				}
 			}
@@ -310,19 +311,19 @@ int y, x;
 		return ((ta->tr_flags & ISFOUND) ? ta->tr_type : FLOOR);
 	}
 	if (ch == SECRETDOOR && iswearing(R_FTRAPS)) {
-		mvaddch(y,x,DOOR);
+		mvaddch(y, x, DOOR);
 		return DOOR;
 	}
-	if ((it = find_mons(y, x)) != NULL) {	/* maybe a monster */
+	if ((it = find_mons(y, x)) != NULL) { /* maybe a monster */
 		tp = THINGPTR(it);
 		if (ch == 'M' || (tp->t_flags & ISINVIS)) {
 			if (ch == 'M')
 				ch = tp->t_disguise;
 			else if (pl_off(CANSEE)) {
 				if (ch == 's')
-					ch = ' ';		/* shadows show as a blank */
+					ch = ' '; /* shadows show as a blank */
 				else
-					ch = mvinch(y, x);	/* hide invisibles */
+					ch = mvinch(y, x); /* hide invisibles */
 			}
 		}
 	}
@@ -348,8 +349,7 @@ struct coord *tc;
 	if (ishero) {
 		strcpy(stuckee, "You");
 		count = running = FALSE;
-	}
-	else {
+	} else {
 		sprintf(stuckee, "The %s", monsters[th->t_indx].m_name);
 	}
 	seeit = cansee(tc->y, tc->x);
@@ -358,56 +358,54 @@ struct coord *tc;
 	trp->tr_flags |= ISFOUND;
 	sayso = TRUE;
 	switch (ch = trp->tr_type) {
-		case POST:
-			if (ishero) {
-				nlmove = TRUE;
-				new_level(POSTLEV);
-			}
-			else
-				goto goner;
-		when MAZETRAP:
-			if (ishero) {
-				nlmove = TRUE;
-				level += 1;
-				new_level(MAZELEV);
-				msg("You are surrounded by twisty passages!");
-			}
-			else
-				goto goner;
-		when TELTRAP:
+	case POST:
+		if (ishero) {
 			nlmove = TRUE;
-			teleport(trp->tr_goto, th);
-		when TRAPDOOR:
-			if (ishero) {
-				level += 1;
-				new_level(NORMLEV);
-			}
-			else {		/* monsters get lost */
-goner:
-				ch = GONER;
-			}
+			new_level(POSTLEV);
+		} else
+			goto goner;
+		when MAZETRAP : if (ishero)
+		{
 			nlmove = TRUE;
-			if (seeit && sayso)
-				msg("%s fell into a trap!", stuckee);
-		when BEARTRAP:
-			th->t_nomove += BEARTIME;
-			if (seeit) {
-				strcat(stuckee, (ishero ? " are" : " is"));
-				msg("%s caught in a bear trap.", stuckee);
-			}
-		when SLEEPTRAP:
-			if (ishero && pl_on(ISINVINC))
-				msg("You feel momentarily dizzy.");
-			else {
-				if (ishero)
-					th->t_nocmd += SLEEPTIME;
-				else
-					th->t_nomove += SLEEPTIME;
-				if (seeit)
-					msg("%s fall%s asleep in a strange white mist.",
-					  stuckee, (ishero ? "":"s"));
-			}
-		when ARROWTRAP: {
+			level += 1;
+			new_level(MAZELEV);
+			msg("You are surrounded by twisty passages!");
+		}
+		else goto goner;
+		when TELTRAP : nlmove = TRUE;
+		teleport(trp->tr_goto, th);
+		when TRAPDOOR : if (ishero)
+		{
+			level += 1;
+			new_level(NORMLEV);
+		}
+		else
+		{ /* monsters get lost */
+		goner:
+			ch = GONER;
+		}
+		nlmove = TRUE;
+		if (seeit && sayso)
+			msg("%s fell into a trap!", stuckee);
+		when BEARTRAP : th->t_nomove += BEARTIME;
+		if (seeit) {
+			strcat(stuckee, (ishero ? " are" : " is"));
+			msg("%s caught in a bear trap.", stuckee);
+		}
+		when SLEEPTRAP : if (ishero && pl_on(ISINVINC))
+				 msg("You feel momentarily dizzy.");
+		else
+		{
+			if (ishero)
+				th->t_nocmd += SLEEPTIME;
+			else
+				th->t_nomove += SLEEPTIME;
+			if (seeit)
+				msg("%s fall%s asleep in a strange white mist.",
+				    stuckee, (ishero ? "" : "s"));
+		}
+		when ARROWTRAP:
+		{
 			int resist, ac;
 			struct stats *it;
 
@@ -419,37 +417,39 @@ goner:
 				ac = it->s_arm;
 			resist = ac + getpdex(it, FALSE);
 			if (ishero && pl_on(ISINVINC))
-				resist = -100;		/* invincible is impossible to hit */
+				resist =
+				    -100; /* invincible is impossible to hit */
 			if (swing(3 + (level / 4), resist, 1)) {
 				if (seeit)
-					msg("%sAn arrow shot %s.", (ishero ? "Oh no! " : ""),
-					  stuckee);
+					msg("%sAn arrow shot %s.",
+					    (ishero ? "Oh no! " : ""), stuckee);
 				if (ishero)
-					chg_hpt(-roll(1,6),FALSE,K_ARROW);
+					chg_hpt(-roll(1, 6), FALSE, K_ARROW);
 				else {
-					it->s_hpt -= roll(1,6);
+					it->s_hpt -= roll(1, 6);
 					if (it->s_hpt < 1) {
 						sayso = FALSE;
 						goto goner;
 					}
 				}
-			}
-			else {
+			} else {
 				struct linked_list *item;
 				struct object *arrow;
 
 				if (seeit)
-					msg("An arrow shoots past %s.", stuckee);
+					msg("An arrow shoots past %s.",
+					    stuckee);
 				item = new_thing(FALSE, WEAPON, ARROW);
 				arrow = OBJPTR(item);
 				arrow->o_hplus = 3;
 				arrow->o_dplus = rnd(2);
 				arrow->o_count = 1;
-		 		arrow->o_pos = th->t_pos;
+				arrow->o_pos = th->t_pos;
 				fall(item, FALSE);
 			}
 		}
-		when DARTTRAP: {
+		when DARTTRAP:
+		{
 			int resist, ac;
 			struct stats *it;
 
@@ -461,18 +461,19 @@ goner:
 				ac = it->s_arm;
 			resist = ac + getpdex(it, FALSE);
 			if (ishero && pl_on(ISINVINC))
-				resist = -100;		/* invincible is impossible to hit */
+				resist =
+				    -100; /* invincible is impossible to hit */
 			if (swing(3 + (level / 4), resist, 0)) {
 				if (seeit)
-					msg("A small dart just hit %s.", stuckee);
+					msg("A small dart just hit %s.",
+					    stuckee);
 				if (ishero) {
 					if (!save(VS_POISON))
-						chg_abil(CON,-1,TRUE);
+						chg_abil(CON, -1, TRUE);
 					if (!iswearing(R_SUSTSTR))
-						chg_abil(STR,-1,TRUE);
-					chg_hpt(-roll(1, 4),FALSE,K_DART);
-				}
-				else {
+						chg_abil(STR, -1, TRUE);
+					chg_hpt(-roll(1, 4), FALSE, K_DART);
+				} else {
 					if (!save_throw(VS_POISON, th))
 						it->s_ef.a_str -= 1;
 					it->s_hpt -= roll(1, 4);
@@ -481,40 +482,38 @@ goner:
 						goto goner;
 					}
 				}
-			}
-			else if (seeit)
+			} else if (seeit)
 				msg("A small dart whizzes by %s.", stuckee);
 		}
-	    when POOL:
-			if (!ishero && rnd(100) < 10) {
-				if (seeit)
-					msg("The %s drowns !!", stuckee);
-				goto goner;
-			}
-			if ((trp->tr_flags & ISGONE) && rnd(100) < 10) {
-				nlmove = TRUE;
-				if (rnd(100) < 15)
-					teleport(rndspot);	   /* teleport away */
-				else if(rnd(100) < 15 && level > 2) {
-					level -= rnd(2) + 1;
-					new_level(NORMLEV);
-					msg("You here a faint groan from below.");
-				}
-				else if(rnd(100) < 40) {
-					level += rnd(4);
-					new_level(NORMLEV);
-					msg("You find yourself in strange surroundings.");
-				}
-				else if(rnd(100) < 6 && pl_off(ISINVINC)) {
-					msg("Oh no!!! You drown in the pool!!! --More--");
-					wait_for(cw, ' ');
-					death(K_POOL);
-				}
-				else
-					 nlmove = FALSE;
+		when POOL : if (!ishero && rnd(100) < 10)
+		{
+			if (seeit)
+				msg("The %s drowns !!", stuckee);
+			goto goner;
+		}
+		if ((trp->tr_flags & ISGONE) && rnd(100) < 10) {
+			nlmove = TRUE;
+			if (rnd(100) < 15)
+				teleport(rndspot); /* teleport away */
+			else if (rnd(100) < 15 && level > 2) {
+				level -= rnd(2) + 1;
+				new_level(NORMLEV);
+				msg("You here a faint groan from below.");
+			} else if (rnd(100) < 40) {
+				level += rnd(4);
+				new_level(NORMLEV);
+				msg("You find yourself in strange "
+				    "surroundings.");
+			} else if (rnd(100) < 6 && pl_off(ISINVINC)) {
+				msg("Oh no!!! You drown in the pool!!! "
+				    "--More--");
+				wait_for(cw, ' ');
+				death(K_POOL);
+			} else
+				nlmove = FALSE;
 		}
 	}
-	flushinp();		/* flush typeahead */
+	flushinp(); /* flush typeahead */
 	return ch;
 }
 
@@ -529,11 +528,11 @@ dip_it()
 	reg struct trap *tp;
 	reg int wh;
 
-	tp = trap_at(hero.y,hero.x);
+	tp = trap_at(hero.y, hero.x);
 	if (tp == NULL || inpool == FALSE || (tp->tr_flags & ISGONE))
 		return 0;
 
-	if ((what = get_item("dip",0)) == NULL)
+	if ((what = get_item("dip", 0)) == NULL)
 		return 0;
 	ob = OBJPTR(what);
 	mpos = 0;
@@ -553,112 +552,105 @@ dip_it()
 		msg("You have to take off your armor before you can dip it.");
 		after = FALSE;
 		return 0;
-	}
-	else if (ob == cur_ring[LEFT] || ob == cur_ring[RIGHT]) {
+	} else if (ob == cur_ring[LEFT] || ob == cur_ring[RIGHT]) {
 		msg("You have to take that ring off before you can dip it.");
 		after = FALSE;
 		return 0;
 	}
 	wh = ob->o_which;
 	tp->tr_flags |= ISGONE;
-	if (ob != NULL && o_off(ob,ISPROT)) {
-		setoflg(ob,ISKNOW);
-		switch(ob->o_type) {
+	if (ob != NULL && o_off(ob, ISPROT)) {
+		setoflg(ob, ISKNOW);
+		switch (ob->o_type) {
 		case WEAPON:
-			if(rnd(100) < 20) {		/* enchant weapon here */
-				if (o_off(ob,ISCURSED)) {
+			if (rnd(100) < 20) { /* enchant weapon here */
+				if (o_off(ob, ISCURSED)) {
 					ob->o_hplus += 1;
 					ob->o_dplus += 1;
-				}
-				else {		/* weapon was prev cursed here */
+				} else { /* weapon was prev cursed here */
 					ob->o_hplus = rnd(2);
 					ob->o_dplus = rnd(2);
 				}
-				resoflg(ob,ISCURSED);
-			}
-			else if(rnd(100) < 10) {	/* curse weapon here */
-				if (o_off(ob,ISCURSED)) {
-					ob->o_hplus = -(rnd(2)+1);
-					ob->o_dplus = -(rnd(2)+1);
-				}
-				else {			/* if already cursed */
+				resoflg(ob, ISCURSED);
+			} else if (rnd(100) < 10) { /* curse weapon here */
+				if (o_off(ob, ISCURSED)) {
+					ob->o_hplus = -(rnd(2) + 1);
+					ob->o_dplus = -(rnd(2) + 1);
+				} else { /* if already cursed */
 					ob->o_hplus--;
 					ob->o_dplus--;
 				}
-				setoflg(ob,ISCURSED);
-			}			
-			msg("The %s glows for a moment.",w_magic[wh].mi_name);
-		when ARMOR:
-			if (rnd(100) < 30) {			/* enchant armor */
-				if(o_off(ob,ISCURSED))
+				setoflg(ob, ISCURSED);
+			}
+			msg("The %s glows for a moment.", w_magic[wh].mi_name);
+			when ARMOR : if (rnd(100) < 30)
+			{ /* enchant armor */
+				if (o_off(ob, ISCURSED))
 					ob->o_ac -= rnd(2) + 1;
 				else
-					ob->o_ac = -rnd(3)+ armors[wh].a_class;
-				resoflg(ob,ISCURSED);
+					ob->o_ac = -rnd(3) + armors[wh].a_class;
+				resoflg(ob, ISCURSED);
 			}
-			else if(rnd(100) < 15){			/* curse armor */
-				if (o_off(ob,ISCURSED))
-					ob->o_ac = rnd(3)+ armors[wh].a_class;
+			else if (rnd(100) < 15)
+			{ /* curse armor */
+				if (o_off(ob, ISCURSED))
+					ob->o_ac = rnd(3) + armors[wh].a_class;
 				else
 					ob->o_ac += rnd(2) + 1;
-				setoflg(ob,ISCURSED);
+				setoflg(ob, ISCURSED);
 			}
-			msg("The %s glows for a moment.",a_magic[wh].mi_name);
-		when STICK: {
-			int i;
-			struct rod *rd;
+			msg("The %s glows for a moment.", a_magic[wh].mi_name);
+			when STICK:
+			{
+				int i;
+				struct rod *rd;
 
-			i = rnd(8) + 1;
-			if(rnd(100) < 25)		/* add charges */
-				ob->o_charges += i;
-			else if(rnd(100) < 10) {	/* remove charges */
-				if ((ob->o_charges -= i) < 0)
-					ob->o_charges = 0;
+				i = rnd(8) + 1;
+				if (rnd(100) < 25) /* add charges */
+					ob->o_charges += i;
+				else if (rnd(100) < 10) { /* remove charges */
+					if ((ob->o_charges -= i) < 0)
+						ob->o_charges = 0;
+				}
+				ws_know[wh] = TRUE;
+				rd = &ws_stuff[wh];
+				msg("The %s %s glows for a moment.",
+				    rd->ws_made, rd->ws_type);
 			}
-			ws_know[wh] = TRUE;
-			rd = &ws_stuff[wh];
-			msg("The %s %s glows for a moment.",rd->ws_made,rd->ws_type);
-		}
-		when SCROLL:
-			s_know[wh] = TRUE;
-			msg("The '%s' scroll unfurls.",s_names[wh]);
-		when POTION:
-			p_know[wh] = TRUE;
-			msg("The %s potion bubbles for a moment.",p_colors[wh]);
-		when RING:
-			r_know[wh] = TRUE;
+			when SCROLL : s_know[wh] = TRUE;
+			msg("The '%s' scroll unfurls.", s_names[wh]);
+			when POTION : p_know[wh] = TRUE;
+			msg("The %s potion bubbles for a moment.",
+			    p_colors[wh]);
+			when RING : r_know[wh] = TRUE;
 			if (magring(ob)) {
-				if(rnd(100) < 25) {	 		/* enchant ring */
-					if (o_off(ob,ISCURSED))
+				if (rnd(100) < 25) { /* enchant ring */
+					if (o_off(ob, ISCURSED))
 						ob->o_ac += rnd(2) + 1;
 					else
 						ob->o_ac = rnd(2) + 1;
-					resoflg(ob,ISCURSED);
-				}
-				else if(rnd(100) < 10) {	 /* curse ring */
-					if (o_off(ob,ISCURSED))
+					resoflg(ob, ISCURSED);
+				} else if (rnd(100) < 10) { /* curse ring */
+					if (o_off(ob, ISCURSED))
 						ob->o_ac = -(rnd(2) + 1);
 					else
 						ob->o_ac -= (rnd(2) + 1);
-					setoflg(ob,ISCURSED);
+					setoflg(ob, ISCURSED);
 				}
 			}
-			msg("The %s ring vibrates for a moment.",r_stones[wh]);
+			msg("The %s ring vibrates for a moment.", r_stones[wh]);
 		otherwise:
 			msg("The pool bubbles for a moment.");
 		}
 	}
-	cur_weapon = ob;	/* hero has to weild item to dip it */
+	cur_weapon = ob; /* hero has to weild item to dip it */
 }
-
 
 /*
  * trap_at:
  *	Find the trap at (y,x) on screen.
  */
-struct trap *
-trap_at(y, x)
-int y, x;
+struct trap *trap_at(y, x) int y, x;
 {
 	reg struct trap *tp, *ep;
 
@@ -675,14 +667,12 @@ int y, x;
  * rndmove:
  *	move in a random direction if the monster/person is confused
  */
-struct coord *
-rndmove(who)
-struct thing *who;
+struct coord *rndmove(who) struct thing *who;
 {
 	reg int x, y, ex, ey, ch;
 	int nopen = 0;
 	struct linked_list *item;
-	static struct coord ret;  /* what we will be returning */
+	static struct coord ret; /* what we will be returning */
 	static struct coord dest;
 
 	ret = who->t_pos;
@@ -708,7 +698,8 @@ struct thing *who;
 					 * check for scare monster scrolls
 					 */
 					item = find_obj(y, x);
-					if (item != NULL && (OBJPTR(item))->o_which == S_SCARE)
+					if (item != NULL &&
+					    (OBJPTR(item))->o_which == S_SCARE)
 						continue;
 				}
 				if (rnd(++nopen) == 0)
@@ -726,18 +717,18 @@ struct thing *who;
 isatrap(ch)
 char ch;
 {
-	switch(ch) {
-		case POST:
-		case DARTTRAP:
-		case POOL:
-		case TELTRAP:
-		case TRAPDOOR:
-		case ARROWTRAP:
-		case SLEEPTRAP:
-		case BEARTRAP:
-		case MAZETRAP:
-			return TRUE;
-		default:
-			return FALSE;
+	switch (ch) {
+	case POST:
+	case DARTTRAP:
+	case POOL:
+	case TELTRAP:
+	case TRAPDOOR:
+	case ARROWTRAP:
+	case SLEEPTRAP:
+	case BEARTRAP:
+	case MAZETRAP:
+		return TRUE;
+	default:
+		return FALSE;
 	}
 }

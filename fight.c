@@ -24,7 +24,6 @@
 #include "rogue.h"
 #include "rogue.ext"
 
-
 /*
  * fight:
  *	The player attacks the monster.
@@ -40,7 +39,7 @@ bool thrown;
 	reg struct linked_list *item;
 	bool did_hit = TRUE;
 
-	if (pl_on(ISETHER))			/* cant fight when ethereal */
+	if (pl_on(ISETHER)) /* cant fight when ethereal */
 		return 0;
 
 	if ((item = find_mons(mp->y, mp->x)) == NULL) {
@@ -62,7 +61,7 @@ bool thrown;
 	/*
 	 * Let him know it was really a mimic (if it was one).
 	 */
-	if(tp->t_type == 'M' && tp->t_disguise != 'M' && pl_off(ISBLIND)) {
+	if (tp->t_type == 'M' && tp->t_disguise != 'M' && pl_off(ISBLIND)) {
 		msg("Wait! That's a mimic!");
 		tp->t_disguise = 'M';
 		did_hit = thrown;
@@ -106,14 +105,14 @@ bool thrown;
 				killed(item, TRUE);
 			else if (monhurt(tp) && off(*tp, ISWOUND)) {
 				if (levtype != MAZELEV && tp->t_room != NULL &&
-				  !rf_on(tp->t_room, ISTREAS)) {
+				    !rf_on(tp->t_room, ISTREAS)) {
 					tp->t_flags |= ISWOUND;
-					msg("You wounded %s.",prname(mname,FALSE));
+					msg("You wounded %s.",
+					    prname(mname, FALSE));
 					unhold(tp->t_type);
 				}
 			}
-		}
-		else {
+		} else {
 			if (thrown)
 				bounce(weap, mname);
 			else
@@ -124,7 +123,6 @@ bool thrown;
 	return did_hit;
 }
 
-
 /*
  * attack:
  *	The monster attacks the player
@@ -134,10 +132,10 @@ struct thing *mp;
 {
 	reg char *mname;
 
-	if (pl_on(ISETHER))		/* ethereal players cant be hit */
-		return(0);
-	if (mp->t_flags & ISPARA)	/* paralyzed monsters */
-		return(0);
+	if (pl_on(ISETHER)) /* ethereal players cant be hit */
+		return (0);
+	if (mp->t_flags & ISPARA) /* paralyzed monsters */
+		return (0);
 	running = FALSE;
 	quiet = 0;
 	isfight = TRUE;
@@ -149,9 +147,8 @@ struct thing *mp;
 		mname = monsters[mp->t_indx].m_name;
 	if (roll_em(&mp->t_stats, him, NULL, FALSE)) {
 		if (pl_on(ISINVINC)) {
-			msg("%s does not harm you.",prname(mname,TRUE));
-		}
-		else {
+			msg("%s does not harm you.", prname(mname, TRUE));
+		} else {
 			nochange = FALSE;
 			if (mp->t_type != 'E')
 				hit(mname);
@@ -164,176 +161,245 @@ struct thing *mp;
 						msg("Your armor weakens.");
 						cur_armor->o_ac++;
 					}
-				when 'E':
-				/*
-				 * The gaze of the floating eye hypnotizes you
-				 */
-					if (pl_off(ISBLIND) && player.t_nocmd <= 0) {
+					when 'E' :
+					    /*
+					     * The gaze of the floating eye
+					     * hypnotizes you
+					     */
+					    if (pl_off(ISBLIND) &&
+						player.t_nocmd <= 0)
+					{
 						player.t_nocmd = rnd(16) + 25;
 						msg("You are transfixed.");
 					}
-				when 'Q':
-					if (!save(VS_POISON) && !iswearing(R_SUSAB)) {
+					when 'Q' : if (!save(VS_POISON) &&
+						       !iswearing(R_SUSAB))
+					{
 						if (him->s_ef.a_dex > MINABIL) {
 							chg_abil(DEX, -1, TRUE);
-							msg("You feel less agile.");
+							msg("You feel less "
+							    "agile.");
 						}
 					}
-				when 'A':
-					if (!save(VS_POISON) && herostr() > MINABIL) {
-						if (!iswearing(R_SUSTSTR) && !iswearing(R_SUSAB)) {
+					when 'A' : if (!save(VS_POISON) &&
+						       herostr() > MINABIL)
+					{
+						if (!iswearing(R_SUSTSTR) &&
+						    !iswearing(R_SUSAB)) {
 							if (levcount > 0) {
-								chg_abil(STR, -1, TRUE);
-								msg("A sting has weakened you");
+								chg_abil(STR,
+									 -1,
+									 TRUE);
+								msg("A sting "
+								    "has "
+								    "weakened "
+								    "you");
 							}
-						}
-						else
-							msg("Sting has no effect.");
+						} else
+							msg("Sting has no "
+							    "effect.");
 					}
-				when 'W':
-					if (rnd(100) < 15 && !iswearing(R_SUSAB)) {
+					when 'W' : if (rnd(100) < 15 &&
+						       !iswearing(R_SUSAB))
+					{
 						if (him->s_exp <= 0)
 							death(mp->t_indx);
-						msg("You suddenly feel weaker.");
+						msg("You suddenly feel "
+						    "weaker.");
 						if (--him->s_lvl == 0) {
 							him->s_exp = 0;
 							him->s_lvl = 1;
-						}
-						else
-							him->s_exp = e_levels[him->s_lvl - 1] + 1;
-						chg_hpt(-roll(1,10),TRUE,mp->t_indx);
+						} else
+							him->s_exp =
+							    e_levels
+								[him->s_lvl -
+								 1] +
+							    1;
+						chg_hpt(-roll(1, 10), TRUE,
+							mp->t_indx);
 					}
-				when 'F':
-					player.t_flags |= ISHELD;
-					sprintf(monsters[midx('F')].m_stats.s_dmg,"%dd1",++fung_hit);
-				when 'L': {
-					long lastpurse;
-					struct linked_list *lep;
-
-					lastpurse = purse;
-					purse -= GOLDCALC;
-					if (!save(VS_MAGIC))
-						purse -= GOLDCALC + GOLDCALC + GOLDCALC + GOLDCALC;
-					if (purse < 0)
-						purse = 0;
-					if (purse != lastpurse)
-						msg("Your purse feels lighter.");
-					lep = find_mons(mp->t_pos.y,mp->t_pos.x);
-					if (lep != NULL)
+					when 'F' : player.t_flags |= ISHELD;
+					sprintf(
+					    monsters[midx('F')].m_stats.s_dmg,
+					    "%dd1", ++fung_hit);
+					when 'L':
 					{
-						remove_monster(&mp->t_pos, lep);
-						mp = NULL;
-					}
-				}
-				when 'N': {
-					struct linked_list *steal, *list;
-					struct object *sobj;
-					int stworth = 0, wo;
+						long lastpurse;
+						struct linked_list *lep;
 
-					/*
-					 * Nymph's steal a magic item, look through the pack
-					 * and pick out one we like, namely the object worth
-					 * the most bucks.
-					 */
-					steal = NULL;
-					for (list = pack; list != NULL; list = next(list)) {
-						wo = get_worth(OBJPTR(list));
-						if (wo > stworth) {
-							stworth = wo;
-							steal = list;
+						lastpurse = purse;
+						purse -= GOLDCALC;
+						if (!save(VS_MAGIC))
+							purse -= GOLDCALC +
+								 GOLDCALC +
+								 GOLDCALC +
+								 GOLDCALC;
+						if (purse < 0)
+							purse = 0;
+						if (purse != lastpurse)
+							msg("Your purse feels "
+							    "lighter.");
+						lep = find_mons(mp->t_pos.y,
+								mp->t_pos.x);
+						if (lep != NULL) {
+							remove_monster(
+							    &mp->t_pos, lep);
+							mp = NULL;
 						}
 					}
-					if (steal != NULL) {
-						sobj = OBJPTR(steal);
-						if (o_off(sobj, ISPROT)) {
-							struct linked_list *nym;
+					when 'N':
+					{
+						struct linked_list *steal,
+						    *list;
+						struct object *sobj;
+						int stworth = 0, wo;
 
-							nym = find_mons(mp->t_pos.y, mp->t_pos.x);
-							if (nym != NULL)
-							{
-								remove_monster(&mp->t_pos, nym);
-								mp = NULL;
+						/*
+						 * Nymph's steal a magic item,
+						 * look through the pack
+						 * and pick out one we like,
+						 * namely the object worth
+						 * the most bucks.
+						 */
+						steal = NULL;
+						for (list = pack; list != NULL;
+						     list = next(list)) {
+							wo = get_worth(
+							    OBJPTR(list));
+							if (wo > stworth) {
+								stworth = wo;
+								steal = list;
 							}
-							msg("She stole %s!", inv_name(sobj, TRUE));
-							detach(pack, steal);
-							discard(steal);
-							cur_null(sobj);
-							updpack();
+						}
+						if (steal != NULL) {
+							sobj = OBJPTR(steal);
+							if (o_off(sobj,
+								  ISPROT)) {
+								struct
+								    linked_list *
+								nym;
+
+								nym = find_mons(
+								    mp->t_pos.y,
+								    mp->t_pos
+									.x);
+								if (nym !=
+								    NULL) {
+									remove_monster(
+									    &mp->t_pos,
+									    nym);
+									mp =
+									    NULL;
+								}
+								msg("She stole "
+								    "%s!",
+								    inv_name(
+									sobj,
+									TRUE));
+								detach(pack,
+								       steal);
+								discard(steal);
+								cur_null(sobj);
+								updpack();
+							}
 						}
 					}
-				}
-				when 'c':
-					if (!save(VS_PETRIFICATION)) {
-						msg("Your body begins to solidify.");
-						msg("You are turned to stone !!! --More--");
+					when 'c' : if (!save(VS_PETRIFICATION))
+					{
+						msg("Your body begins to "
+						    "solidify.");
+						msg("You are turned to stone "
+						    "!!! --More--");
 						wait_for(cw, ' ');
 						death(mp->t_indx);
 					}
-				when 'd':
-					if (rnd(100) < 50 && !(mp->t_flags & ISHUH))
-						player.t_flags |= ISHELD;
+					when 'd' : if (rnd(100) < 50 &&
+						       !(mp->t_flags &ISHUH))
+						   player.t_flags |= ISHELD;
 					if (!save(VS_POISON)) {
-						if (iswearing(R_SUSAB) || iswearing(R_SUSTSTR))
-							msg("Sting has no effect.");
+						if (iswearing(R_SUSAB) ||
+						    iswearing(R_SUSTSTR))
+							msg("Sting has no "
+							    "effect.");
 						else {
 							int fewer, ostr;
 
-							fewer = roll(1,4);
+							fewer = roll(1, 4);
 							ostr = herostr();
-							chg_abil(STR,-fewer,TRUE);
+							chg_abil(STR, -fewer,
+								 TRUE);
 							if (herostr() < ostr) {
-								fewer = ostr - herostr();
-								fuse(rchg_str, fewer - 1, 10);
+								fewer =
+								    ostr -
+								    herostr();
+								fuse(rchg_str,
+								     fewer - 1,
+								     10);
 							}
-							msg("You feel weaker now.");
+							msg("You feel weaker "
+							    "now.");
 						}
 					}
-				when 'g':
-					if (!save(VS_BREATH) && !iswearing(R_BREATH)) {
+					when 'g' : if (!save(VS_BREATH) &&
+						       !iswearing(R_BREATH))
+					{
 						msg("You feel singed.");
-						chg_hpt(-roll(1,8),FALSE,mp->t_indx);
+						chg_hpt(-roll(1, 8), FALSE,
+							mp->t_indx);
 					}
-				when 'h':
-					if (!save(VS_BREATH) && !iswearing(R_BREATH)) {
+					when 'h' : if (!save(VS_BREATH) &&
+						       !iswearing(R_BREATH))
+					{
 						msg("You are seared.");
-						chg_hpt(-roll(1,4),FALSE,mp->t_indx);
+						chg_hpt(-roll(1, 4), FALSE,
+							mp->t_indx);
 					}
-				when 'p':
-					if (!save(VS_POISON) && herostr() > MINABIL) {
-						if (!iswearing(R_SUSTSTR) && !iswearing(R_SUSAB)) {
+					when 'p' : if (!save(VS_POISON) &&
+						       herostr() > MINABIL)
+					{
+						if (!iswearing(R_SUSTSTR) &&
+						    !iswearing(R_SUSAB)) {
 							msg("You are gnawed.");
-							chg_abil(STR,-1,TRUE);
+							chg_abil(STR, -1, TRUE);
 						}
 					}
-				when 'u':
-					if (!save(VS_POISON) && herostr() > MINABIL) {
-						if (!iswearing(R_SUSTSTR) && !iswearing(R_SUSAB)) {
+					when 'u' : if (!save(VS_POISON) &&
+						       herostr() > MINABIL)
+					{
+						if (!iswearing(R_SUSTSTR) &&
+						    !iswearing(R_SUSAB)) {
 							msg("You are bitten.");
 							chg_abil(STR, -1, TRUE);
-							fuse(rchg_str, 1, roll(5,10));
-				 		}
+							fuse(rchg_str, 1,
+							     roll(5, 10));
+						}
 					}
-				when 'w':
-					if (!save(VS_POISON) && !iswearing(R_SUSAB)) {
+					when 'w' : if (!save(VS_POISON) &&
+						       !iswearing(R_SUSAB))
+					{
 						msg("You feel devitalized.");
-						chg_hpt(-1,TRUE,mp->t_indx);
+						chg_hpt(-1, TRUE, mp->t_indx);
 					}
-				when 'i':
-					if (!save(VS_PARALYZATION) && !iswearing(R_SUSAB)) {
+					when 'i' : if (!save(VS_PARALYZATION) &&
+						       !iswearing(R_SUSAB))
+					{
 						if (pl_on(ISSLOW))
-							lengthen(notslow,roll(3,10));
+							lengthen(notslow,
+								 roll(3, 10));
 						else {
-							msg("You feel impaired.");
-							player.t_flags |= ISSLOW;
-							fuse(notslow,TRUE,roll(5,10));
+							msg("You feel "
+							    "impaired.");
+							player.t_flags |=
+							    ISSLOW;
+							fuse(notslow, TRUE,
+							     roll(5, 10));
 						}
 					}
 				otherwise:
 					break;
-			}
+				}
 		}
-	}
-	else if (mp->t_type != 'E') {
+	} else if (mp->t_type != 'E') {
 		if (mp->t_type == 'F') {
 			him->s_hpt -= fung_hit;
 			if (him->s_hpt <= 0)
@@ -341,15 +407,14 @@ struct thing *mp;
 		}
 		miss(mname);
 	}
-	flushinp();					/* flush type ahead */
+	flushinp(); /* flush type ahead */
 	count = 0;
 
 	if (mp == NULL)
-		return(-1);
+		return (-1);
 	else
-		return(0);
+		return (0);
 }
-
 
 /*
  * swing:
@@ -358,12 +423,11 @@ struct thing *mp;
 swing(at_lvl, op_arm, wplus)
 int at_lvl, op_arm, wplus;
 {
-	reg int res = rnd(20)+1;
+	reg int res = rnd(20) + 1;
 	reg int need = (21 - at_lvl) - op_arm;
 
 	return (res + wplus >= need);
 }
-
 
 /*
  * check_level:
@@ -374,8 +438,8 @@ check_level()
 	reg int lev, add, dif;
 
 	for (lev = 0; e_levels[lev] != 0; lev++)
-	if (e_levels[lev] > him->s_exp)
-		break;
+		if (e_levels[lev] > him->s_exp)
+			break;
 	lev += 1;
 	if (lev > him->s_lvl) {
 		dif = lev - him->s_lvl;
@@ -387,7 +451,6 @@ check_level()
 	}
 	him->s_lvl = lev;
 }
-
 
 /*
  * roll_em:
@@ -406,29 +469,27 @@ bool hurl;
 	prop_hplus = prop_dplus = 0;
 	if (weap == NULL) {
 		cp = att->s_dmg;
-	}
-	else if (hurl) {
-		if (o_on(weap,ISMISL) && cur_weapon != NULL &&
-		  cur_weapon->o_which == weap->o_launch) {
+	} else if (hurl) {
+		if (o_on(weap, ISMISL) && cur_weapon != NULL &&
+		    cur_weapon->o_which == weap->o_launch) {
 			cp = weap->o_hurldmg;
 			prop_hplus = cur_weapon->o_hplus;
 			prop_dplus = cur_weapon->o_dplus;
-		}
-		else
-			cp = (o_on(weap,ISMISL) ? weap->o_damage : weap->o_hurldmg);
-	}
-	else {
+		} else
+			cp = (o_on(weap, ISMISL) ? weap->o_damage
+						 : weap->o_hurldmg);
+	} else {
 		cp = weap->o_damage;
 		/*
 		 * Drain a staff of striking
 		 */
-		if (weap->o_type == STICK && weap->o_which == WS_HIT
-		  && weap->o_charges == 0) {
+		if (weap->o_type == STICK && weap->o_which == WS_HIT &&
+		    weap->o_charges == 0) {
 			strcpy(weap->o_damage, "0d0");
 			weap->o_hplus = weap->o_dplus = 0;
 		}
-    }
-	while(1) {
+	}
+	while (1) {
 		int damage;
 		int hplus = prop_hplus + (weap == NULL ? 0 : weap->o_hplus);
 		int dplus = prop_dplus + (weap == NULL ? 0 : weap->o_dplus);
@@ -448,7 +509,7 @@ bool hurl;
 			break;
 		nsides = atoi(++cp);
 
-		if (def == him) {			/* defender is hero */
+		if (def == him) { /* defender is hero */
 			if (cur_armor != NULL)
 				def_arm = cur_armor->o_ac;
 			else
@@ -457,13 +518,12 @@ bool hurl;
 				def_arm -= cur_ring[LEFT]->o_ac;
 			if (isring(RIGHT, R_PROTECT))
 				def_arm -= cur_ring[RIGHT]->o_ac;
-		}
-		else						/* defender is monster */
+		} else /* defender is monster */
 			def_arm = def->s_arm;
 		if (hurl)
-			hplus += getpdex(att,TRUE);
+			hplus += getpdex(att, TRUE);
 		if (swing(att->s_lvl, def_arm + getpdex(def, FALSE),
-		  hplus + str_plus(att))) {
+			  hplus + str_plus(att))) {
 			reg int proll;
 
 			proll = roll(ndice, nsides);
@@ -479,40 +539,35 @@ bool hurl;
 	return did_hit;
 }
 
-
 /*
  * mindex:
  *	Look for char 'c' in string pointed to by 'cp'
  */
-char *
-mindex(cp, c)
-char *cp, c;
+char *mindex(cp, c) char *cp, c;
 {
 	reg int i;
 
 	for (i = 0; i < 3; i++)
-		if (*cp != c)  cp++;
+		if (*cp != c)
+			cp++;
 	if (*cp == c)
 		return cp;
 	else
 		return NULL;
 }
 
-
 /*
  * prname:
  *	The print name of a combatant
  */
-char *
-prname(who, upper)
-char *who;
+char *prname(who, upper) char *who;
 bool upper;
 {
-static char tbuf[LINLEN];
+	static char tbuf[LINLEN];
 
 	*tbuf = '\0';
 	if (who == 0)
-		strcpy(tbuf, "you"); 
+		strcpy(tbuf, "you");
 	else if (pl_on(ISBLIND))
 		strcpy(tbuf, "it");
 	else {
@@ -531,9 +586,8 @@ static char tbuf[LINLEN];
 hit(er)
 char *er;
 {
-	msg("%s hit.",prname(er, TRUE));
+	msg("%s hit.", prname(er, TRUE));
 }
-
 
 /*
  * miss:
@@ -542,9 +596,8 @@ char *er;
 miss(er)
 char *er;
 {
-	msg("%s miss%s.",prname(er, TRUE),(er == 0 ? "":"es"));
+	msg("%s miss%s.", prname(er, TRUE), (er == 0 ? "" : "es"));
 }
-
 
 /*
  * save_throw:
@@ -562,7 +615,6 @@ struct thing *tp;
 	return (roll(1, 20) >= need);
 }
 
-
 /*
  * save:
  *	See if he saves against various nasty things
@@ -579,10 +631,9 @@ int which;
  */
 raise_level()
 {
-	him->s_exp = e_levels[him->s_lvl-1] + 1L;
+	him->s_exp = e_levels[him->s_lvl - 1] + 1L;
 	check_level();
 }
-
 
 /*
  * thunk:
@@ -593,11 +644,11 @@ struct object *weap;
 char *mname;
 {
 	if (weap->o_type == WEAPON)
-		msg("The %s hits the %s.",w_magic[weap->o_which].mi_name,mname);
+		msg("The %s hits the %s.", w_magic[weap->o_which].mi_name,
+		    mname);
 	else
 		msg("You hit the %s.", mname);
 }
-
 
 /*
  * bounce:
@@ -608,11 +659,11 @@ struct object *weap;
 char *mname;
 {
 	if (weap->o_type == WEAPON)
-		msg("The %s misses the %s.", w_magic[weap->o_which].mi_name,mname);
+		msg("The %s misses the %s.", w_magic[weap->o_which].mi_name,
+		    mname);
 	else
 		msg("You missed the %s.", mname);
 }
-
 
 /*
  * remove:
@@ -626,14 +677,13 @@ struct linked_list *item;
 
 	mvwaddch(mw, mp->y, mp->x, ' ');
 	if (pl_on(ISBLIND))
-		what = ' ';							/* if blind, then a blank */
+		what = ' '; /* if blind, then a blank */
 	else
-		what = (THINGPTR(item))->t_oldch;	/* normal char */
+		what = (THINGPTR(item))->t_oldch; /* normal char */
 	mvwaddch(cw, mp->y, mp->x, what);
 	detach(mlist, item);
 	discard(item);
 }
-
 
 /*
  * is_magic:
@@ -643,20 +693,19 @@ is_magic(obj)
 struct object *obj;
 {
 	switch (obj->o_type) {
-		case ARMOR:
-			return obj->o_ac != armors[obj->o_which].a_class;
-		case WEAPON:
-			return obj->o_hplus != 0 || obj->o_dplus != 0;
-		case POTION:
-		case SCROLL:
-		case STICK:
-		case RING:
-		case AMULET:
-			return TRUE;
+	case ARMOR:
+		return obj->o_ac != armors[obj->o_which].a_class;
+	case WEAPON:
+		return obj->o_hplus != 0 || obj->o_dplus != 0;
+	case POTION:
+	case SCROLL:
+	case STICK:
+	case RING:
+	case AMULET:
+		return TRUE;
 	}
 	return FALSE;
 }
-
 
 /*
  * killed:
@@ -670,7 +719,7 @@ bool pr;
 	reg struct object *obj;
 	struct linked_list *pitem, *nexti, *itspack;
 	struct coord here;
-	
+
 	nochange = FALSE;
 	tp = THINGPTR(item);
 	here = tp->t_pos;
@@ -684,19 +733,21 @@ bool pr;
 	him->s_exp += tp->t_stats.s_exp;
 	isfight = FALSE;
 	check_level();
-	unhold(tp->t_type);					/* free player if held */
+	unhold(tp->t_type); /* free player if held */
 	if (tp->t_type == 'L') {
 		reg struct room *rp;
 
 		rp = roomin(&here);
 		if (rp != NULL) {
-			if (rp->r_goldval!=0 || fallpos(&here, &rp->r_gold, FALSE)) {
+			if (rp->r_goldval != 0 ||
+			    fallpos(&here, &rp->r_gold, FALSE)) {
 				rp->r_goldval += GOLDCALC;
-				if (!save_throw(VS_MAGIC,tp))
-					rp->r_goldval += GOLDCALC + GOLDCALC + GOLDCALC
-								   + GOLDCALC + GOLDCALC;
+				if (!save_throw(VS_MAGIC, tp))
+					rp->r_goldval += GOLDCALC + GOLDCALC +
+							 GOLDCALC + GOLDCALC +
+							 GOLDCALC;
 				mvaddch(rp->r_gold.y, rp->r_gold.x, GOLD);
-				if (!rf_on(rp,ISDARK)) {
+				if (!rf_on(rp, ISDARK)) {
 					light(&hero);
 					mvwaddch(cw, hero.y, hero.x, PLAYER);
 				}

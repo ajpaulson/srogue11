@@ -57,30 +57,31 @@ do_rooms()
 		/*
 		 * Find upper left corner of box that this room goes in
 		 */
-		top.x = (i%3) * bsze.x + 1;
-		top.y = i/3 * bsze.y;
-		if (rf_on(rp,ISGONE)) {
+		top.x = (i % 3) * bsze.x + 1;
+		top.y = i / 3 * bsze.y;
+		if (rf_on(rp, ISGONE)) {
 			/*
 			 * Place a gone room.  Make certain that there is a
 			 * blank line for passage drawing.
 			 */
 			roomtries = 0;
 			do {
-				rp->r_pos.x = top.x + rnd(bsze.x-2) + 1;
-				rp->r_pos.y = top.y + rnd(bsze.y-2) + 1;
+				rp->r_pos.x = top.x + rnd(bsze.x - 2) + 1;
+				rp->r_pos.y = top.y + rnd(bsze.y - 2) + 1;
 				rp->r_max.x = -COLS;
 				rp->r_max.x = -LINES;
 				if (++roomtries > 250)
 					fatal("failed to place a gone room");
-			} until(rp->r_pos.y > 0 && rp->r_pos.y < LINES-2);
+			}
+			until(rp->r_pos.y > 0 && rp->r_pos.y < LINES - 2);
 			continue;
 		}
-		if (rnd(10) < level-1)
+		if (rnd(10) < level - 1)
 			rp->r_flags |= ISDARK;
 		/*
 		 * Find a place and size for a random room
 		 */
-		roomtries = 0;	
+		roomtries = 0;
 		do {
 			rp->r_max.x = rnd(bsze.x - 4) + 4;
 			rp->r_max.y = rnd(bsze.y - 4) + 4;
@@ -89,14 +90,15 @@ do_rooms()
 			if (++roomtries > 250) {
 				fatal("failed to place a good room");
 			}
-		} until (rp->r_pos.y != 0);
+		}
+		until(rp->r_pos.y != 0);
 		if (level < max_level)
-			mchance = 30;	/* 30% when going up (all monsters) */
+			mchance = 30; /* 30% when going up (all monsters) */
 		else
-			mchance = 3;	/* 3% when going down */
+			mchance = 3; /* 3% when going down */
 		treas = FALSE;
 		if (rnd(100) < mchance && (rp->r_max.x * rp->r_max.y) >
-		  ((bsze.x * bsze.y * 55) / 100)) {
+					      ((bsze.x * bsze.y * 55) / 100)) {
 			treas = TRUE;
 			rp->r_flags |= ISTREAS;
 			rp->r_flags |= ISDARK;
@@ -104,7 +106,8 @@ do_rooms()
 		/*
 		 * Put the gold in
 		 */
-		if ((rnd(100) < 50 || treas) && (!amulet || level >= max_level)) {
+		if ((rnd(100) < 50 || treas) &&
+		    (!amulet || level >= max_level)) {
 			rp->r_goldval = GOLDCALC;
 			if (treas)
 				rp->r_goldval += 200 + (15 * (rnd(level) + 2));
@@ -118,8 +121,7 @@ do_rooms()
 		if (treas) {
 			mloops = rnd(level / 3) + 6;
 			mchance = 1;
-		}
-		else {
+		} else {
 			mloops = 1;
 			mchance = 100;
 		}
@@ -144,7 +146,7 @@ bool treas;
 	int chance;
 
 	mp = *rnd_pos(rm);
-	item = new_monster(rnd_mon(FALSE,FALSE), &mp, treas);
+	item = new_monster(rnd_mon(FALSE, FALSE), &mp, treas);
 	tp = THINGPTR(item);
 	chance = rnd(100);
 	if (levtype == MAZELEV)
@@ -157,8 +159,7 @@ bool treas;
 
 		fd = new_thing(FALSE, FOOD, 0);
 		attach(tp->t_pack, fd);
-	}
-	else {
+	} else {
 		if (chance < monsters[tp->t_indx].m_carry)
 			attach(tp->t_pack, new_thing(FALSE, ANYTHING));
 	}
@@ -173,14 +174,14 @@ struct room *rp;
 {
 	reg int j, k;
 
-	move(rp->r_pos.y, rp->r_pos.x+1);
-	vert(rp->r_max.y-2);			/* Draw left side */
-	move(rp->r_pos.y+rp->r_max.y-1, rp->r_pos.x);
-	horiz(rp->r_max.x);				/* Draw bottom */
+	move(rp->r_pos.y, rp->r_pos.x + 1);
+	vert(rp->r_max.y - 2); /* Draw left side */
+	move(rp->r_pos.y + rp->r_max.y - 1, rp->r_pos.x);
+	horiz(rp->r_max.x); /* Draw bottom */
 	move(rp->r_pos.y, rp->r_pos.x);
-	horiz(rp->r_max.x);				/* Draw top */
-	vert(rp->r_max.y-2);			/* Draw right side */
-	/*
+	horiz(rp->r_max.x);    /* Draw top */
+	vert(rp->r_max.y - 2); /* Draw right side */
+			       /*
 	 * Put the floor down
 	 */
 	for (j = 1; j < rp->r_max.y - 1; j++) {
@@ -204,9 +205,8 @@ horiz(cnt)
 int cnt;
 {
 	while (cnt-- > 0)
-	addch('-');
+		addch('-');
 }
-
 
 /*
  * vert:
@@ -225,14 +225,11 @@ int cnt;
 	}
 }
 
-
 /*
  * rnd_pos:
  *	pick a random spot in a room
  */
-struct coord *
-rnd_pos(rp)
-struct room *rp;
+struct coord *rnd_pos(rp) struct room *rp;
 {
 	reg int y, x, i;
 	static struct coord spot;
@@ -242,7 +239,7 @@ struct room *rp;
 		x = rp->r_pos.x + rnd(rp->r_max.x - 2) + 1;
 		y = rp->r_pos.y + rnd(rp->r_max.y - 2) + 1;
 		i += 1;
-	} while(winat(y, x) != FLOOR && i < 1000);
+	} while (winat(y, x) != FLOOR && i < 1000);
 	spot.x = x;
 	spot.y = y;
 	return &spot;

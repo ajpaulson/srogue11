@@ -24,7 +24,7 @@
 displevl()
 {
 	reg char ch, mch;
-	reg int i,j;
+	reg int i, j;
 	reg struct room *rp;
 
 	for (rp = rooms; rp < &rooms[MAXROOMS]; rp++)
@@ -32,19 +32,17 @@ displevl()
 
 	for (i = 0; i < LINES - 2; i++) {
 		for (j = 0; j < COLS - 1; j++) {
-			ch = mvinch(i,j);
+			ch = mvinch(i, j);
 			if (isatrap(ch)) {
 				struct trap *what;
 
 				what = trap_at(i, j);
 				if (what != NULL)
 					what->tr_flags |= ISFOUND;
-			}
-			else if (ch == SECRETDOOR) {
+			} else if (ch == SECRETDOOR) {
 				ch = DOOR;
 				mvaddch(i, j, ch);
-			}
-			else if (illeg_ch(ch)) {
+			} else if (illeg_ch(ch)) {
 				ch = FLOOR;
 				mvaddch(i, j, ch);
 			}
@@ -56,8 +54,7 @@ displevl()
 				if (what == NULL) {
 					ch = FLOOR;
 					mvaddch(i, j, ch);
-				}
-				else {
+				} else {
 					it = THINGPTR(what);
 					it->t_oldch = ch;
 				}
@@ -68,7 +65,7 @@ displevl()
 			mvwaddch(cw, i, j, ch);
 		}
 	}
-	nochange = FALSE;	/* display status again */
+	nochange = FALSE; /* display status again */
 	draw(cw);
 }
 
@@ -88,8 +85,8 @@ dispmons()
 		x = it->t_pos.x;
 		mvwaddch(cw, y, x, it->t_type);
 		it->t_flags |= ISFOUND;
-		if (it->t_type == 'M')			/* if a mimic */
-			it->t_disguise = 'M';		/* give it away */
+		if (it->t_type == 'M')	/* if a mimic */
+			it->t_disguise = 'M'; /* give it away */
 	}
 	draw(cw);
 }
@@ -103,10 +100,10 @@ int x, y;
 {
 	reg char ch;
 
-	if (mvwinch(mw,y,x) == ' ')
-		ch = mvinch(y, x);			/* non-monsters */
+	if (mvwinch(mw, y, x) == ' ')
+		ch = mvinch(y, x); /* non-monsters */
 	else
-		ch = winch(mw);				/* monsters */
+		ch = winch(mw); /* monsters */
 	return ch;
 }
 
@@ -132,7 +129,6 @@ long what;
 	return (player.t_flags & what);
 }
 
-
 /*
  * pl_off:
  *	Returns TRUE when player's flag is reset
@@ -143,12 +139,11 @@ long what;
 	return (!(player.t_flags & what));
 }
 
-
 /*
  * o_on:
  *	Returns TRUE in the objects flag is set
  */
-o_on(what,bit)
+o_on(what, bit)
 struct object *what;
 long bit;
 {
@@ -160,12 +155,11 @@ long bit;
 	return flag;
 }
 
-
 /*
  * o_off:
  *	Returns TRUE is the objects flag is reset
  */
-o_off(what,bit)
+o_off(what, bit)
 struct object *what;
 long bit;
 {
@@ -177,24 +171,22 @@ long bit;
 	return flag;
 }
 
-
 /*
  * setoflg:
  *	Set the specified flag for the object
  */
-setoflg(what,bit)
+setoflg(what, bit)
 struct object *what;
 long bit;
 {
 	what->o_flags |= bit;
 }
 
-
 /*
  * resoflg:
  *	Reset the specified flag for the object
  */
-resoflg(what,bit)
+resoflg(what, bit)
 struct object *what;
 long bit;
 {

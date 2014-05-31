@@ -54,16 +54,16 @@ bool silent;
 		 */
 		obj = OBJPTR(item);
 		if (obj->o_type == SCROLL && obj->o_which == S_SCARE) {
-			if (o_on(obj,ISFOUND)) {
-				msg("The scroll turns to dust as you pick it up.");
+			if (o_on(obj, ISFOUND)) {
+				msg("The scroll turns to dust as you pick it "
+				    "up.");
 				detach(lvl_obj, item);
 				discard(item);
-				mvaddch(hero.y, hero.x, delchar);	
+				mvaddch(hero.y, hero.x, delchar);
 				return FALSE;
 			}
 		}
-	}
-	else
+	} else
 		from_floor = FALSE;
 	obj = OBJPTR(item);
 	/*
@@ -100,7 +100,7 @@ bool silent;
 		if (op->o_type == obj->o_type)
 			break;
 		if (next(ip) != NULL)
-			lp = next(lp);		/* update "previous" entry */
+			lp = next(lp); /* update "previous" entry */
 	}
 	/*
 	 * If the pack was empty, just stick the item in it.
@@ -115,13 +115,12 @@ bool silent;
 	 * unless it was food, then put it in front.
 	 */
 	else if (ip == NULL) {
-		if (obj->o_type == FOOD) {	/* insert food at front */
+		if (obj->o_type == FOOD) { /* insert food at front */
 			item->l_next = pack;
 			pack->l_prev = item;
 			pack = item;
 			item->l_prev = NULL;
-		}
-		else {						/* insert other stuff at back */
+		} else { /* insert other stuff at back */
 			lp->l_next = item;
 			item->l_prev = lp;
 		}
@@ -144,8 +143,7 @@ bool silent;
 					discard(item);
 					item = ip;
 					goto picked_up;
-				}
-				else {
+				} else {
 					goto around;
 				}
 			}
@@ -154,7 +152,7 @@ bool silent;
 					ip = next(ip);
 				break;
 			}
-around:
+		around:
 			ip = next(ip);
 			if (ip != NULL) {
 				op = OBJPTR(ip);
@@ -184,10 +182,10 @@ around:
 picked_up:
 	obj = OBJPTR(item);
 	if (!silent)
-		msg("%s (%c)",inv_name(obj,FALSE),pack_char(obj));
+		msg("%s (%c)", inv_name(obj, FALSE), pack_char(obj));
 	if (obj->o_type == AMULET)
 		amulet = TRUE;
-	updpack();				/* new pack weight & volume */
+	updpack(); /* new pack weight & volume */
 	return TRUE;
 }
 
@@ -204,11 +202,10 @@ int type;
 	reg char ch;
 	reg int cnt;
 
-	if (list == NULL) {			/* empty list */
+	if (list == NULL) { /* empty list */
 		msg(type == 0 ? "Empty handed." : "Nothing appropriate.");
 		return FALSE;
-	}
-	else if (next(list) == NULL) {	/* only 1 item in list */
+	} else if (next(list) == NULL) { /* only 1 item in list */
 		obj = OBJPTR(list);
 		msg("a) %s", inv_name(obj, FALSE));
 		return TRUE;
@@ -217,14 +214,14 @@ int type;
 	wclear(hw);
 	for (ch = 'a', pc = list; pc != NULL; pc = next(pc), ch = npch(ch)) {
 		obj = OBJPTR(pc);
-		wprintw(hw,"%c) %s\n\r",ch,inv_name(obj, FALSE));
+		wprintw(hw, "%c) %s\n\r", ch, inv_name(obj, FALSE));
 		if (++cnt > LINES - 2 && next(pc) != NULL) {
 			dbotline(hw, morestr);
 			cnt = 0;
 			wclear(hw);
-		} 
+		}
 	}
-	dbotline(hw,spacemsg);
+	dbotline(hw, spacemsg);
 	restscr(cw);
 	return TRUE;
 }
@@ -237,20 +234,18 @@ pick_up(ch)
 char ch;
 {
 	nochange = FALSE;
-	switch(ch) {
-		case GOLD:
-			money();
-		when ARMOR:
-		case POTION:
-		case FOOD:
-		case WEAPON:
-		case SCROLL:	
-		case AMULET:
-		case RING:
-		case STICK:
-			add_pack(NULL, FALSE);
-		otherwise:
-			msg("That item is ethereal !!!");
+	switch (ch) {
+	case GOLD:
+		money();
+		when ARMOR : case POTION : case FOOD
+					   : case WEAPON
+					     : case SCROLL
+					       : case AMULET
+						 : case RING
+						   : case STICK
+						     : add_pack(NULL, FALSE);
+	otherwise:
+		msg("That item is ethereal !!!");
 	}
 }
 
@@ -274,9 +269,11 @@ picky_inven()
 			msg("");
 			return 0;
 		}
-		for (ch='a',item=pack; item != NULL; item=next(item),ch=npch(ch))
+		for (ch = 'a', item = pack; item != NULL;
+		     item = next(item), ch = npch(ch))
 			if (ch == mch) {
-				msg("%c) %s",ch,inv_name(OBJPTR(item), FALSE));
+				msg("%c) %s", ch,
+				    inv_name(OBJPTR(item), FALSE));
 				return 0;
 			}
 		if (ch == 'A')
@@ -291,9 +288,7 @@ picky_inven()
  * get_item:
  *	pick something out of a pack for a purpose
  */
-struct linked_list *
-get_item(purpose, type)
-char *purpose;
+struct linked_list *get_item(purpose, type) char *purpose;
 int type;
 {
 	reg struct linked_list *obj, *pit, *savepit;
@@ -314,24 +309,24 @@ int type;
 			pob = OBJPTR(pit);
 			if (type == pob->o_type || type == 0) {
 				++anr;
-				savepit = pit;	/* save in case of only 1 */
+				savepit = pit; /* save in case of only 1 */
 			}
 		}
 		if (anr == 0) {
-			msg("Nothing to %s",purpose);
+			msg("Nothing to %s", purpose);
 			after = FALSE;
 			return NULL;
-		}
-		else if (anr == 1) {	/* only found one of 'em */
+		} else if (anr == 1) { /* only found one of 'em */
 			do {
 				struct object *opb;
 
 				opb = OBJPTR(savepit);
-				msg("%s what (* for the item)?",purpose);
+				msg("%s what (* for the item)?", purpose);
 				och = readchar();
 				if (och == '*') {
 					mpos = 0;
-					msg("%c) %s",pack_char(opb),inv_name(opb,FALSE));
+					msg("%c) %s", pack_char(opb),
+					    inv_name(opb, FALSE));
 					continue;
 				}
 				if (och == ESCAPE) {
@@ -345,53 +340,57 @@ int type;
 					after = FALSE;
 					return NULL;
 				}
-			} while(!isalpha(och));
+			} while (!isalpha(och));
 			mpos = 0;
-			return savepit;		/* return this item */
+			return savepit; /* return this item */
 		}
 	}
 	for (;;) {
-		msg("%s what? (* for list): ",purpose);
+		msg("%s what? (* for list): ", purpose);
 		ch = readchar();
 		mpos = 0;
-		if (ch == ESCAPE) {		/* abort if escape hit */
+		if (ch == ESCAPE) { /* abort if escape hit */
 			after = FALSE;
-			msg("");			/* clear display */
+			msg(""); /* clear display */
 			return NULL;
 		}
 		if (ch == '*') {
 			wclear(hw);
-			pit = pack;		/* point to pack */
+			pit = pack; /* point to pack */
 			cnt = 0;
-			for (ch='a'; pit != NULL; pit=next(pit), ch=npch(ch)) {
+			for (ch = 'a'; pit != NULL;
+			     pit = next(pit), ch = npch(ch)) {
 				pob = OBJPTR(pit);
 				if (type == 0 || type == pob->o_type) {
-					wprintw(hw,"%c) %s\n\r",ch,inv_name(pob,FALSE));
-					if (++cnt > LINES - 2 && next(pit) != NULL) {
+					wprintw(hw, "%c) %s\n\r", ch,
+						inv_name(pob, FALSE));
+					if (++cnt > LINES - 2 &&
+					    next(pit) != NULL) {
 						cnt = 0;
 						dbotline(hw, morestr);
 						wclear(hw);
 					}
 				}
 			}
-			wmove(hw, LINES - 1,0);
-			wprintw(hw,"%s what? ",purpose);
-			draw(hw);		/* write screen */
+			wmove(hw, LINES - 1, 0);
+			wprintw(hw, "%s what? ", purpose);
+			draw(hw); /* write screen */
 			anr = FALSE;
 			do {
 				ch = readchar();
 				if (isalpha(ch) || ch == ESCAPE)
-					anr = TRUE; 
-			} while(!anr);		/* do till we got it right */
-			restscr(cw);		/* redraw orig screen */
+					anr = TRUE;
+			} while (!anr); /* do till we got it right */
+			restscr(cw);    /* redraw orig screen */
 			if (ch == ESCAPE) {
 				after = FALSE;
-				msg("");		/* clear top line */
-				return NULL;	/* all done if abort */
+				msg("");     /* clear top line */
+				return NULL; /* all done if abort */
 			}
 			/* ch has item to get from pack */
 		}
-		for (obj=pack,och='a';obj!=NULL;obj=next(obj),och=npch(och))
+		for (obj = pack, och = 'a'; obj != NULL;
+		     obj = next(obj), och = npch(och))
 			if (ch == och)
 				break;
 		if (obj == NULL) {
@@ -399,10 +398,10 @@ int type;
 				och = 'z';
 			else
 				och -= 1;
-			msg("Please specify a letter between 'a' and '%c'",och);
+			msg("Please specify a letter between 'a' and '%c'",
+			    och);
 			continue;
-		}
-		else 
+		} else
 			return obj;
 	}
 }
@@ -411,9 +410,7 @@ int type;
  * pack_char:
  *	Get the character of a particular item in the pack
  */
-char
-pack_char(obj)
-struct object *obj;
+char pack_char(obj) struct object *obj;
 {
 	reg struct linked_list *item;
 	reg char c;
@@ -435,12 +432,11 @@ idenpack()
 {
 	reg struct linked_list *pc;
 
-	for (pc = pack ; pc != NULL ; pc = next(pc))
+	for (pc = pack; pc != NULL; pc = next(pc))
 		whatis(pc);
 }
 
-
-/* 
+/*
  * del_pack:
  *	Take something out of the hero's pack
  */
@@ -450,12 +446,11 @@ struct linked_list *what;
 	reg struct object *op;
 
 	op = OBJPTR(what);
-	cur_null(op);		/* check for current stuff */
+	cur_null(op); /* check for current stuff */
 	if (op->o_count > 1) {
 		op->o_count--;
-	}
-	else {
-		detach(pack,what);
+	} else {
+		detach(pack, what);
 		discard(what);
 	}
 	updpack();

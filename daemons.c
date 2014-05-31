@@ -41,8 +41,7 @@ int fromfuse;
 	if (lv < 8) {
 		if (quiet > 20 - lv * 2)
 			*thp += 1;
-	}
-	else {
+	} else {
 		if (quiet >= 3)
 			*thp += rnd(lv - 7) + 1;
 	}
@@ -60,7 +59,6 @@ int fromfuse;
 	}
 }
 
-
 /*
  * Swander:
  *	Called when it is time to start rolling for wandering monsters
@@ -70,7 +68,6 @@ int fromfuse;
 {
 	daemon(rollwand, TRUE, BEFORE);
 }
-
 
 /*
  * rollwand:
@@ -82,7 +79,7 @@ int fromfuse;
 
 	if (++between >= 4) {
 		if (roll(1, 6) == 4) {
-			if (levtype != POSTLEV)		/* no monsters for posts */
+			if (levtype != POSTLEV) /* no monsters for posts */
 				wanderer();
 			extinguish(rollwand);
 			fuse(swander, TRUE, WANDERTIME);
@@ -90,7 +87,6 @@ int fromfuse;
 		between = 0;
 	}
 }
-
 
 /*
  * unconfuse:
@@ -139,7 +135,6 @@ int fromfuse;
 	player.t_flags &= ~ISHASTE;
 }
 
-
 /*
  * stomach:
  *	Digest the hero's food
@@ -150,39 +145,36 @@ int fromfuse;
 	reg int oldfood, old_hunger;
 
 	old_hunger = hungry_state;
-	if (food_left <= 0) {		 /* the hero is fainting */
+	if (food_left <= 0) { /* the hero is fainting */
 		if (--food_left == -150) {
 			msg("Your stomach writhes with hunger pains.");
-		}
-		else if (food_left < -350) {
+		} else if (food_left < -350) {
 			msg("You starve to death !!");
 			msg(" ");
 			death(K_STARVE);
 		}
 		if (player.t_nocmd > 0 || rnd(100) > 20)
 			return 0;
-		player.t_nocmd = rnd(8)+4;
+		player.t_nocmd = rnd(8) + 4;
 		msg("You faint.");
 		running = FALSE;
 		count = 0;
 		hungry_state = F_FAINT;
-	}
-	else {
+	} else {
 		oldfood = food_left;
 		food_left -= ringfood + foodlev - amulet;
-		if (player.t_nocmd > 0)		/* wait till he can move */
+		if (player.t_nocmd > 0) /* wait till he can move */
 			return 0;
 		if (food_left < WEAKTIME && oldfood >= WEAKTIME) {
 			msg("You are starting to feel weak.");
 			hungry_state = F_WEAK;
-		}
-		else if(food_left < HUNGTIME && oldfood >= HUNGTIME) {
+		} else if (food_left < HUNGTIME && oldfood >= HUNGTIME) {
 			msg("Getting hungry.");
 			hungry_state = F_HUNGRY;
 		}
 	}
 	if (old_hunger != hungry_state)
-	    updpack();				/* new pack weight */
+		updpack(); /* new pack weight */
 	wghtchk(FALSE);
 }
 
@@ -199,9 +191,9 @@ int fromfuse;
 		msg("You begin to feel more corporeal.");
 		ch = player.t_oldch;
 		if (dead_end(ch)) {
-			msg("You materialize in %s.",identify(ch));
+			msg("You materialize in %s.", identify(ch));
 			msg(" ");
-			death(K_STONE);	/* can't materialize in walls */
+			death(K_STONE); /* can't materialize in walls */
 		}
 	}
 	player.t_flags &= ~ISETHER;

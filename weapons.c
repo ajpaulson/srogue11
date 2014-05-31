@@ -35,7 +35,7 @@ int ydelta, xdelta;
 	/*
 	 * Get which thing we are hurling
 	 */
-	nowwield = cur_weapon;		/* must save current weap */
+	nowwield = cur_weapon; /* must save current weap */
 	if ((item = get_item("throw", WEAPON)) == NULL)
 		return 0;
 	obj = OBJPTR(item);
@@ -44,7 +44,7 @@ int ydelta, xdelta;
 	if (obj == nowwield || obj->o_type != WEAPON) {
 		reg int c;
 
-		msg("Do you want to throw that %s? (y or n)",obj->o_typname);
+		msg("Do you want to throw that %s? (y or n)", obj->o_typname);
 		do {
 			c = readchar();
 			if (isupper(c))
@@ -52,10 +52,10 @@ int ydelta, xdelta;
 			if (c == ESCAPE || c == 'n') {
 				msg("");
 				cur_weapon = nowwield;
-				after = FALSE;		/* ooops, a mistake */
+				after = FALSE; /* ooops, a mistake */
 				return 0;
 			}
-		} while (c != 'y');	/* keep looking for good ans */
+		} while (c != 'y'); /* keep looking for good ans */
 	}
 	/*
 	 * Get rid of the thing.  If it is a non-multiple item object, or
@@ -64,8 +64,7 @@ int ydelta, xdelta;
 	 */
 	if (obj->o_count < 2) {
 		detach(pack, item);
-	}
-	else {
+	} else {
 		obj->o_count--;
 		obj->o_vol = itemvol(obj);
 		nitem = new_item(sizeof *obj);
@@ -75,10 +74,10 @@ int ydelta, xdelta;
 		obj->o_vol = itemvol(obj);
 		item = nitem;
 	}
-	updpack();						/* new pack weight */
+	updpack(); /* new pack weight */
 	do_motion(obj, ydelta, xdelta);
-	if (!isalpha(mvwinch(mw, obj->o_pos.y, obj->o_pos.x))
-	  || !hit_monster(&obj->o_pos, obj))
+	if (!isalpha(mvwinch(mw, obj->o_pos.y, obj->o_pos.x)) ||
+	    !hit_monster(&obj->o_pos, obj))
 		fall(item, TRUE);
 	mvwaddch(cw, hero.y, hero.x, PLAYER);
 }
@@ -98,7 +97,7 @@ int ydelta, xdelta;
 		y = obj->o_pos.y;
 		x = obj->o_pos.x;
 		if (!ce(obj->o_pos, hero) && cansee(unc(obj->o_pos)) &&
-		  mvwinch(cw, y, x) != ' ')
+		    mvwinch(cw, y, x) != ' ')
 			mvwaddch(cw, y, x, show(y, x));
 		/*
 		 * Get the new position
@@ -109,7 +108,8 @@ int ydelta, xdelta;
 		x = obj->o_pos.x;
 		ch = winat(y, x);
 		if (step_ok(ch) && ch != DOOR) {
-			if (cansee(unc(obj->o_pos)) && mvwinch(cw, y, x) != ' ') {
+			if (cansee(unc(obj->o_pos)) &&
+			    mvwinch(cw, y, x) != ' ') {
 				mvwaddch(cw, y, x, obj->o_type);
 				draw(cw);
 			}
@@ -137,7 +137,7 @@ bool pr;
 		mvaddch(fpos.y, fpos.x, obj->o_type);
 		obj->o_pos = fpos;
 		rp = player.t_room;
-		if (rp != NULL && !rf_on(rp,ISDARK)) {
+		if (rp != NULL && !rf_on(rp, ISDARK)) {
 			light(&hero);
 			mvwaddch(cw, hero.y, hero.x, PLAYER);
 		}
@@ -146,10 +146,12 @@ bool pr;
 	}
 
 	if (pr)
-        if (obj->o_type == WEAPON) /* BUGFIX: Identification trick */
-            msg("Your %s vanishes as it hits the ground.", w_magic[obj->o_which].mi_name);
-        else
-            msg("%s vanishes as it hits the ground.", inv_name(obj,TRUE));
+		if (obj->o_type == WEAPON) /* BUGFIX: Identification trick */
+			msg("Your %s vanishes as it hits the ground.",
+			    w_magic[obj->o_which].mi_name);
+		else
+			msg("%s vanishes as it hits the ground.",
+			    inv_name(obj, TRUE));
 
 	discard(item);
 }
@@ -168,13 +170,13 @@ int type;
 	weap->o_type = WEAPON;
 	weap->o_which = type;
 	iwp = &weaps[type];
-	strcpy(weap->o_damage,iwp->w_dam);
-	strcpy(weap->o_hurldmg,iwp->w_hrl);
+	strcpy(weap->o_damage, iwp->w_dam);
+	strcpy(weap->o_hurldmg, iwp->w_hrl);
 	weap->o_launch = iwp->w_launch;
 	weap->o_flags = iwp->w_flags;
 	weap->o_weight = iwp->w_wght;
 	weap->o_typname = things[TYP_WEAPON].mi_name;
-	if (o_on(weap,ISMANY))
+	if (o_on(weap, ISMANY))
 		weap->o_count = rnd(8) + 8;
 	else
 		weap->o_count = 1;
@@ -197,9 +199,7 @@ struct object *obj;
  * num:
  *	Figure out the plus number for armor/weapons
  */
-char *
-num(n1, n2)
-int n1, n2;
+char *num(n1, n2) int n1, n2;
 {
 	static char numbuf[LINLEN];
 
@@ -208,7 +208,8 @@ int n1, n2;
 	if (n2 == 0)
 		sprintf(numbuf, "%s%d", n1 < 0 ? "" : "+", n1);
 	else
-		sprintf(numbuf,"%s%d,%s%d",n1<0 ? "":"+",n1,n2<0 ? "":"+",n2);  
+		sprintf(numbuf, "%s%d,%s%d", n1 < 0 ? "" : "+", n1,
+			n2 < 0 ? "" : "+", n2);
 	return numbuf;
 }
 

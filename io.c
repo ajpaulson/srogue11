@@ -109,7 +109,6 @@ unsigned char ch;
 	return FALSE;
 }
 
-
 /*
  * dead_end:
  *	Returns TRUE if you cant walk through that character
@@ -123,7 +122,6 @@ char ch;
 		return FALSE;
 }
 
-
 /*
  * readchar:
  *	flushes stdout so that screen is up to date and then returns
@@ -135,15 +133,10 @@ readchar()
 	char c;
 
 	fflush(stdout);
-        return( wgetch(cw) );
+	return (wgetch(cw));
 }
 
-char *hungstr[] = {
-	"",
-	"  HUNGRY",
-	"  STARVING",
-	"  FAINTING",
-};
+char *hungstr[] = { "", "  HUNGRY", "  STARVING", "  FAINTING", };
 
 /*
  * status:
@@ -165,7 +158,7 @@ int fromfuse;
 	if (nochange)
 		return 0;
 	nochange = true;
-	updpack();					/* get all weight info */
+	updpack(); /* get all weight info */
 	stef = &player.t_stats.s_ef;
 	stre = &player.t_stats.s_re;
 	stmx = &max_stats.s_re;
@@ -173,8 +166,8 @@ int fromfuse;
 	carwght = him->s_pack / 10;
 	getyx(cw, oy, ox);
 	if (him->s_maxhp >= 100) {
-		hwidth[1] = '3';	/* if hit point >= 100	*/
-		hwidth[5] = '3';	/* change %2d to %3d	*/
+		hwidth[1] = '3'; /* if hit point >= 100	*/
+		hwidth[5] = '3'; /* change %2d to %3d	*/
 	}
 	if (stre->a_str < stmx->a_str)
 		ch = '*';
@@ -202,12 +195,13 @@ int fromfuse;
 	pb = &buf[strlen(buf)];
 	snprintf(pb, "  Carry: %3d(%3d)", carwght, totwght);
 	mvwaddstr(cw, LINES - 1, 0, buf);
-	snprintf(buf, "Level: %d  Gold: %5d  Hp: ",level, purse);
+	snprintf(buf, "Level: %d  Gold: %5d  Hp: ", level, purse);
 	pb = &buf[strlen(buf)];
 	snprintf(pb, hwidth, him->s_hpt, him->s_maxhp);
 	pb = &buf[strlen(buf)];
-	snprintf(pb,"  Ac: %-2d  Exp: %d/%ld",cur_armor == NULL ? him->s_arm :
-	  cur_armor->o_ac, him->s_lvl, him->s_exp);
+	snprintf(pb, "  Ac: %-2d  Exp: %d/%ld",
+		 cur_armor == NULL ? him->s_arm : cur_armor->o_ac, him->s_lvl,
+		 him->s_exp);
 	carwght = (packvol * 100) / V_PACK;
 	pb = &buf[strlen(buf)];
 	snprintf(pb, "  Vol: %3d%%", carwght);
@@ -226,8 +220,8 @@ dispmax()
 	reg struct real *hmax;
 
 	hmax = &max_stats.s_re;
-	msg("Maximums:  Str = %d  Dex = %d  Wis = %d  Con = %d",
-		hmax->a_str, hmax->a_dex, hmax->a_wis, hmax->a_con);
+	msg("Maximums:  Str = %d  Dex = %d  Wis = %d  Con = %d", hmax->a_str,
+	    hmax->a_dex, hmax->a_wis, hmax->a_con);
 }
 
 /*
@@ -248,17 +242,17 @@ unsigned char ch;
  * wait_for:
  *	Sit around until the guy types the right key
  */
-wait_for(win,ch)
+wait_for(win, ch)
 WINDOW *win;
 char ch;
 {
 	register char c;
 
 	if (ch == '\n')
-	    while ((c = wgetch(win)) != '\n' && c != '\r')
+		while ((c = wgetch(win)) != '\n' && c != '\r')
 			continue;
 	else
-	    while (wgetch(win) != ch)
+		while (wgetch(win) != ch)
 			continue;
 }
 
@@ -277,33 +271,30 @@ char ch;
 #include <sys/time.h>
 #endif
 
-char *
-gettime()
+char *gettime()
 {
 	register char *timeptr;
 	char *ctime();
 	long int now, time();
 
-	time(&now);		/* get current time */
-	timeptr = ctime(&now);	/* convert to string */
-	return timeptr;		/* return the string */
+	time(&now);	    /* get current time */
+	timeptr = ctime(&now); /* convert to string */
+	return timeptr;	/* return the string */
 }
 #endif
-
 
 /*
  * dbotline:
  *	Displays message on bottom line and waits for a space to return
  */
-dbotline(scr,message)
+dbotline(scr, message)
 WINDOW *scr;
 char *message;
 {
-	mvwaddstr(scr,LINES-1,0,message);
+	mvwaddstr(scr, LINES - 1, 0, message);
 	draw(scr);
-	wait_for(scr,' ');	
+	wait_for(scr, ' ');
 }
-
 
 /*
  * restscr:
@@ -312,7 +303,7 @@ char *message;
 restscr(scr)
 WINDOW *scr;
 {
-	clearok(scr,true);
+	clearok(scr, true);
 	touchwin(scr);
 }
 

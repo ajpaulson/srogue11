@@ -29,30 +29,29 @@ extern struct termios terminal;
 /*
  * description of an option and what to do with it
  */
-struct optstruct {
-	char	*o_name;	/* option name */
-	char	*o_prompt;	/* prompt for interactive entry */
-	char	*o_opt;		/* pointer to thing to set */
+struct optstruct
+{
+	char *o_name;   /* option name */
+	char *o_prompt; /* prompt for interactive entry */
+	char *o_opt;    /* pointer to thing to set */
 };
 
-typedef struct optstruct	OPTION;
+typedef struct optstruct OPTION;
 
-int	put_str(), get_str();
+int put_str(), get_str();
 
-OPTION	optlist[] = {
-	{ "name",	"Name: ",		whoami },
-	{ "fruit",	"Fruit: ",		fruit },
-	{ "file", 	"Save file: ",	file_name }
-};
-#define	NUM_OPTS	(sizeof optlist / sizeof (OPTION))
+OPTION optlist[] = { { "name", "Name: ", whoami },
+		     { "fruit", "Fruit: ", fruit },
+		     { "file", "Save file: ", file_name } };
+#define NUM_OPTS (sizeof optlist / sizeof(OPTION))
 
 /*
  * print and then set options from the terminal
  */
 option()
 {
-	reg OPTION	*op;
-	reg int	wh;
+	reg OPTION *op;
+	reg int wh;
 
 	wclear(hw);
 	touchwin(hw);
@@ -76,8 +75,7 @@ option()
 			else if (op > optlist) {
 				wmove(hw, op - optlist, 0);
 				op -= 2;
-			}
-			else {
+			} else {
 				putchar(7);
 				wmove(hw, 0, 0);
 				op -= 1;
@@ -87,17 +85,16 @@ option()
 	/*
 	 * Switch back to original screen
 	 */
-	dbotline(hw,spacemsg);
+	dbotline(hw, spacemsg);
 	restscr(cw);
 	after = FALSE;
 }
-
 
 /*
  * get_str:
  *	Set a string option
  */
-#define CTRLB	2
+#define CTRLB 2
 get_str(opt, awin)
 char *opt;
 WINDOW *awin;
@@ -111,38 +108,37 @@ WINDOW *awin;
 	/*
 	 * loop reading in the string, and put it in a temporary buffer
 	 */
-	for (sp = buf; (c=wgetch(awin)) != '\n' && c != '\r' && c != ESCAPE;
-	  wclrtoeol(awin), draw(awin)) {
-		if (( (int)sp - (int)buf ) >= 50) {
-			*sp = '\0';			/* line was too long */
-			strucpy(opt,buf,strlen(buf));
+	for (sp = buf; (c = wgetch(awin)) != '\n' && c != '\r' && c != ESCAPE;
+	     wclrtoeol(awin), draw(awin)) {
+		if (((int)sp - (int)buf) >= 50) {
+			*sp = '\0'; /* line was too long */
+			strucpy(opt, buf, strlen(buf));
 			mvwaddstr(awin, 0, 0, "Name was truncated --More--");
 			wclrtoeol(awin);
 			draw(awin);
 			wait_for(awin, ' ');
-			mvwprintw(awin, 0, 0, "Called: %s",opt);
+			mvwprintw(awin, 0, 0, "Called: %s", opt);
 			draw(awin);
 			return NORM;
 		}
 		if (c == -1)
 			continue;
-		else if(c == terminal.c_cc[VERASE])	{	/* process erase char */
+		else if (c == terminal.c_cc[VERASE]) { /* process erase char */
 			if (sp > buf) {
 				reg int i;
-	
+
 				sp--;
 				for (i = strlen(unctrl(*sp)); i; i--)
 					waddch(awin, '\b');
 			}
 			continue;
-		}
-		else if (c == terminal.c_cc[VKILL]) {   /* process kill character */
+		} else if (c ==
+			   terminal.c_cc[VKILL]) { /* process kill character */
 			sp = buf;
 			wmove(awin, oy, ox);
 			continue;
-		}
-		else if (sp == buf) {
-			if (c == CTRLB)			/* CTRL - B */
+		} else if (sp == buf) {
+			if (c == CTRLB) /* CTRL - B */
 				break;
 			if (c == '~') {
 				strcpy(buf, home);
@@ -155,7 +151,7 @@ WINDOW *awin;
 		waddstr(awin, unctrl(c));
 	}
 	*sp = '\0';
-	if (sp > buf)	/* only change option if something was typed */
+	if (sp > buf) /* only change option if something was typed */
 		strucpy(opt, buf, strlen(buf));
 	wmove(awin, oy, ox);
 	waddstr(awin, opt);
@@ -186,13 +182,13 @@ char *str;
 	reg int len;
 
 	while (*str) {
-		for (sp = str; isalpha(*sp); sp++)	/* get option name */
+		for (sp = str; isalpha(*sp); sp++) /* get option name */
 			continue;
 		len = sp - str;
 		for (op = optlist; op < &optlist[NUM_OPTS]; op++) {
 			if (EQSTR(str, op->o_name, len)) {
 				reg char *start;
-	
+
 				for (str = sp + 1; *str == '='; str++)
 					continue;
 				if (*str == '~') {
@@ -200,9 +196,8 @@ char *str;
 					start = op->o_opt + strlen(home);
 					while (*++str == '/')
 						continue;
-				}
-				else
-					start = (char *) op->o_opt;
+				} else
+					start = (char *)op->o_opt;
 				for (sp = str + 1; *sp && *sp != ','; sp++)
 					continue;
 				strucpy(start, str, sp - str);

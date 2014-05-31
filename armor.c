@@ -45,10 +45,9 @@ void wear()
 	waste_time();
 	msg("Wearing %s.", a_magic[obj->o_which].mi_name);
 	cur_armor = obj;
-	setoflg(obj,ISKNOW);
+	setoflg(obj, ISKNOW);
 	nochange = FALSE;
 }
-
 
 /*
  * take_off:
@@ -65,7 +64,7 @@ void take_off()
 	if (!dropcheck(cur_armor))
 		return;
 	cur_armor = NULL;
-	msg("Was wearing %c) %s",pack_char(obj),inv_name(obj,TRUE));
+	msg("Was wearing %c) %s", pack_char(obj), inv_name(obj, TRUE));
 	nochange = FALSE;
 }
 
@@ -73,8 +72,7 @@ void take_off()
  * initarmor:
  *		Initialize some armor.
  */
-void initarmor(obj, what)
-struct object *obj;
+void initarmor(obj, what) struct object *obj;
 int what;
 {
 	struct init_armor *iwa;
@@ -94,8 +92,7 @@ int what;
  * hurt_armor:
  *	Returns TRUE if armor is damaged
  */
-int hurt_armor(obj)
-struct object *obj;
+int hurt_armor(obj) struct object *obj;
 {
 	reg int type, ac;
 
@@ -105,7 +102,8 @@ struct object *obj;
 		ac = obj->o_ac;
 		type = obj->o_which;
 		if (type != PADDED && type != LEATHER)
-			if ((type == STUDDED && ac < 8) || (type != STUDDED && ac < 9))
+			if ((type == STUDDED && ac < 8) ||
+			    (type != STUDDED && ac < 9))
 				return TRUE;
 	}
 	return FALSE;

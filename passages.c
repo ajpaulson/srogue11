@@ -32,21 +32,29 @@ do_passages()
 	reg struct rdes *r1, *r2;
 	reg int i, j;
 	reg int roomcount;
-	static struct rdes {
-		bool conn[MAXROOMS];		/* possible to connect to room i */
-		bool isconn[MAXROOMS];		/* connection was made to room i */
-		bool	ingraph;			/* this room in graph already? */
-	} rdes[MAXROOMS] = {
-		{{ 0, 1, 0, 1, 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-		{{ 1, 0, 1, 0, 1, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-		{{ 0, 1, 0, 0, 0, 1, 0, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-		{{ 1, 0, 0, 0, 1, 0, 1, 0, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-		{{ 0, 1, 0, 1, 0, 1, 0, 1, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-		{{ 0, 0, 1, 0, 1, 0, 0, 0, 1 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-		{{ 0, 0, 0, 1, 0, 0, 0, 1, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-		{{ 0, 0, 0, 0, 1, 0, 1, 0, 1 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-		{{ 0, 0, 0, 0, 0, 1, 0, 1, 0 },{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
-	};
+	static struct rdes
+	{
+		bool conn[MAXROOMS];   /* possible to connect to room i */
+		bool isconn[MAXROOMS]; /* connection was made to room i */
+		bool ingraph;	  /* this room in graph already? */
+	} rdes[MAXROOMS] = { { { 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
+			     { { 1, 0, 1, 0, 1, 0, 0, 0, 0 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
+			     { { 0, 1, 0, 0, 0, 1, 0, 0, 0 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
+			     { { 1, 0, 0, 0, 1, 0, 1, 0, 0 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
+			     { { 0, 1, 0, 1, 0, 1, 0, 1, 0 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
+			     { { 0, 0, 1, 0, 1, 0, 0, 0, 1 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
+			     { { 0, 0, 0, 1, 0, 0, 0, 1, 0 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
+			     { { 0, 0, 0, 0, 1, 0, 1, 0, 1 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 },
+			     { { 0, 0, 0, 0, 0, 1, 0, 1, 0 },
+			       { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0 }, };
 
 	/*
 	 * reinitialize room graph description
@@ -79,7 +87,8 @@ do_passages()
 		if (j == 0) {
 			do {
 				r1 = &rdes[rnd(MAXROOMS)];
-			} until (r1->ingraph);
+			}
+			until(r1->ingraph);
 		}
 		/*
 		 * otherwise, connect new room to the graph, and draw a tunnel
@@ -101,8 +110,8 @@ do_passages()
 	 * that there isn't just one unique passage through it.
 	 */
 	for (roomcount = rnd(5); roomcount > 0; roomcount--) {
-		r1 = &rdes[rnd(MAXROOMS)];	/* a random room to look from */
-		/*
+		r1 = &rdes[rnd(MAXROOMS)]; /* a random room to look from */
+					   /*
 		 * find an adjacent room not already connected
 		 */
 		j = 0;
@@ -142,8 +151,7 @@ int r1, r2;
 			direc = 'r';
 		else
 			direc = 'd';
-	}
-	else {
+	} else {
 		rm = r2;
 		if (r2 + 1 == r1)
 			direc = 'r';
@@ -156,27 +164,26 @@ int r1, r2;
 	 * first drawing one down.
 	 */
 	if (direc == 'd') {
-		rmt = rm + 3;				/* room # of dest */
-		rpt = &rooms[rmt];			/* room pointer of dest */
-		delta.x = 0;				/* direction of move */
+		rmt = rm + 3;      /* room # of dest */
+		rpt = &rooms[rmt]; /* room pointer of dest */
+		delta.x = 0;       /* direction of move */
 		delta.y = 1;
-		spos.x = rpf->r_pos.x;			/* start of move */
+		spos.x = rpf->r_pos.x; /* start of move */
 		spos.y = rpf->r_pos.y;
-		epos.x = rpt->r_pos.x;			/* end of move */
+		epos.x = rpt->r_pos.x; /* end of move */
 		epos.y = rpt->r_pos.y;
-		if (!rf_on(rpf,ISGONE)) {		/* if not gone pick door pos */
-			spos.x += rnd(rpf->r_max.x-2)+1;
-			spos.y += rpf->r_max.y-1;
+		if (!rf_on(rpf, ISGONE)) { /* if not gone pick door pos */
+			spos.x += rnd(rpf->r_max.x - 2) + 1;
+			spos.y += rpf->r_max.y - 1;
 		}
-		if (!rf_on(rpt,ISGONE))
-			epos.x += rnd(rpt->r_max.x-2)+1;
-		distance = abs(spos.y - epos.y) - 1;	/* distance to move */
-		turn_delta.y = 0;						/* direction to turn */
+		if (!rf_on(rpt, ISGONE))
+			epos.x += rnd(rpt->r_max.x - 2) + 1;
+		distance = abs(spos.y - epos.y) - 1; /* distance to move */
+		turn_delta.y = 0;		     /* direction to turn */
 		turn_delta.x = (spos.x < epos.x ? 1 : -1);
-		turn_distance = abs(spos.x - epos.x);	/* how far to turn */
-		turn_spot = rnd(distance-1) + 1;		/* where turn starts */
-	}
-	else if (direc == 'r') {		/* setup for moving right */
+		turn_distance = abs(spos.x - epos.x); /* how far to turn */
+		turn_spot = rnd(distance - 1) + 1;    /* where turn starts */
+	} else if (direc == 'r') { /* setup for moving right */
 		rmt = rm + 1;
 		rpt = &rooms[rmt];
 		delta.x = 1;
@@ -185,19 +192,18 @@ int r1, r2;
 		spos.y = rpf->r_pos.y;
 		epos.x = rpt->r_pos.x;
 		epos.y = rpt->r_pos.y;
-		if (!rf_on(rpf,ISGONE)) {
-			spos.x += rpf->r_max.x-1;
-			spos.y += rnd(rpf->r_max.y-2)+1;
+		if (!rf_on(rpf, ISGONE)) {
+			spos.x += rpf->r_max.x - 1;
+			spos.y += rnd(rpf->r_max.y - 2) + 1;
 		}
-		if (!rf_on(rpt,ISGONE))
-			epos.y += rnd(rpt->r_max.y-2)+1;
+		if (!rf_on(rpt, ISGONE))
+			epos.y += rnd(rpt->r_max.y - 2) + 1;
 		distance = abs(spos.x - epos.x) - 1;
 		turn_delta.y = (spos.y < epos.y ? 1 : -1);
 		turn_delta.x = 0;
 		turn_distance = abs(spos.y - epos.y);
-		turn_spot = rnd(distance-1) + 1;
-	}
-	else {
+		turn_spot = rnd(distance - 1) + 1;
+	} else {
 		msg("Error in connection tables.");
 	}
 	/*
@@ -206,25 +212,23 @@ int r1, r2;
 	 * pointers to the connected room.
 	 */
 	rpf->r_ptr[rpf->r_nexits] = rpt;
-	if (rf_on(rpf,ISGONE)) {
+	if (rf_on(rpf, ISGONE)) {
 		cmov(spos);
-		addch('#');		/* gone "from" room */
-	}
-	else
-		door(rpf, &spos);	/* add the door */
+		addch('#'); /* gone "from" room */
+	} else
+		door(rpf, &spos); /* add the door */
 	rpt->r_ptr[rpt->r_nexits] = rpf;
-	if (rf_on(rpt,ISGONE)) {
+	if (rf_on(rpt, ISGONE)) {
 		cmov(epos);
-		addch('#');		/* gone "to" room */
-	}
-	else
-		door(rpt, &epos);	/* add door */
-	/*
+		addch('#'); /* gone "to" room */
+	} else
+		door(rpt, &epos); /* add door */
+				  /*
 	 * Get ready to move...
 	 */
 	curr.x = spos.x;
 	curr.y = spos.y;
-	while(distance > 0) {
+	while (distance > 0) {
 		/*
 		 * Move to new position
 		 */
@@ -234,7 +238,7 @@ int r1, r2;
 		 * Check if we are at the turn place, if so do the turn
 		 */
 		if (distance == turn_spot && turn_distance > 0) {
-			while(turn_distance-- > 0) {
+			while (turn_distance-- > 0) {
 				cmov(curr);
 				addch(PASSAGE);
 				curr.x += turn_delta.x;
@@ -269,7 +273,6 @@ struct coord *cp;
 	rm->r_exit[rm->r_nexits++] = *cp;
 }
 
-
 /*
  * add_pass:
  *	add the passages to the current window (wizard command)
@@ -281,6 +284,6 @@ add_pass()
 	for (y = 1; y < LINES - 3; y++)
 		for (x = 0; x < COLS; x++)
 			if ((ch = mvinch(y, x)) == PASSAGE || ch == DOOR ||
-			  ch == SECRETDOOR)
+			    ch == SECRETDOOR)
 				mvwaddch(cw, y, x, ch);
 }

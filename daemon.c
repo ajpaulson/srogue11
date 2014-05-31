@@ -23,21 +23,21 @@
 #define EMPTY 0
 #define DAEMON -1
 
-#define _X_ { 0, 0, 0, 0 }
+#define _X_                                                                    \
+	{                                                                      \
+		0, 0, 0, 0                                                     \
+	}
 
-struct delayed_action d_list[MAXDAEMONS] = {
-	_X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_,
-	_X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_,
-};
-
+struct delayed_action d_list[MAXDAEMONS] = { _X_, _X_, _X_, _X_, _X_, _X_, _X_,
+					     _X_, _X_, _X_, _X_, _X_, _X_, _X_,
+					     _X_, _X_, _X_, _X_, _X_, _X_, };
 
 /*
  * d_insert:
  *	Insert a function in the daemon list.
  */
-struct delayed_action *
-d_insert(func, arg, type, time)
-int arg, type, time, (*func)();
+struct delayed_action *d_insert(func, arg, type, time) int arg, type, time,
+    (*func)();
 {
 	reg struct delayed_action *dev;
 
@@ -74,9 +74,7 @@ struct delayed_action *wire;
  * find_slot:
  *	Find a particular slot in the table
  */
-struct delayed_action *
-find_slot(func)
-int (*func)();
+struct delayed_action *find_slot(func) int (*func)();
 {
 	reg struct delayed_action *dev;
 
@@ -167,13 +165,12 @@ do_fuses()
 	}
 }
 
-
 /*
  * activity:
  *	Show wizard number of demaons and memory blocks used
  */
 activity()
 {
-	msg("Daemons = %d : Memory Items = %d : Memory Used = %d",
-	    demoncnt,total,sbrk(0));
+	msg("Daemons = %d : Memory Items = %d : Memory Used = %d", demoncnt,
+	    total, sbrk(0));
 }

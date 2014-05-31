@@ -21,10 +21,10 @@
 #include <stdbool.h>
 #include "intern.h"
 
-#define FARAWAY	32767
-#define RDIST(a, b)	(DISTANCE((a)->y, (a)->x, (b).y, (b).x))
+#define FARAWAY 32767
+#define RDIST(a, b) (DISTANCE((a)->y, (a)->x, (b).y, (b).x))
 
-struct coord ch_ret;	/* Where chasing takes you */
+struct coord ch_ret; /* Where chasing takes you */
 
 /*
  * runners:
@@ -33,7 +33,7 @@ struct coord ch_ret;	/* Where chasing takes you */
 int runners()
 {
 	reg struct thing *tp;
-	reg struct linked_list *mon,*nextmon;
+	reg struct linked_list *mon, *nextmon;
 
 	for (mon = mlist; mon != NULL; mon = nextmon) {
 		tp = THINGPTR(mon);
@@ -54,13 +54,11 @@ int runners()
 	return 0;
 }
 
-
 /*
  * do_chase:
  *	Make one thing chase another.
  */
-int do_chase(mon)
-struct linked_list *mon;
+int do_chase(mon) struct linked_list *mon;
 {
 	reg struct thing *th;
 	reg struct room *rer, *ree, *rxx;
@@ -88,10 +86,10 @@ struct linked_list *mon;
 			if (cansee(th->t_pos.y, th->t_pos.x))
 				msg("The vampire vaporizes into thin air !");
 			killed(mon, FALSE);
-			return(-1);
+			return (-1);
 		}
 	}
-	ree = roomin(th->t_dest);	/* room of chasee */
+	ree = roomin(th->t_dest); /* room of chasee */
 	this = *th->t_dest;
 	/*
 	 * If the object of our desire is in a different
@@ -131,9 +129,12 @@ struct linked_list *mon;
 			if (!wound) {
 				link = TRUE;
 				if (ondoor)
-					rxx = ree;	/* if on door, run to heros room */
+					rxx = ree; /* if on door, run to heros
+						      room */
 				else
-					rxx = rer;	/* else to nearest door this room */
+					rxx =
+					    rer; /* else to nearest door this
+						    room */
 			}
 		}
 		/*
@@ -150,22 +151,23 @@ struct linked_list *mon;
 				if (mvinch(ex->y, ex->x) == SECRETDOOR)
 					continue;
 				gx += 1;
-				mdtd = abs(th->t_pos.y - ex->y) + abs(th->t_pos.x - ex->x);
-				hdtd = abs(hero.y - ex->y) + abs(hero.x - ex->x);
-				poss = hdtd - mdtd;				/* possible move */
+				mdtd = abs(th->t_pos.y - ex->y) +
+				       abs(th->t_pos.x - ex->x);
+				hdtd =
+				    abs(hero.y - ex->y) + abs(hero.x - ex->x);
+				poss = hdtd - mdtd; /* possible move */
 				if (poss > best) {
 					best = poss;
 					this = *ex;
-				}
-				else if (poss == best && hdtd > ghdtd) {
+				} else if (poss == best && hdtd > ghdtd) {
 					ghdtd = hdtd;
 					best = poss;
 					this = *ex;
 				}
 			}
-			runaway = FALSE;		/* go for target */
+			runaway = FALSE; /* go for target */
 			if (best < 1)
-				dofight = TRUE;		/* fight if we must */
+				dofight = TRUE; /* fight if we must */
 			mdtd = (gx <= 1 && best < 1);
 			if (ondoor || mdtd) {
 				this = hero;
@@ -186,8 +188,7 @@ struct linked_list *mon;
 				}
 			}
 		}
-	}
-	else if (DISTANCE(hero.y, hero.x, th->t_pos.y, th->t_pos.x) <= 3)
+	} else if (DISTANCE(hero.y, hero.x, th->t_pos.y, th->t_pos.x) <= 3)
 		dofight = TRUE;
 	/*
 	 * this now contains what we want to run to this time
@@ -195,25 +196,24 @@ struct linked_list *mon;
 	 * fight it or stop running.
 	 */
 	if (chase(th, &this, runaway, dofight) == FIGHT) {
-		return( attack(th) );
-	}
-	else if ((th->t_flags & (ISSTUCK | ISPARA)))
-		return(0);				/* if paralyzed or stuck */
+		return (attack(th));
+	} else if ((th->t_flags & (ISSTUCK | ISPARA)))
+		return (0); /* if paralyzed or stuck */
 	if ((trp = trap_at(ch_ret.y, ch_ret.x)) != NULL) {
 		ch = be_trapped(&ch_ret, th);
 		if (ch == GONER || nlmove) {
 			if (ch == GONER)
 				remove_monster(&th->t_pos, mon);
 			nlmove = FALSE;
-			return((ch == GONER) ? -1 : 0);
+			return ((ch == GONER) ? -1 : 0);
 		}
 	}
 	if (pl_off(ISBLIND))
-		mvwaddch(cw,th->t_pos.y,th->t_pos.x,th->t_oldch);
+		mvwaddch(cw, th->t_pos.y, th->t_pos.x, th->t_oldch);
 	sch = mvwinch(cw, ch_ret.y, ch_ret.x);
-	if (rer != NULL && rf_on(rer,ISDARK) && sch == FLOOR &&
-	  DISTANCE(ch_ret.y,ch_ret.x,th->t_pos.y,th->t_pos.x) < 3 &&
-	  pl_off(ISBLIND))
+	if (rer != NULL && rf_on(rer, ISDARK) && sch == FLOOR &&
+	    DISTANCE(ch_ret.y, ch_ret.x, th->t_pos.y, th->t_pos.x) < 3 &&
+	    pl_off(ISBLIND))
 		th->t_oldch = ' ';
 	else
 		th->t_oldch = sch;
@@ -239,15 +239,13 @@ struct linked_list *mon;
 	return CHASE;
 }
 
-
 /*
  * chase:
  *	Find the spot for the chaser to move closer to the
  *	chasee.  Returns TRUE if we want to keep on chasing
  *	later FALSE if we reach the goal.
  */
-int chase(tp, ee, runaway, dofight)
-struct thing *tp;
+int chase(tp, ee, runaway, dofight) struct thing *tp;
 struct coord *ee;
 bool runaway, dofight;
 {
@@ -269,8 +267,7 @@ bool runaway, dofight;
 			tp->t_flags &= ~ISHUH;
 		if (dist == 0)
 			ch = FIGHT;
-	}
-	else {
+	} else {
 		/*
 		 * Otherwise, find the the best spot to run to
 		 * in order to get to your goal.
@@ -296,16 +293,27 @@ bool runaway, dofight;
 
 					if (isatrap(ch)) {
 						trp = trap_at(y, x);
-						if (trp != NULL && off(*tp, ISHUH)) {
+						if (trp != NULL &&
+						    off(*tp, ISHUH)) {
 							/*
-							 * Dont run over found traps unless
-							 * the hero is standing on it. If confused,
-							 * then he can run into them.
+							 * Dont run over found
+							 * traps unless
+							 * the hero is standing
+							 * on it. If confused,
+							 * then he can run into
+							 * them.
 							 */
-							if (trp->tr_flags & ISFOUND) {
-								if (trp->tr_type == POOL && rnd(100) < 80)
+							if (trp->tr_flags &
+							    ISFOUND) {
+								if (trp->tr_type ==
+									POOL &&
+								    rnd(100) <
+									80)
 									continue;
-								else if (y != hero.y || x != hero.x)
+								else if (y !=
+									     hero.y ||
+									 x !=
+									     hero.x)
 									continue;
 							}
 						}
@@ -318,20 +326,26 @@ bool runaway, dofight;
 
 						item = find_obj(y, x);
 						if (item != NULL)
-							if ((OBJPTR(item))->o_which == S_SCARE) {
-								if (ce(hero, try))
-									onscare = TRUE;
+							if ((OBJPTR(item))
+								->o_which ==
+							    S_SCARE) {
+								if (ce(hero,
+								       try))
+									onscare =
+									    TRUE;
 								continue;
 							}
 					}
 					/*
-					 * Vampires will not run into a lit room.
+					 * Vampires will not run into a lit
+					 * room.
 					 */
 					if (tp->t_type == 'V') {
 						struct room *lr;
 
 						lr = roomin(&try);
-						if (lr != NULL && !rf_on(lr, ISDARK))
+						if (lr != NULL &&
+						    !rf_on(lr, ISDARK))
 							continue;
 					}
 					/*
@@ -339,28 +353,34 @@ bool runaway, dofight;
 					 */
 					if (y == hero.y && x == hero.x) {
 						if (dofight) {
-							ch_ret = try;	/* if fighting */
-							return FIGHT;	/* hit hero */
-						}
-						else
+							ch_ret =
+							    try; /* if fighting
+								    */
+							return FIGHT; /* hit
+									 hero */
+						} else
 							continue;
 					}
 					thisdist = DISTANCE(y, x, ee->y, ee->x);
 					if (thisdist <= 0) {
-						ch_ret = try;	/* got here but */
-						return CHASE;	/* dont fight */
+						ch_ret = try; /* got here but */
+						return CHASE; /* dont fight */
 					}
 					numsteps += 1;
 					if ((!runaway && thisdist < closest) ||
-						(runaway && thisdist > closest)) {
+					    (runaway && thisdist > closest)) {
 						/*
-						 * dont count the monsters last position as
-						 * the closest spot, unless running away and
+						 * dont count the monsters last
+						 * position as
+						 * the closest spot, unless
+						 * running away and
 						 * in the same room.
 						 */
-						if (!ce(try, tp->t_oldpos) || (runaway
-						  && player.t_room == tp->t_room
-						  && tp->t_room != NULL)) {
+						if (!ce(try, tp->t_oldpos) ||
+						    (runaway &&
+						     player.t_room ==
+							 tp->t_room &&
+						     tp->t_room != NULL)) {
 							closest = thisdist;
 							closecoord = try;
 						}
@@ -372,10 +392,11 @@ bool runaway, dofight;
 		 * If dead end, then go back from whence you came.
 		 * Otherwise, pick the closest of the remaining spots.
 		 */
-		if (numsteps > 0)			/* move to best spot */
+		if (numsteps > 0) /* move to best spot */
 			ch_ret = closecoord;
-		else {						/* nowhere to go */
-			if (DISTANCE(tp->t_pos.y, tp->t_pos.x, hero.y, hero.x) < 2)
+		else { /* nowhere to go */
+			if (DISTANCE(tp->t_pos.y, tp->t_pos.x, hero.y, hero.x) <
+			    2)
 				if (!onscare)
 					ch_ret = hero;
 		}
@@ -385,13 +406,11 @@ bool runaway, dofight;
 	return ch;
 }
 
-
 /*
  * runto:
  *	Set a monster running after something
  */
-void runto(runner, spot)
-struct coord *runner;
+void runto(runner, spot) struct coord *runner;
 struct coord *spot;
 {
 	reg struct linked_list *item;
@@ -407,15 +426,12 @@ struct coord *spot;
 	tp->t_flags &= ~ISHELD;
 }
 
-
 /*
  * roomin:
  *	Find what room some coordinates are in.
  *	NULL means they aren't in any room.
  */
-struct room *
-roomin(cp)
-struct coord *cp;
+struct room *roomin(cp) struct coord *cp;
 {
 	reg struct room *rp;
 
@@ -427,14 +443,11 @@ struct coord *cp;
 	return NULL;
 }
 
-
 /*
  * find_mons:
  *	Find the monster from his coordinates
  */
-struct linked_list *
-find_mons(y, x)
-int y, x;
+struct linked_list *find_mons(y, x) int y, x;
 {
 	reg struct linked_list *item;
 	reg struct thing *th;
@@ -447,28 +460,24 @@ int y, x;
 	return NULL;
 }
 
-
 /*
  * diag_ok:
  *	Check to see if the move is legal if it is diagonal
  */
-int diag_ok(sp, ep)
-struct coord *sp, *ep;
+int diag_ok(sp, ep) struct coord *sp, *ep;
 {
 	if (ep->x == sp->x || ep->y == sp->y)
 		return TRUE;
-	if (step_ok(mvinch(ep->y,sp->x)) && step_ok(mvinch(sp->y,ep->x)))
+	if (step_ok(mvinch(ep->y, sp->x)) && step_ok(mvinch(sp->y, ep->x)))
 		return TRUE;
 	return FALSE;
 }
-
 
 /*
  * cansee:
  *	returns true if the hero can see a certain coordinate.
  */
-int cansee(y, x)
-int y, x;
+int cansee(y, x) int y, x;
 {
 	reg struct room *rer;
 	struct coord tp;
@@ -485,7 +494,7 @@ int y, x;
 	tp.x = x;
 	rer = roomin(&tp);
 	if (rer != NULL && levtype != MAZELEV)
-		if (rer == player.t_room && !rf_on(rer,ISDARK))
+		if (rer == player.t_room && !rf_on(rer, ISDARK))
 			return TRUE;
 	return FALSE;
 }

@@ -34,16 +34,16 @@ char **argv;
 
 	strcpy(who, argv[0]);
 	if (argc < 3) {
-		fprintf(stderr,"Usage: %s VERSION c_files\n", who);
+		fprintf(stderr, "Usage: %s VERSION c_files\n", who);
 		exit(1);
 	}
 	if (strlen(argv[1]) != 3) {
-		fprintf(stderr,"%s: VERSION must be length 3\n", who);
+		fprintf(stderr, "%s: VERSION must be length 3\n", who);
 		exit(1);
 	}
 	time(&clock);
 	tp = localtime(&clock);
-	sprintf(ts,"%2d/%2d/%2d",tp->tm_mon + 1,tp->tm_mday,tp->tm_year);
+	sprintf(ts, "%2d/%2d/%2d", tp->tm_mon + 1, tp->tm_mday, tp->tm_year);
 	for (i = 2; i < argc; i++) {
 		ptr = strrchr(argv[i], '.');
 		/*
@@ -60,19 +60,18 @@ char **argv;
 	 */
 	fp = fopen("vers.c", "w");
 	if (fp == NULL) {
-		fprintf(stderr,"%s: cant write version.c file\n",who);
+		fprintf(stderr, "%s: cant write version.c file\n", who);
 		exit(1);
 	}
 	fprintf(fp, "/*\n * version number.\n */\n");
 	fprintf(fp, "char version[] = ");
-	fprintf(fp, "%c@(#)vers.c\t%3s\t(rdk)\t%s%c;\n", '"',
-		argv[1], ts, '"');
-	fprintf(fp, "char *release = \"%s (%s)\";\n", argv[1],ts);
+	fprintf(fp, "%c@(#)vers.c\t%3s\t(rdk)\t%s%c;\n", '"', argv[1], ts, '"');
+	fprintf(fp, "char *release = \"%s (%s)\";\n", argv[1], ts);
 	fclose(fp);
 	exit(0);
 }
 
-#define LINESIZ	132
+#define LINESIZ 132
 
 updvers(vers, fname)
 char *fname;
@@ -83,7 +82,7 @@ char *vers;
 	char line[LINESIZ];
 
 	if ((fp = fopen(fname, "r+")) == NULL) {
-		fprintf(stderr,"%s: Not able to update %s\n", who, fname);
+		fprintf(stderr, "%s: Not able to update %s\n", who, fname);
 		return 0;
 	}
 	while ((c = fgets(line, LINESIZ, fp)) != NULL) {
@@ -91,8 +90,9 @@ char *vers;
 			ptr = strchr(line, '\t');
 			if (ptr != NULL) {
 				fseek(fp, -strlen(line), 1);
-				sprintf(ptr, "\t%3s\t(rdk)\t%2d/%2d/%2d\n", vers,
-					tp->tm_mon + 1, tp->tm_mday, tp->tm_year);
+				sprintf(ptr, "\t%3s\t(rdk)\t%2d/%2d/%2d\n",
+					vers, tp->tm_mon + 1, tp->tm_mday,
+					tp->tm_year);
 				fprintf(fp, "%s", line);
 				break;
 			}

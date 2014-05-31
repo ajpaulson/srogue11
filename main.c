@@ -33,8 +33,8 @@
 #endif
 
 #ifdef BSD
-#define srand48(seed)	srandom(seed)
-#define lrand48()	random()
+#define srand48(seed) srandom(seed)
+#define lrand48() random()
 #include <sys/time.h>
 #endif
 
@@ -55,7 +55,7 @@ char **envp;
 	char *getpass(), *xcrypt(), *strrchr();
 	int lowtime;
 	time_t now;
-        char *roguehome();
+	char *roguehome();
 	char *homedir = roguehome();
 
 #ifdef __DJGPP__
@@ -63,7 +63,7 @@ char **envp;
 #endif
 
 	if (homedir == NULL)
-        	homedir = "";
+		homedir = "";
 
 	playuid = getuid();
 
@@ -78,17 +78,15 @@ char **envp;
 	strcpy(scorefile, homedir);
 
 	if (*scorefile)
-		strcat(scorefile,"/");
+		strcat(scorefile, "/");
 	strcat(scorefile, "srogue.scr");
 
-	if(argc >= 2 && strcmp(argv[1], "-s") == 0)
-	{
+	if (argc >= 2 && strcmp(argv[1], "-s") == 0) {
 		showtop(0);
 		exit(0);
 	}
 
-	if (argc >= 2 && author() && strcmp(argv[1],"-a") == 0)
-	{
+	if (argc >= 2 && author() && strcmp(argv[1], "-a") == 0) {
 		wizard = TRUE;
 		argv++;
 		argc--;
@@ -96,17 +94,15 @@ char **envp;
 
 	/* Check to see if he is a wizard */
 
-	if (argc >= 2 && strcmp(argv[1],"-w") == 0)
-	{
-		if (strcmp(PASSWD, xcrypt(getpass(wizstr),"mT")) == 0)
-		{
+	if (argc >= 2 && strcmp(argv[1], "-w") == 0) {
+		if (strcmp(PASSWD, xcrypt(getpass(wizstr), "mT")) == 0) {
 			wizard = TRUE;
 			argv++;
 			argc--;
 		}
 	}
 	time(&now);
-	lowtime = (int) now;
+	lowtime = (int)now;
 
 	/* get home and options from environment */
 
@@ -117,10 +113,10 @@ char **envp;
 	else
 		home[0] = '\0';
 
-        if (strcmp(home,"/") == 0)
+	if (strcmp(home, "/") == 0)
 		home[0] = '\0';
 
-        if ((strlen(home) > 0) && (home[strlen(home)-1] != '/'))
+	if ((strlen(home) > 0) && (home[strlen(home) - 1] != '/'))
 		strcat(home, "/");
 
 	strcpy(file_name, home);
@@ -129,14 +125,11 @@ char **envp;
 	if ((env = getenv("ROGUEOPTS")) != NULL)
 		parse_opts(env);
 
-	if (env == NULL || whoami[0] == '\0')
-	{
-		if((pw = getpwuid(playuid)) == NULL)
-		{
+	if (env == NULL || whoami[0] == '\0') {
+		if ((pw = getpwuid(playuid)) == NULL) {
 			printf("Say, who are you?\n");
 			exit(1);
-		}
-		else
+		} else
 			strucpy(whoami, pw->pw_name, strlen(pw->pw_name));
 	}
 
@@ -144,34 +137,35 @@ char **envp;
 		strcpy(fruit, "juicy-fruit");
 
 	if (argc == 2)
-		if(!restore(argv[1], envp)) /* NOTE: NEVER RETURNS */
+		if (!restore(argv[1], envp)) /* NOTE: NEVER RETURNS */
 			exit(1);
 
-	dnum = (wizard && getenv("SEED") != NULL ?
-		atoi(getenv("SEED")) : lowtime + getpid());
+	dnum = (wizard && getenv("SEED") != NULL ? atoi(getenv("SEED"))
+						 : lowtime + getpid());
 
-	if(wizard)
+	if (wizard)
 		printf("Hello %s, welcome to dungeon #%d\n", whoami, dnum);
 	else
-		printf("Hello %s, One moment while I open the door to the dungeon...\n", whoami);
+		printf("Hello %s, One moment while I open the door to the "
+		       "dungeon...\n",
+		       whoami);
 
 	fflush(stdout);
 	seed = dnum;
-	srand48(seed);			/* init rnd number gen */
+	srand48(seed); /* init rnd number gen */
 
-	signal(SIGINT, byebye);		/* just in case */
-	signal(SIGQUIT ,byebye);
+	signal(SIGINT, byebye); /* just in case */
+	signal(SIGQUIT, byebye);
 
 	init_everything();
 
 #ifdef __INTERIX
-        setenv("TERM","interix");
+	setenv("TERM", "interix");
 #endif
 
-	initscr();			/* Start up cursor package */
+	initscr(); /* Start up cursor package */
 
-	if (strcmp(termname(),"dumb") == 0)
-	{
+	if (strcmp(termname(), "dumb") == 0) {
 		endwin();
 		printf("ERROR in terminal parameters.\n");
 		printf("Check TERM in environment.\n");
@@ -184,17 +178,17 @@ char **envp;
 		byebye(1);
 	}
 
-	if ((whoami == NULL) || (*whoami == '\0') || (strcmp(whoami,"dosuser")==0))
-	{
+	if ((whoami == NULL) || (*whoami == '\0') ||
+	    (strcmp(whoami, "dosuser") == 0)) {
 		echo();
-		mvaddstr(23,2,"Rogue's Name? ");
-		wgetnstr(stdscr,whoami,MAXSTR);
+		mvaddstr(23, 2, "Rogue's Name? ");
+		wgetnstr(stdscr, whoami, MAXSTR);
 		noecho();
 	}
 
 	if ((whoami == NULL) || (*whoami == '\0'))
-		strcpy(whoami,"Rodney");
-	
+		strcpy(whoami, "Rodney");
+
 	setup();
 
 	/* Set up windows */
@@ -220,17 +214,22 @@ char **envp;
 
 	do {
 		wpt = pick_one(w_magic);
-		switch (wpt)
-		{
-			case MACE:	case SWORD:	case TWOSWORD:
-			case SPEAR:	case TRIDENT:	case SPETUM:
-			case BARDICHE:	case PIKE:	case BASWORD:
-			case HALBERD:
-				alldone = TRUE;
-			otherwise:
-				alldone = FALSE;
+		switch (wpt) {
+		case MACE:
+		case SWORD:
+		case TWOSWORD:
+		case SPEAR:
+		case TRIDENT:
+		case SPETUM:
+		case BARDICHE:
+		case PIKE:
+		case BASWORD:
+		case HALBERD:
+			alldone = TRUE;
+		otherwise:
+			alldone = FALSE;
 		}
-	} while(!alldone);
+	} while (!alldone);
 
 	item = new_thing(FALSE, WEAPON, wpt);
 	obj = OBJPTR(item);
@@ -268,7 +267,7 @@ char **envp;
 	obj->o_ac = armors[wpt].a_class - rnd(4);
 	cur_armor = obj;
 	add_pack(item, TRUE);
-	
+
 	/* Give him some food */
 
 	item = new_thing(FALSE, FOOD, 0);
@@ -277,13 +276,11 @@ char **envp;
 	playit();
 }
 
-
 /*
  * endit:
  *	Exit the program abnormally.
  */
-void
-endit(int a)
+void endit(int a)
 {
 	fatal("Ok, if you want to exit that badly, I'll have to allow it");
 }
@@ -299,7 +296,7 @@ char *s;
 	clear();
 	refresh();
 	endwin();
-	fprintf(stderr,"%s\n\r",s);
+	fprintf(stderr, "%s\n\r", s);
 	fflush(stderr);
 	byebye(2);
 }
@@ -310,16 +307,13 @@ char *s;
  *	to the way they were when he started
  */
 
-void
-byebye(how)
-int how;
+void byebye(how) int how;
 {
 	if (!isendwin())
 		endwin();
 
-	exit(how);		/* exit like flag says */
+	exit(how); /* exit like flag says */
 }
-
 
 /*
  * rnd:
@@ -348,11 +342,10 @@ int number, sides;
 {
 	reg int dtotal = 0;
 
-	while(number-- > 0)
-		dtotal += rnd(sides)+1;
+	while (number-- > 0)
+		dtotal += rnd(sides) + 1;
 	return dtotal;
 }
-
 
 /*
 ** setup: 	Setup signal catching functions
@@ -361,7 +354,7 @@ setup()
 {
 	signal(SIGHUP, auto_save);
 	signal(SIGINT, auto_save);
-	signal(SIGQUIT,  byebye);
+	signal(SIGQUIT, byebye);
 	signal(SIGILL, game_err);
 	signal(SIGTRAP, game_err);
 #ifdef SIGIOT
@@ -394,8 +387,7 @@ playit()
 {
 	reg char *opts;
 
-	tcgetattr(0,&terminal);
-
+	tcgetattr(0, &terminal);
 
 	/* parse environment declaration of options */
 
@@ -406,10 +398,9 @@ playit()
 	oldrp = roomin(&hero);
 	nochange = FALSE;
 	while (playing)
-		command();		/* Command execution */
+		command(); /* Command execution */
 	endit(0);
 }
-
 
 /*
 ** author:	See if a user is an author of the program
@@ -417,59 +408,54 @@ playit()
 author()
 {
 	switch (playuid) {
-		case 100:
-		case 0:
-			return TRUE;
-		default:
-			return FALSE;
+	case 100:
+	case 0:
+		return TRUE;
+	default:
+		return FALSE;
 	}
 }
 
-int
-directory_exists(char *dirname)
+int directory_exists(char *dirname)
 {
-    struct stat sb;
+	struct stat sb;
 
-    if (stat(dirname, &sb) == 0) /* path exists */
-        return (S_ISDIR (sb.st_mode));
+	if (stat(dirname, &sb) == 0) /* path exists */
+		return (S_ISDIR(sb.st_mode));
 
-    return(0);
+	return (0);
 }
 
-char *
-roguehome()
+char *roguehome()
 {
-    static char path[1024];
-    char *end,*home;
+	static char path[1024];
+	char *end, *home;
 
-    if ( (home = getenv("ROGUEHOME")) != NULL)
-    {
-        if (*home)
-        {
-            strncpy(path, home, PATH_MAX - 20);
+	if ((home = getenv("ROGUEHOME")) != NULL) {
+		if (*home) {
+			strncpy(path, home, PATH_MAX - 20);
 
-            end = &path[strlen(path)-1];
+			end = &path[strlen(path) - 1];
 
+			while ((end >= path) &&
+			       ((*end == '/') || (*end == '\\')))
+				*end-- = '\0';
 
-            while( (end >= path) && ((*end == '/') || (*end == '\\')))
-                *end-- = '\0';
+			if (directory_exists(path))
+				return (path);
+		}
+	}
 
-            if (directory_exists(path))
-                return(path);
-        }
-    }
+	if (directory_exists("/var/games/roguelike"))
+		return ("/var/games/roguelike");
+	if (directory_exists("/var/lib/roguelike"))
+		return ("/var/lib/roguelike");
+	if (directory_exists("/var/roguelike"))
+		return ("/var/roguelike");
+	if (directory_exists("/usr/games/lib"))
+		return ("/usr/games/lib");
+	if (directory_exists("/games/roguelik"))
+		return ("/games/roguelik");
 
-    if (directory_exists("/var/games/roguelike"))
-        return("/var/games/roguelike");
-    if (directory_exists("/var/lib/roguelike"))
-        return("/var/lib/roguelike");
-    if (directory_exists("/var/roguelike"))
-        return("/var/roguelike");
-    if (directory_exists("/usr/games/lib"))
-        return("/usr/games/lib");
-    if (directory_exists("/games/roguelik"))
-        return("/games/roguelik");
-
-    return(NULL);
+	return (NULL);
 }
-

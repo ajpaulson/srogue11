@@ -21,7 +21,7 @@
 
 /*
  * new_level:
- *	Dig and draw a new level 
+ *	Dig and draw a new level
  */
 new_level(ltype)
 int ltype;
@@ -41,21 +41,21 @@ int ltype;
 	isfight = FALSE;
 	levtype = ltype;
 
-	free_list(mlist);			/* free monster list */
+	free_list(mlist); /* free monster list */
 
 	if (levtype == POSTLEV)
 		do_post();
 	else {
-		lev_mon();			/* fill in monster list */
+		lev_mon(); /* fill in monster list */
 
 		if (levtype == MAZELEV)
 			do_maze();
-		else {				/* normal levels */
-			do_rooms();		/* Draw rooms */
-			do_passages();		/* Draw passages */
+		else {		       /* normal levels */
+			do_rooms();    /* Draw rooms */
+			do_passages(); /* Draw passages */
 		}
 		no_food++;
-		put_things();			/* Place objects (if any) */
+		put_things(); /* Place objects (if any) */
 	}
 	/*
 	 * Place the staircase down.
@@ -64,56 +64,50 @@ int ltype;
 	mvaddch(stairs.y, stairs.x, STAIRS);
 	ntraps = 0;
 
-	if (levtype == NORMLEV)
-	{
+	if (levtype == NORMLEV) {
 		struct trap *trp, *maxtrp;
 
 		/* Place the traps for normal levels only */
 
-		if (rnd(10) < level)
-		{
+		if (rnd(10) < level) {
 			ntraps = rnd(level / 4) + 1;
 
 			if (ntraps > MAXTRAPS)
 				ntraps = MAXTRAPS;
 
 			maxtrp = &traps[ntraps];
-			for (trp = &traps[0]; trp < maxtrp; trp++)
-			{
-again:
-				switch(rnd(TYPETRAPS + 1))
-				{
-					case 0:
-						if (rnd(100) > 25)
-							goto again;
-						else
-							ch = POST;
+			for (trp = &traps[0]; trp < maxtrp; trp++) {
+			again:
+				switch (rnd(TYPETRAPS + 1)) {
+				case 0:
+					if (rnd(100) > 25)
+						goto again;
+					else
+						ch = POST;
 
-					when 1: ch = TRAPDOOR;
-					when 2: ch = BEARTRAP;
-					when 3: ch = SLEEPTRAP;
-					when 4: ch = ARROWTRAP;
-					when 5: ch = TELTRAP;
-					when 6: ch = DARTTRAP;
-					when 7: ch = MAZETRAP;
-					when 8:
-					case 9:
-						if (rnd(100) > 80)
-							goto again;
-						else
-							ch = POOL;
+					when 1 : ch = TRAPDOOR;
+					when 2 : ch = BEARTRAP;
+					when 3 : ch = SLEEPTRAP;
+					when 4 : ch = ARROWTRAP;
+					when 5 : ch = TELTRAP;
+					when 6 : ch = DARTTRAP;
+					when 7 : ch = MAZETRAP;
+					when 8
+					    : case 9
+					      : if (rnd(100) > 80) goto again;
+					else ch = POOL;
 				}
 				trp->tr_flags = 0;
 				traploc = *rnd_pos(&rooms[rnd_room()]);
-				mvaddch(traploc.y,traploc.x,ch);
+				mvaddch(traploc.y, traploc.x, ch);
 				trp->tr_type = ch;
 				trp->tr_pos = traploc;
 
 				if (ch == POOL || ch == POST)
 					trp->tr_flags |= ISFOUND;
 
-				if (ch==TELTRAP && rnd(100)<20 && trp<maxtrp-1)
-				{
+				if (ch == TELTRAP && rnd(100) < 20 &&
+				    trp < maxtrp - 1) {
 					struct coord newloc;
 
 					newloc = *rnd_pos(&rooms[rnd_room()]);
@@ -123,25 +117,23 @@ again:
 					trp->tr_type = TELTRAP;
 					trp->tr_pos = newloc;
 					mvaddch(newloc.y, newloc.x, TELTRAP);
-				}
-				else
+				} else
 					trp->tr_goto = rndspot;
 			}
 		}
 	}
-	do
-	{
+	do {
 		rp = &rooms[rnd_room()];
 		hero = *rnd_pos(rp);
-	} while(levtype==MAZELEV&&DISTANCE(hero.y,hero.x,stairs.y,stairs.x)<10);
+	} while (levtype == MAZELEV &&
+		 DISTANCE(hero.y, hero.x, stairs.y, stairs.x) < 10);
 
 	player.t_room = rp;
 	player.t_oldch = mvinch(hero.y, hero.x);
 	light(&hero);
-	mvwaddch(cw,hero.y,hero.x,PLAYER);
+	mvwaddch(cw, hero.y, hero.x, PLAYER);
 	nochange = FALSE;
 }
-
 
 /*
  * rnd_room:
@@ -153,15 +145,13 @@ rnd_room()
 
 	if (levtype != NORMLEV)
 		rm = 0;
-	else
-	{
+	else {
 		do {
 			rm = rnd(MAXROOMS);
-		} while (rf_on(&rooms[rm],ISGONE));
+		} while (rf_on(&rooms[rm], ISGONE));
 	}
 	return rm;
 }
-
 
 /*
  * put_things:
@@ -186,10 +176,8 @@ put_things()
 
 	/* Do MAXOBJ attempts to put things on a level */
 
-	for (i = 0; i < MAXOBJ; i++)
-	{
-		if (rnd(100) < 40)
-		{
+	for (i = 0; i < MAXOBJ; i++) {
+		if (rnd(100) < 40) {
 			item = new_thing(FALSE, ANYTHING);
 			attach(lvl_obj, item);
 			cur = OBJPTR(item);
@@ -199,7 +187,8 @@ put_things()
 				rm = rnd_room();
 				if (++cnt > 500)
 					break;
-			} while(rf_on(&rooms[rm],ISTREAS) && levtype!=MAZELEV);
+			} while (rf_on(&rooms[rm], ISTREAS) &&
+				 levtype != MAZELEV);
 
 			tp = *rnd_pos(&rooms[rm]);
 			mvaddch(tp.y, tp.x, cur->o_type);
@@ -210,8 +199,7 @@ put_things()
 	 * If he is really deep in the dungeon and he hasn't found the
 	 * amulet yet, put it somewhere on the ground
 	 */
-	if (level >= AMLEVEL && !amulet && rnd(100) < 70)
-	{
+	if (level >= AMLEVEL && !amulet && rnd(100) < 70) {
 		item = new_thing(FALSE, AMULET, 0);
 		attach(lvl_obj, item);
 		cur = OBJPTR(item);
@@ -221,15 +209,14 @@ put_things()
 		cur->o_pos = tp;
 	}
 
-	for (i = 0; i < MAXROOMS; i++)		/* loop through all */
+	for (i = 0; i < MAXROOMS; i++) /* loop through all */
 	{
-		if (rf_on(&rooms[i],ISTREAS))	/* treasure rooms */
+		if (rf_on(&rooms[i], ISTREAS)) /* treasure rooms */
 		{
 			int numthgs, isfood;
 
 			numthgs = rnd(level / 3) + 6;
-			while (numthgs-- >= 0)
-			{
+			while (numthgs-- >= 0) {
 				isfood = TRUE;
 				do {
 					item = new_thing(TRUE, ANYTHING);

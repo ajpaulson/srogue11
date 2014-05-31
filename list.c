@@ -44,12 +44,11 @@ struct linked_list **list, *item;
 _attach(list, item)
 struct linked_list **list, *item;
 {
-	if (*list != NULL) 	{
+	if (*list != NULL) {
 		item->l_next = *list;
 		(*list)->l_prev = item;
 		item->l_prev = NULL;
-	}
-	else 	{
+	} else {
 		item->l_next = NULL;
 		item->l_prev = NULL;
 	}
@@ -85,26 +84,22 @@ struct linked_list *item;
 /*
  * new_item:	get a new item with a specified size
  */
-struct linked_list *
-new_item(size)
-int size;
+struct linked_list *new_item(size) int size;
 {
 	register struct linked_list *item;
 
-	item = (struct linked_list *) new(sizeof *item);
-	item->l_data = new(size);
+	item = (struct linked_list *)new (sizeof *item);
+	item->l_data = new (size);
 	item->l_next = item->l_prev = NULL;
 	return item;
 }
 
-char *
-new(size)
-int size;
+char *new (size) int size;
 {
 	register char *space = ALLOC(size);
 
 	if (space == NULL) {
-		sprintf(prbuf,"Rogue ran out of memory (%d).",sbrk(0));
+		sprintf(prbuf, "Rogue ran out of memory (%d).", sbrk(0));
 		fatal(prbuf);
 	}
 	total++;
