@@ -91,7 +91,7 @@ endmsg()
  */
 doadd(char *fmt, va_list ap)
 {
-	vnsprintf(&msgbuf[newpos], fmt, ap);
+	vsnprintf(&msgbuf[newpos], fmt, ap);
 	newpos = strlen(msgbuf);
 }
 

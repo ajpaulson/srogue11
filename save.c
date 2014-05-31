@@ -14,7 +14,7 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
-#include <bits/fcntl-linux.h>
+#include <fcntl.h>
 #include <curses.h>
 #include <fcntl.h>
 #include <signal.h>
