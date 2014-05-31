@@ -51,3 +51,5 @@ cscope.po.out
 
 # Logs
 *.log
+
+compile_commands.json
