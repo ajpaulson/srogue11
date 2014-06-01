@@ -67,7 +67,7 @@ int fromfuse;
 swander(fromfuse)
 int fromfuse;
 {
-	daemon(rollwand, TRUE, BEFORE);
+	srdaemon(rollwand, TRUE, BEFORE);
 }
 
 /*

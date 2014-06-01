@@ -65,7 +65,7 @@ int close();
 int conn();
 int create_obj();
 int cur_null();
-void daemon();
+void srdaemon();
 int dbotline();
 int dead_end();
 int death();
