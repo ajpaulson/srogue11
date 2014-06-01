@@ -84,7 +84,7 @@ char encstr[] = "\354\251\243\332A\201|\301\321p\210\251\327\"\257\365t\341%"
 /*
  * perform an encrypted write
  */
-encwrite(starta, size, outf)
+void encwrite(starta, size, outf)
 register void *starta;
 unsigned int size;
 register FILE *outf;
@@ -105,7 +105,7 @@ register FILE *outf;
 /*
  * perform an encrypted read
  */
-encread(starta, size, inf)
+int encread(starta, size, inf)
 register void *starta;
 unsigned int size;
 register int inf;
@@ -1508,7 +1508,7 @@ int rs_write_traps(FILE *savef, struct trap *trap, int count)
     }
 }
 
-rs_read_traps(int inf, struct trap *trap, int count)
+int rs_read_traps(int inf, struct trap *trap, int count)
 {
     int id = 0, value = 0, n = 0;
 
@@ -1832,7 +1832,7 @@ int rs_read_thing(int inf, struct thing *t)
     return (READSTAT);
 }
 
-rs_fix_monster_list(list)
+void rs_fix_monster_list(list)
 struct linked_list *list;
 {
     struct linked_list *item;
@@ -1915,7 +1915,7 @@ int rs_write_object_reference(FILE *savef, struct linked_list *list,
     return (WRITESTAT);
 }
 
-rs_read_object_reference(int inf, struct linked_list *list,
+int rs_read_object_reference(int inf, struct linked_list *list,
                          struct object **item)
 {
     int i;
@@ -2159,7 +2159,7 @@ int rs_save_file(FILE *savef)
     return (WRITESTAT);
 }
 
-rs_restore_file(int inf)
+int rs_restore_file(int inf)
 {
     bool junk;
     int endian = 0x01020304;

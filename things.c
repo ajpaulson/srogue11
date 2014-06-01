@@ -190,7 +190,7 @@ bool drop;
  * money:
  *	Add to characters purse
  */
-money()
+void money()
 {
     reg struct room *rp;
     reg struct linked_list *item;
@@ -223,7 +223,7 @@ money()
  * drop:
  *	put something down
  */
-drop(item)
+bool drop(item)
 struct linked_list *item;
 {
     reg char ch;
@@ -298,7 +298,7 @@ struct linked_list *item;
  * dropcheck:
  *	Do special checks for dropping or unweilding|unwearing|unringing
  */
-dropcheck(op)
+bool dropcheck(op)
 struct object *op;
 {
     if (op == NULL)
@@ -422,7 +422,7 @@ bool treas;
  * basic_init:
  *	Set all params of an object to the basic values.
  */
-basic_init(cur)
+void basic_init(cur)
 struct object *cur;
 {
     cur->o_ac = 11;
@@ -441,7 +441,7 @@ struct object *cur;
  * extras:
  *	Return the number of extra items to be created
  */
-extras()
+int extras()
 {
     reg int i;
 
@@ -458,7 +458,7 @@ extras()
  * pick_one:
  * 	Pick an item out of a list of nitems possible magic items
  */
-pick_one(mag)
+int pick_one(mag)
 struct magic_item *mag;
 {
     reg struct magic_item *start;

@@ -27,7 +27,7 @@
  * read_scroll:
  *	Let the hero read a scroll
  */
-read_scroll()
+int read_scroll()
 {
     reg struct object *obj;
     reg struct linked_list *item;
@@ -511,4 +511,5 @@ read_scroll()
             strcpy(s_guess[wh], buf);
         }
     }
+    return 0;
 }

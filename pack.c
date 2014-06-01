@@ -29,7 +29,7 @@
  * is non-null use it as the linked_list pointer instead of
  * getting it off the ground.
  */
-add_pack(item, silent)
+bool add_pack(item, silent)
 struct linked_list *item;
 bool silent;
 {
@@ -218,7 +218,7 @@ picked_up:
  * inventory:
  *	Show what items are in a specific list
  */
-inventory(list, type)
+bool inventory(list, type)
 struct linked_list *list;
 int type;
 {
@@ -260,7 +260,7 @@ int type;
  * pick_up:
  *	Add something to characters pack.
  */
-pick_up(ch)
+void pick_up(ch)
 char ch;
 {
     nochange = FALSE;
@@ -283,7 +283,7 @@ char ch;
  * picky_inven:
  *	Allow player to inventory a single item
  */
-picky_inven()
+int picky_inven()
 {
     reg struct linked_list *item;
     reg char ch, mch;
@@ -314,6 +314,7 @@ picky_inven()
             ch -= 1;
         msg("Range is 'a' to '%c'", ch);
     }
+    return 0;
 }
 
 /*
@@ -476,7 +477,7 @@ char pack_char(obj) struct object *obj;
  * idenpack:
  *	Identify all the items in the pack
  */
-idenpack()
+void idenpack()
 {
     reg struct linked_list *pc;
 
@@ -488,7 +489,7 @@ idenpack()
  * del_pack:
  *	Take something out of the hero's pack
  */
-del_pack(what)
+void del_pack(what)
 struct linked_list *what;
 {
     reg struct object *op;
@@ -511,7 +512,7 @@ struct linked_list *what;
  * cur_null:
  *	This updates cur_weapon etc for dropping things
  */
-cur_null(op)
+void cur_null(op)
 struct object *op;
 {
     if (op == cur_weapon)

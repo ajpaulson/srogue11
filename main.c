@@ -45,7 +45,7 @@
 
 struct termios terminal;
 
-main(argc, argv, envp)
+int main(argc, argv, envp)
 char **argv;
 char **envp;
 {
@@ -290,6 +290,7 @@ char **envp;
     add_pack(item, TRUE);
 
     playit();
+    return 0;
 }
 
 /*
@@ -306,7 +307,7 @@ void endit(int a)
  *	Exit the program, printing a message.
  */
 
-fatal(s)
+void fatal(s)
 char *s;
 {
     clear();
@@ -335,7 +336,7 @@ void byebye(how) int how;
  * rnd:
  *	Pick a very random number.
  */
-rnd(range)
+int rnd(range)
 int range;
 {
     reg int wh;
@@ -354,7 +355,7 @@ int range;
  * roll:
  *	roll a number of dice
  */
-roll(number, sides)
+int roll(number, sides)
 int number, sides;
 {
     reg int dtotal = 0;
@@ -367,7 +368,7 @@ int number, sides;
 /*
 ** setup: 	Setup signal catching functions
 */
-setup()
+void setup()
 {
     signal(SIGHUP, auto_save);
     signal(SIGINT, auto_save);
@@ -400,7 +401,7 @@ setup()
 **		refreshing things and looking at the proper times.
 */
 
-playit()
+void playit()
 {
     reg char *opts;
 
@@ -422,7 +423,7 @@ playit()
 /*
 ** author:	See if a user is an author of the program
 */
-author()
+bool author()
 {
     switch (playuid)
     {

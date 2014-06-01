@@ -27,20 +27,21 @@
  * waste_time:
  *	Do nothing but let other things happen
  */
-waste_time()
+int waste_time()
 {
     if (inwhgt) /* if from wghtchk, then done */
         return 0;
     do_daemons(BEFORE);
     do_daemons(AFTER);
     do_fuses();
+    return 0;
 }
 
 /*
  * getindex:
  *	Convert a type into an index for the things structures
  */
-getindex(what)
+int getindex(what)
 char what;
 {
     int index = -1;
@@ -90,7 +91,7 @@ char *tr_name(ch) char ch;
  * Look:
  *	A quick glance all around the player
  */
-look(wakeup)
+void look(wakeup)
 bool wakeup;
 {
     reg char ch;
@@ -249,7 +250,7 @@ struct linked_list *find_obj(y, x) int y, x;
  * eat:
  *	Let the hero eat some food.
  */
-eat()
+int eat()
 {
     reg struct linked_list *item;
     reg struct object *obj;
@@ -297,13 +298,14 @@ eat()
     if (obj == cur_weapon)
         cur_weapon = NULL;
     del_pack(item); /* get rid of the food */
+    return 0;
 }
 
 /*
  * aggravate:
  *	aggravate all the monsters on this level
  */
-aggravate()
+void aggravate()
 {
     reg struct linked_list *mi;
 
@@ -334,7 +336,7 @@ char *vowelstr(str) char *str;
  * is_current:
  *	See if the object is one of the currently used items
  */
-is_current(obj)
+bool is_current(obj)
 struct object *obj;
 {
     if (obj == NULL)
@@ -352,7 +354,7 @@ struct object *obj;
  * get_dir:
  *	Set up the direction coordinates
  */
-get_dir()
+bool get_dir()
 {
     reg char *prompt;
     reg bool gotit;
@@ -405,7 +407,7 @@ get_dir()
  * initfood:
  *	Set up stuff for a food-type object
  */
-initfood(what)
+void initfood(what)
 struct object *what;
 {
     what->o_type = FOOD;

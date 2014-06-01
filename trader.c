@@ -26,7 +26,7 @@
  * do_post:
  *	Put a trading post room and stuff on the screen
  */
-do_post()
+void do_post()
 {
     struct coord tp;
     reg int i;
@@ -74,7 +74,7 @@ do_post()
  * price_it:
  *	Price the object that the hero stands on
  */
-price_it()
+bool price_it()
 {
     static char *bargain[] = { "great bargain",    "quality product",
                                "exceptional find", };
@@ -106,7 +106,7 @@ price_it()
  * buy_it:
  *	Buy the item on which the hero stands
  */
-buy_it()
+int buy_it()
 {
     reg int wh;
 
@@ -158,13 +158,14 @@ buy_it()
         curprice = NOTPRICED;
         curpurch[0] = '\0';
     }
+    return 0;
 }
 
 /*
  * sell_it:
  *	Sell an item to the trading post
  */
-sell_it()
+int sell_it()
 {
     reg struct linked_list *item;
     reg struct object *obj;
@@ -211,13 +212,14 @@ sell_it()
         obj->o_count = wo;
         trans_line(); /* show remaining deals */
     }
+    return 0;
 }
 
 /*
  * open_market:
  *	Retruns TRUE when ok do to transacting
  */
-open_market()
+bool open_market()
 {
     if (trader >= MAXPURCH)
     {
@@ -232,7 +234,7 @@ open_market()
  * get_worth:
  *	Calculate an objects worth in gold
  */
-get_worth(obj)
+int get_worth(obj)
 struct object *obj;
 {
     reg int worth, wh;
@@ -288,7 +290,7 @@ struct object *obj;
  * trans_line:
  *	Show how many transactions the hero has left
  */
-trans_line()
+void trans_line()
 {
     sprintf(prbuf, "You have %d transactions remaining.", MAXPURCH - trader);
     mvwaddstr(cw, LINES - 4, 0, prbuf);
@@ -298,7 +300,7 @@ trans_line()
  * domaze:
  *	Draw the maze on this level.
  */
-do_maze()
+void do_maze()
 {
     struct coord tp;
     reg int i, least;
@@ -356,7 +358,7 @@ int tlines, tcols;
  * draw_maze:
  *	Generate and draw the maze on the screen
  */
-draw_maze()
+void draw_maze()
 {
     reg int i, j, more;
     reg char *ptr;
@@ -420,7 +422,7 @@ char *foffset(y, x) int y, x;
  * findcells:
  *	Figure out cells to open up
  */
-findcells(y, x)
+int findcells(y, x)
 int x, y;
 {
     reg int rtpos, i;
@@ -472,13 +474,14 @@ int x, y;
         rmwall(mborder.conn[i].y_pos, mborder.conn[i].x_pos, y, x);
         return rtpos;
     }
+    return 0;
 }
 
 /*
  * rmwall:
  *	Removes appropriate walls from the maze
  */
-rmwall(newy, newx, oldy, oldx)
+void rmwall(newy, newx, oldy, oldx)
 int newy, newx, oldy, oldx;
 {
     reg int xdif, ydif;
@@ -494,7 +497,7 @@ int newy, newx, oldy, oldx;
  * crankout:
  *	Does actual drawing of maze to window
  */
-crankout()
+void crankout()
 {
     reg int x, y, i;
 

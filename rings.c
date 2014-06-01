@@ -27,7 +27,7 @@
  * ring_on:
  *	Put on a ring
  */
-ring_on()
+int ring_on()
 {
     reg struct object *obj;
     reg struct linked_list *item;
@@ -143,13 +143,14 @@ ring_on()
     msg("Now wearing %s", inv_name(obj, TRUE));
     ringfood = ring_eat();
     nochange = FALSE;
+    return 0;
 }
 
 /*
  * ring_off:
  *	Take off some ring
  */
-ring_off()
+int ring_off()
 {
     reg int ring;
     reg struct object *obj;
@@ -178,13 +179,14 @@ ring_off()
         nochange = FALSE;
         ringfood = ring_eat();
     }
+    return 0;
 }
 
 /*
  * toss_ring:
  *	Remove a ring and stop its effects
  */
-toss_ring(what)
+void toss_ring(what)
 struct object *what;
 {
     bool okring;
@@ -226,7 +228,7 @@ struct object *what;
  * gethand:
  *	Get a hand to wear a ring
  */
-gethand(isrmv)
+int gethand(isrmv)
 bool isrmv;
 {
     reg int c;
@@ -274,13 +276,14 @@ bool isrmv;
         mpos = 0;
         msg("L or R");
     }
+    return 0;
 }
 
 /*
  * ring_eat:
  *	How much food do the hero's rings use up?
  */
-ring_eat()
+int ring_eat()
 {
     reg struct object *lb;
     reg int hand, i, howmuch;
@@ -352,7 +355,7 @@ char *ring_num(what) struct object *what;
  * magring:
  *	Returns TRUE if a ring has a number, i.e. +2
  */
-magring(what)
+bool magring(what)
 struct object *what;
 {
     switch (what->o_which)
@@ -376,7 +379,7 @@ struct object *what;
  * ringabil:
  *	Compute effective abilities due to rings
  */
-ringabil()
+void ringabil()
 {
     reg struct object *rptr;
     reg int i;
@@ -402,7 +405,7 @@ ringabil()
  * init_ring:
  *	Initialize a ring
  */
-init_ring(what, fromwiz)
+void init_ring(what, fromwiz)
 struct object *what;
 bool fromwiz; /* TRUE when from wizards */
 {
@@ -453,7 +456,7 @@ bool fromwiz; /* TRUE when from wizards */
  * ringex:
  *	Get extra gains from rings
  */
-ringex(rtype)
+int ringex(rtype)
 int rtype;
 {
     reg int howmuch = 0;
@@ -469,7 +472,7 @@ int rtype;
  * iswearing:
  *	Returns TRUE when the hero is wearing a certain type of ring
  */
-iswearing(ring)
+bool iswearing(ring)
 int ring;
 {
     return (isring(LEFT, ring) || isring(RIGHT, ring));
@@ -479,7 +482,7 @@ int ring;
  * isring:
  *	Returns TRUE if a ring is on a hand
  */
-isring(hand, ring)
+bool isring(hand, ring)
 int hand, ring;
 {
     if (cur_ring[hand] != NULL && cur_ring[hand]->o_which == ring)

@@ -22,7 +22,7 @@
  * displevl:
  *	Display detailed level for wizard and scroll
  */
-displevl()
+void displevl()
 {
     reg char ch, mch;
     reg int i, j;
@@ -85,7 +85,7 @@ displevl()
  * dispmons:
  *	Show monsters for wizard and potion
  */
-dispmons()
+void dispmons()
 {
     reg int ch, y, x;
     reg struct thing *it;
@@ -108,7 +108,7 @@ dispmons()
  * winat:
  *	Get whatever character is at a location on the screen
  */
-winat(y, x)
+char winat(y, x)
 int x, y;
 {
     reg char ch;
@@ -124,7 +124,7 @@ int x, y;
  * cordok:
  *	Returns TRUE if coordinate is on usable screen
  */
-cordok(y, x)
+bool cordok(y, x)
 int y, x;
 {
     if (x < 0 || y < 0 || x >= COLS || y >= LINES - 1)
@@ -136,7 +136,7 @@ int y, x;
  * pl_on:
  *	Returns TRUE if the player's flag is set
  */
-pl_on(what)
+int pl_on(what)
 long what;
 {
     return (player.t_flags & what);
@@ -146,7 +146,7 @@ long what;
  * pl_off:
  *	Returns TRUE when player's flag is reset
  */
-pl_off(what)
+int pl_off(what)
 long what;
 {
     return (!(player.t_flags & what));
@@ -156,7 +156,7 @@ long what;
  * o_on:
  *	Returns TRUE in the objects flag is set
  */
-o_on(what, bit)
+int o_on(what, bit)
 struct object *what;
 long bit;
 {
@@ -172,7 +172,7 @@ long bit;
  * o_off:
  *	Returns TRUE is the objects flag is reset
  */
-o_off(what, bit)
+int o_off(what, bit)
 struct object *what;
 long bit;
 {
@@ -188,7 +188,7 @@ long bit;
  * setoflg:
  *	Set the specified flag for the object
  */
-setoflg(what, bit)
+void setoflg(what, bit)
 struct object *what;
 long bit;
 {
@@ -199,7 +199,7 @@ long bit;
  * resoflg:
  *	Reset the specified flag for the object
  */
-resoflg(what, bit)
+void resoflg(what, bit)
 struct object *what;
 long bit;
 {

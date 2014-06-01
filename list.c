@@ -28,7 +28,7 @@
  *	Takes an item out of whatever linked list it might be in
  */
 
-_detach(list, item)
+void _detach(list, item)
 struct linked_list **list, *item;
 {
     if (*list == item)
@@ -44,7 +44,7 @@ struct linked_list **list, *item;
 /*
  * _attach:	add an item to the head of a list
  */
-_attach(list, item)
+void _attach(list, item)
 struct linked_list **list, *item;
 {
     if (*list != NULL)
@@ -64,7 +64,7 @@ struct linked_list **list, *item;
 /*
  * _free_list:	Throw the whole blamed thing away
  */
-_free_list(ptr)
+void _free_list(ptr)
 struct linked_list **ptr;
 {
     register struct linked_list *item;
@@ -80,7 +80,7 @@ struct linked_list **ptr;
 /*
  * discard:  free up an item
  */
-discard(item)
+void discard(item)
 struct linked_list *item;
 {
     total -= 2;

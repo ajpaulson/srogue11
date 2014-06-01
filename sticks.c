@@ -29,7 +29,7 @@
  * fix_stick:
  *	Init a stick for the hero
  */
-fix_stick(cur)
+void fix_stick(cur)
 struct object *cur;
 {
     struct rod *rd;
@@ -72,7 +72,7 @@ struct object *cur;
  * do_zap:
  *	Zap a stick at something
  */
-do_zap(gotdir)
+int do_zap(gotdir)
 bool gotdir;
 {
     reg struct linked_list *item;
@@ -591,13 +591,14 @@ bool gotdir;
         msg("What a bizarre schtick!");
     }
     obj->o_charges--;
+    return 0;
 }
 
 /*
  * drain:
  *	Do drain hit points from player stick
  */
-drain(ymin, ymax, xmin, xmax)
+int drain(ymin, ymax, xmin, xmax)
 int ymin, ymax, xmin, xmax;
 {
     reg int i, j, cnt;
@@ -637,6 +638,7 @@ int ymin, ymax, xmin, xmax;
             }
         }
     }
+    return 0;
 }
 
 /*

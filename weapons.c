@@ -27,7 +27,7 @@
  * missile:
  *	Fire a missile in a given direction
  */
-missile(ydelta, xdelta)
+int missile(ydelta, xdelta)
 int ydelta, xdelta;
 {
     reg struct object *obj, *nowwield;
@@ -87,13 +87,14 @@ int ydelta, xdelta;
         !hit_monster(&obj->o_pos, obj))
         fall(item, TRUE);
     mvwaddch(cw, hero.y, hero.x, PLAYER);
+    return 0;
 }
 
 /*
  * do the actual motion on the screen done by an object traveling
  * across the room
  */
-do_motion(obj, ydelta, xdelta)
+void do_motion(obj, ydelta, xdelta)
 struct object *obj;
 int ydelta, xdelta;
 {
@@ -133,7 +134,7 @@ int ydelta, xdelta;
  *	Drop an item someplace around here.
  */
 
-fall(item, pr)
+int fall(item, pr)
 struct linked_list *item;
 bool pr;
 {
@@ -164,6 +165,7 @@ bool pr;
             msg("%s vanishes as it hits the ground.", inv_name(obj, TRUE));
 
     discard(item);
+    return 0;
 }
 
 /*
@@ -171,7 +173,7 @@ bool pr;
  *	Set up the initial goodies for a weapon
  */
 
-init_weapon(weap, type)
+void init_weapon(weap, type)
 struct object *weap;
 int type;
 {
@@ -198,7 +200,7 @@ int type;
  * hit_monster:
  *	Does the missile hit the monster
  */
-hit_monster(mp, obj)
+int hit_monster(mp, obj)
 struct coord *mp;
 struct object *obj;
 {
@@ -227,7 +229,7 @@ char *num(n1, n2) int n1, n2;
  * wield:
  *	Pull out a certain weapon
  */
-wield()
+int wield()
 {
     reg struct linked_list *item;
     reg struct object *obj, *oweapon;
@@ -249,13 +251,14 @@ wield()
     }
     msg("Wielding %s", inv_name(obj, TRUE));
     cur_weapon = obj;
+    return 0;
 }
 
 /*
  * fallpos:
  *	Pick a random position around the give (y, x) coordinates
  */
-fallpos(pos, newpos, passages)
+bool fallpos(pos, newpos, passages)
 struct coord *pos, *newpos;
 bool passages;
 {

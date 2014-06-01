@@ -57,7 +57,7 @@ struct delayed_action *d_insert(func, arg, type, time) int arg, type, time,
     return NULL;
 }
 
-d_delete(wire)
+int d_delete(wire)
 struct delayed_action *wire;
 {
     reg struct delayed_action *d1, *d2;
@@ -75,6 +75,7 @@ struct delayed_action *wire;
             return 0;
         }
     }
+    return 0;
 }
 /*
  * find_slot:
@@ -104,7 +105,7 @@ void srdaemon(func, arg, type) int arg, type, (*func)();
  *	Run all the daemons that are active with the current
  *	flag, passing the argument to the function.
  */
-do_daemons(flag)
+void do_daemons(flag)
 int flag;
 {
     reg struct delayed_action *dev;
@@ -118,7 +119,7 @@ int flag;
  * fuse:
  *	Start a fuse to go off in a certain number of turns
  */
-fuse(func, arg, time)
+void fuse(func, arg, time)
 int (*func)(), arg, time;
 {
     d_insert(func, arg, AFTER, time);
@@ -128,7 +129,7 @@ int (*func)(), arg, time;
  * lengthen:
  *	Increase the time until a fuse goes off
  */
-lengthen(func, xtime)
+void lengthen(func, xtime)
 int (*func)(), xtime;
 {
     reg struct delayed_action *wire;
@@ -142,7 +143,7 @@ int (*func)(), xtime;
  * extinguish:
  *	Put out a fuse. Find all such fuses and kill them.
  */
-extinguish(func)
+void extinguish(func)
 int (*func)();
 {
     reg struct delayed_action *dev;
@@ -156,7 +157,7 @@ int (*func)();
  * do_fuses:
  *	Decrement counters and start needed fuses
  */
-do_fuses()
+void do_fuses()
 {
     reg struct delayed_action *dev;
 
@@ -177,7 +178,7 @@ do_fuses()
  * activity:
  *	Show wizard number of demaons and memory blocks used
  */
-activity()
+void activity()
 {
     msg("Daemons = %d : Memory Items = %d : Memory Used = %d", demoncnt, total,
         sbrk(0));

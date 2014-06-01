@@ -43,7 +43,7 @@ STAT sbuf;
  * ignore:
  *	Ignore ALL signals possible
  */
-ignore()
+void ignore()
 {
     int i;
 
@@ -55,7 +55,7 @@ ignore()
  * save_game:
  *	Save the current game
  */
-save_game()
+bool save_game()
 {
     reg FILE *savef;
     reg int c;
@@ -138,7 +138,7 @@ void game_err(int a)
  * dosave:
  *	Set UID back to user and save the game
  */
-dosave()
+bool dosave()
 {
     FILE *savef;
 
@@ -162,7 +162,7 @@ dosave()
  * save_file:
  *	Do the actual save of this game to a file
  */
-save_file(savef)
+void save_file(savef)
 FILE *savef;
 {
     reg int fnum;
@@ -201,10 +201,10 @@ FILE *savef;
  * restore:
  *	Restore a saved game from a file
  */
-restore(file, envp)
+bool restore(file, envp)
 char *file, **envp;
 {
-    register inf, pid;
+    register int inf, pid;
     int ret_status;
 #ifndef _AIX
     extern char **environ;

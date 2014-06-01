@@ -62,7 +62,7 @@ char *killname();
 
 #include <time.h>
 
-death(monst)
+void death(monst)
 char monst;
 {
     reg char dp, *killer;
@@ -115,7 +115,7 @@ int oldpurse;
  * score:
  *	Figure score and post it.
  */
-score(amount, aflag, monst)
+int score(amount, aflag, monst)
 char monst;
 int amount, aflag;
 {
@@ -218,13 +218,14 @@ int amount, aflag;
     refresh();
     endwin();
     showtop(prflags); /* print top ten list */
+    return 0;
 }
 
 /*
  * showtop:
  *	Display the top ten on the screen
  */
-showtop(showname)
+bool showtop(showname)
 int showname;
 {
     reg int fd, i;
@@ -280,7 +281,7 @@ int showname;
  * total_winner:
  *	The hero made it back out alive
  */
-total_winner()
+void total_winner()
 {
     clear();
     addstr("                                                               "
@@ -323,7 +324,7 @@ total_winner()
  * showpack:
  *	Display the contents of the hero's pack
  */
-showpack(winner, howso)
+void showpack(winner, howso)
 bool winner;
 char *howso;
 {

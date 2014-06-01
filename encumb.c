@@ -21,7 +21,7 @@
  * updpack:
  *	Update his pack weight and adjust fooduse accordingly
  */
-updpack()
+void updpack()
 {
     reg int topcarry, curcarry;
 
@@ -49,7 +49,7 @@ updpack()
  * packweight:
  *	Get the total weight of the hero's pack
  */
-packweight()
+int packweight()
 {
     reg struct object *obj;
     reg struct linked_list *pc;
@@ -79,7 +79,7 @@ packweight()
  * itemweight:
  *	Get the weight of an object
  */
-itemweight(wh)
+int itemweight(wh)
 struct object *wh;
 {
     reg int weight;
@@ -103,7 +103,7 @@ struct object *wh;
  * pack_vol:
  *	Get the total volume of the hero's pack
  */
-pack_vol()
+int pack_vol()
 {
     reg struct object *obj;
     reg struct linked_list *pc;
@@ -122,7 +122,7 @@ pack_vol()
  * itemvol:
  *	Get the volume of an object
  */
-itemvol(wh)
+int itemvol(wh)
 struct object *wh;
 {
     reg int volume, what, extra;
@@ -148,9 +148,9 @@ struct object *wh;
  * playenc:
  *	Get hero's carrying ability above norm
  */
-playenc()
+int playenc()
 {
-    reg estr = him->s_ef.a_str;
+    reg int estr = him->s_ef.a_str;
     if (estr >= 24)
         return 3000;
     switch (him->s_ef.a_str)
@@ -196,7 +196,7 @@ playenc()
  * totalenc:
  *	Get total weight that the hero can carry
  */
-totalenc()
+int totalenc()
 {
     reg int wtotal;
 
@@ -216,7 +216,7 @@ totalenc()
  * whgtchk:
  *	See if the hero can carry his pack
  */
-wghtchk(fromfuse)
+int wghtchk(fromfuse)
 int fromfuse;
 {
     reg int dropchk, err = TRUE;
@@ -249,6 +249,7 @@ int fromfuse;
         } while (err);
     }
     inwhgt = FALSE;
+    return 0;
 }
 
 /*
@@ -258,7 +259,7 @@ int fromfuse;
  * 			 0 hit for medium pack weight
  *			-1 hit for heavy pack weight
  */
-hitweight()
+int hitweight()
 {
     return (2 - foodlev);
 }

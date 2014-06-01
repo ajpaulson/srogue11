@@ -32,7 +32,7 @@ extern struct termios terminal;
  * whatis:
  *	What a certain object is
  */
-whatis(what)
+int whatis(what)
 struct linked_list *what;
 {
     reg struct object *obj;
@@ -79,13 +79,14 @@ struct linked_list *what;
     }
     if (what == NULL)
         msg(inv_name(obj, FALSE));
+    return 0;
 }
 
 /*
  * create_obj:
  *	Create any object for wizard or scroll (almost)
  */
-create_obj(fscr)
+int create_obj(fscr)
 bool fscr;
 {
     reg struct linked_list *item;
@@ -272,13 +273,14 @@ bool fscr;
     wh = add_pack(item, FALSE);
     if (wh == FALSE) /* won't fit in pack */
         discard(item);
+    return 0;
 }
 
 /*
  * getbless:
  *	Get a blessing for a wizards object
  */
-getbless()
+int getbless()
 {
     int bless;
 
@@ -296,7 +298,7 @@ getbless()
  * makemons:
  *	Make a monster
  */
-makemons(what)
+int makemons(what)
 int what;
 {
     reg int x, y, oktomake = FALSE, appear = 1;
@@ -331,7 +333,7 @@ int what;
  * telport:
  *	Bamf the thing someplace else
  */
-teleport(spot, th)
+int teleport(spot, th)
 struct coord spot;
 struct thing *th;
 {
@@ -384,7 +386,7 @@ struct thing *th;
  * passwd:
  *	See if user knows password
  */
-passwd()
+bool passwd()
 {
     reg char *sp, c;
     bool passok;

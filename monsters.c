@@ -28,7 +28,7 @@
  *	Pick a monster to show up.  The lower the level,
  *	the meaner the monster.
  */
-rnd_mon(wander, baddie)
+int rnd_mon(wander, baddie)
 bool wander;
 bool baddie; /* TRUE when from a polymorph stick */
 {
@@ -68,7 +68,7 @@ bool baddie; /* TRUE when from a polymorph stick */
  * lev_mon:
  *	This gets all monsters possible on this level
  */
-lev_mon()
+void lev_mon()
 {
     reg int i;
     reg struct monster *mm;
@@ -203,7 +203,7 @@ char type;
  * wanderer:
  *	A wandering monster has awakened and is headed for the player
  */
-wanderer()
+void wanderer()
 {
     reg int ch;
     reg struct room *rp, *hr = player.t_room;
@@ -298,7 +298,7 @@ struct linked_list *wake_monster(y, x) int y, x;
  * genocide:
  *	Eradicate a monster forevermore
  */
-genocide()
+int genocide()
 {
     reg struct linked_list *ip, *nip;
     reg struct thing *mp;
@@ -350,13 +350,14 @@ tryagain:
     lev_mon(); /* redo monster list */
     mpos = 0;
     msg("You have wiped out the %s.", mm->m_name);
+    return 0;
 }
 
 /*
  * unhold:
  *	Release the player from being held
  */
-unhold(whichmon)
+void unhold(whichmon)
 char whichmon;
 {
     switch (whichmon)
@@ -373,7 +374,7 @@ char whichmon;
  * midx:
  *	This returns an index to 'whichmon'
  */
-midx(whichmon)
+int midx(whichmon)
 char whichmon;
 {
     if (isupper(whichmon))
@@ -389,7 +390,7 @@ char whichmon;
  *	See when monster should run or fight. Return
  *	TRUE if hit points less than acceptable.
  */
-monhurt(th)
+bool monhurt(th)
 struct thing *th;
 {
     reg int ewis, crithp, f1, f2;

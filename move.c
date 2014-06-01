@@ -33,7 +33,7 @@ struct coord nh;
  *	Start the hero running
  */
 
-do_run(ch)
+void do_run(ch)
 char ch;
 {
     running = TRUE;
@@ -47,7 +47,7 @@ char ch;
  *	consequences (fighting, picking up, etc.)
  */
 
-do_move(dy, dx)
+int do_move(dy, dx)
 int dy, dx;
 {
     reg int ch;
@@ -239,13 +239,14 @@ int dy, dx;
     hero = nh;
     player.t_room = rp;
     player.t_oldch = mvinch(hero.y, hero.x);
+    return 0;
 }
 
 /*
  * Called to illuminate a room.
  * If it is dark, remove anything that might move.
  */
-light(cp)
+int light(cp)
 struct coord *cp;
 {
     reg struct room *rp;
@@ -336,13 +337,14 @@ struct coord *cp;
             mvwaddch(cw, y, x, ch);
         }
     }
+    return 0;
 }
 
 /*
  * show:
  *	returns what a certain thing will display as to the un-initiated
  */
-show(y, x)
+char show(y, x)
 int y, x;
 {
     reg char ch = winat(y, x);
@@ -386,7 +388,7 @@ int y, x;
  * be_trapped:
  *	Hero or monster stepped on a trap.
  */
-be_trapped(tc, th)
+int be_trapped(tc, th)
 struct thing *th;
 struct coord *tc;
 {
@@ -594,7 +596,7 @@ struct coord *tc;
  * dip_it:
  *	Dip an object into a magic pool
  */
-dip_it()
+int dip_it()
 {
     reg struct linked_list *what;
     reg struct object *ob;
@@ -736,6 +738,7 @@ dip_it()
         }
     }
     cur_weapon = ob; /* hero has to weild item to dip it */
+    return 0;
 }
 
 /*
@@ -809,7 +812,7 @@ struct coord *rndmove(who) struct thing *who;
  * isatrap:
  *	Returns TRUE if this character is some kind of trap
  */
-isatrap(ch)
+bool isatrap(ch)
 char ch;
 {
     switch (ch)

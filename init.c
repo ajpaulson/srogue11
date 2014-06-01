@@ -79,7 +79,7 @@ char *metal[NMETAL] = { "Aluminium", "Bone",  "Brass", "Bronze",    "Copper",
  * init_everything:
  *	Set up all important stuff.
  */
-init_everything()
+void init_everything()
 {
     init_player();    /* Roll up the rogue */
     init_things();    /* Set up probabilities */
@@ -93,7 +93,7 @@ init_everything()
  * init_things:
  *	Initialize the probabilities for types of things
  */
-init_things()
+void init_things()
 {
     struct magic_item *mi;
 
@@ -121,7 +121,7 @@ init_things()
  * init_colors:
  *	Initialize the potion color scheme for this time
  */
-init_colors()
+void init_colors()
 {
     reg int i, j;
     reg char *str;
@@ -150,7 +150,7 @@ init_colors()
  * init_names:
  *	Generate the names of the various scrolls
  */
-init_names()
+void init_names()
 {
     reg int nsyl;
     reg char *cp, *sp;
@@ -187,7 +187,7 @@ init_names()
  *	Initialize the ring stone setting scheme for this time
  */
 
-init_stones()
+void init_stones()
 {
     reg int i, j;
     reg char *str;
@@ -218,7 +218,7 @@ init_stones()
  *	Initialize the construction materials for wands and staffs
  */
 
-init_materials()
+void init_materials()
 {
     int i, j;
     char *str;
@@ -271,7 +271,7 @@ init_materials()
     badcheck("sticks", ws_magic);
 }
 
-badcheck(name, magic)
+int badcheck(name, magic)
 char *name;
 struct magic_item *magic;
 {
@@ -288,6 +288,7 @@ struct magic_item *magic;
     fflush(stdout);
     while (getchar() != '\n')
         continue;
+    return 0;
 }
 
 /*
@@ -295,7 +296,7 @@ struct magic_item *magic;
  *	roll up the rogue
  */
 
-init_player()
+void init_player()
 {
     player.t_nomove = 0;
     player.t_nocmd = 0;
@@ -320,7 +321,7 @@ init_player()
  * pinit:
  *	Returns the best 3 of 4 on a 6-sided die
  */
-pinit()
+int pinit()
 {
     int best[4];
     reg int i, min, minind, dicetot;

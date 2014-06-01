@@ -24,10 +24,10 @@
  * new_level:
  *	Dig and draw a new level
  */
-new_level(ltype)
+void new_level(ltype)
 int ltype;
 {
-    register i;
+    register int i;
     register char ch;
     struct coord traploc;
     struct room *rp;
@@ -146,9 +146,9 @@ int ltype;
  * rnd_room:
  *	Pick a room that is really there
  */
-rnd_room()
+int rnd_room()
 {
-    register rm;
+    register int rm;
 
     if (levtype != NORMLEV)
         rm = 0;
@@ -167,9 +167,9 @@ rnd_room()
  *	put potions and scrolls on this level
  */
 
-put_things()
+int put_things()
 {
-    register i, cnt, rm;
+    register int i, cnt, rm;
     struct linked_list *item;
     struct object *cur;
     struct coord tp;
@@ -253,4 +253,5 @@ put_things()
             }
         }
     }
+    return 0;
 }

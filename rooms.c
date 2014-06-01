@@ -25,7 +25,7 @@
  * do_rooms:
  *	Place the rooms in the dungeon
  */
-do_rooms()
+void do_rooms()
 {
     int mloops, mchance, nummons, left_out, roomtries;
     bool treas = FALSE;
@@ -147,7 +147,7 @@ do_rooms()
  * add_mon:
  *	Add a monster to a room
  */
-add_mon(rm, treas)
+void add_mon(rm, treas)
 struct room *rm;
 bool treas;
 {
@@ -183,7 +183,7 @@ bool treas;
  * draw_room:
  *	Draw a box around a room
  */
-draw_room(rp)
+void draw_room(rp)
 struct room *rp;
 {
     reg int j, k;
@@ -217,7 +217,7 @@ struct room *rp;
  * horiz:
  *	draw a horizontal line
  */
-horiz(cnt)
+void horiz(cnt)
 int cnt;
 {
     while (cnt-- > 0)
@@ -228,7 +228,7 @@ int cnt;
  * vert:
  *	draw a vertical line
  */
-vert(cnt)
+void vert(cnt)
 int cnt;
 {
     reg int x, y;
@@ -267,7 +267,7 @@ struct coord *rnd_pos(rp) struct room *rp;
  * rf_on:
  * 	Returns TRUE if flag is set for room stuff
  */
-rf_on(rm, bit)
+int rf_on(rm, bit)
 struct room *rm;
 long bit;
 {

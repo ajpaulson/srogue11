@@ -29,7 +29,7 @@
  * fight:
  *	The player attacks the monster.
  */
-fight(mp, weap, thrown)
+bool fight(mp, weap, thrown)
 struct coord *mp;
 struct object *weap;
 bool thrown;
@@ -137,7 +137,7 @@ bool thrown;
  * attack:
  *	The monster attacks the player
  */
-attack(mp)
+int attack(mp)
 struct thing *mp;
 {
     reg char *mname;
@@ -404,7 +404,7 @@ struct thing *mp;
  * swing:
  *	Returns true if the swing hits
  */
-swing(at_lvl, op_arm, wplus)
+int swing(at_lvl, op_arm, wplus)
 int at_lvl, op_arm, wplus;
 {
     reg int res = rnd(20) + 1;
@@ -417,7 +417,7 @@ int at_lvl, op_arm, wplus;
  * check_level:
  *	Check to see if the guy has gone up a level.
  */
-check_level()
+int check_level()
 {
     reg int lev, add, dif;
 
@@ -435,13 +435,14 @@ check_level()
         msg("Welcome to level %d", lev);
     }
     him->s_lvl = lev;
+    return 0;
 }
 
 /*
  * roll_em:
  *	Roll several attacks
  */
-roll_em(att, def, weap, hurl)
+bool roll_em(att, def, weap, hurl)
 struct stats *att, *def;
 struct object *weap;
 bool hurl;
@@ -581,7 +582,7 @@ bool upper;
  * hit:
  *	Print a message to indicate a succesful hit
  */
-hit(er)
+void hit(er)
 char *er;
 {
     msg("%s hit.", prname(er, TRUE));
@@ -591,7 +592,7 @@ char *er;
  * miss:
  *	Print a message to indicate a poor swing
  */
-miss(er)
+void miss(er)
 char *er;
 {
     msg("%s miss%s.", prname(er, TRUE), (er == 0 ? "" : "es"));
@@ -601,7 +602,7 @@ char *er;
  * save_throw:
  *	See if a creature saves against something
  */
-save_throw(which, tp)
+int save_throw(which, tp)
 int which;
 struct thing *tp;
 {
@@ -617,7 +618,7 @@ struct thing *tp;
  * save:
  *	See if he saves against various nasty things
  */
-save(which)
+int save(which)
 int which;
 {
     return save_throw(which, &player);
@@ -627,7 +628,7 @@ int which;
  * raise_level:
  *	The guy just magically went up a level.
  */
-raise_level()
+void raise_level()
 {
     him->s_exp = e_levels[him->s_lvl - 1] + 1L;
     check_level();
@@ -637,7 +638,7 @@ raise_level()
  * thunk:
  *	A missile hits a monster
  */
-thunk(weap, mname)
+void thunk(weap, mname)
 struct object *weap;
 char *mname;
 {
@@ -651,7 +652,7 @@ char *mname;
  * bounce:
  *	A missile misses a monster
  */
-bounce(weap, mname)
+void bounce(weap, mname)
 struct object *weap;
 char *mname;
 {
@@ -665,7 +666,7 @@ char *mname;
  * remove:
  *	Remove a monster from the screen
  */
-remove_monster(mp, item)
+void remove_monster(mp, item)
 struct coord *mp;
 struct linked_list *item;
 {
@@ -685,7 +686,7 @@ struct linked_list *item;
  * is_magic:
  *	Returns true if an object radiates magic
  */
-is_magic(obj)
+bool is_magic(obj)
 struct object *obj;
 {
     switch (obj->o_type)
@@ -708,7 +709,7 @@ struct object *obj;
  * killed:
  *	Called to put a monster to death
  */
-killed(item, pr)
+void killed(item, pr)
 struct linked_list *item;
 bool pr;
 {
