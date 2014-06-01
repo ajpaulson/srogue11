@@ -16,9 +16,11 @@
  */
 
 #include <stddef.h>
+#include <sys/types.h>
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 #define EMPTY 0
 #define DAEMON -1
@@ -88,7 +90,7 @@ struct delayed_action *find_slot(func) int (*func)();
  * daemon:
  *	Start a daemon, takes a function.
  */
-daemon(func, arg, type)
+void daemon(func, arg, type)
 int arg, type, (*func)();
 {
 	d_insert(func, arg, type, DAEMON);

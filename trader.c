@@ -18,6 +18,7 @@
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 #define NOTPRICED -1
 

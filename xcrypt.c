@@ -50,6 +50,7 @@
  */
 
 #include <string.h>
+#include "intern.h"
 
 #ifdef DEBUG
 #include <stdio.h>

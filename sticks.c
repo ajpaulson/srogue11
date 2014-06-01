@@ -23,6 +23,7 @@
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * fix_stick:

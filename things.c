@@ -24,6 +24,7 @@
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * inv_name:

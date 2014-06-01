@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * msg:

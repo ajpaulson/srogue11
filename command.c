@@ -20,9 +20,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <unctrl.h>
+#include <stdlib.h>
+#include <sys/types.h>
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 #ifdef __DJGPP__
 #include <process.h>
 #endif

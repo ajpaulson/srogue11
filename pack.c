@@ -21,6 +21,7 @@
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * add_pack:

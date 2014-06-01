@@ -25,8 +25,10 @@
 #include <sys/stat.h>
 #include <termios.h>
 #include <time.h>
+#include <sys/types.h>
 
 #include "rogue.h"
+#include "intern.h"
 
 #ifdef ATT
 #include <time.h>

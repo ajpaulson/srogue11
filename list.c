@@ -16,9 +16,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * detach:

@@ -21,6 +21,7 @@
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 char *rainbow[NCOLORS] = { "Red",	"Blue",      "Green",    "Yellow",
 			   "Black",      "Brown",     "Orange",   "Pink",

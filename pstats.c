@@ -15,6 +15,7 @@
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * chg_hpt:

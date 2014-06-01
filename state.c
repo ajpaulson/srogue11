@@ -66,6 +66,7 @@
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 #define READSTAT ((format_error == 0) && (read_error == 0))
 #define WRITESTAT (write_error == 0)

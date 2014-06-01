@@ -20,6 +20,7 @@
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 /*
  * Used to hold the new hero position

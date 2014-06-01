@@ -23,10 +23,10 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 #ifdef BSD
 #define srand48(seed) srandom(seed)

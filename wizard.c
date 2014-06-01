@@ -17,12 +17,14 @@
 #include <ctype.h>
 #include <curses.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <termios.h>
 
 #include "rogue.h"
 #include "rogue.ext"
+#include "intern.h"
 
 extern struct termios terminal;
 
