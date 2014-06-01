@@ -27,13 +27,13 @@
 #define DAEMON -1
 
 #define _X_                                                                    \
-	{                                                                      \
-		0, 0, 0, 0                                                     \
-	}
+    {                                                                          \
+        0, 0, 0, 0                                                             \
+    }
 
 struct delayed_action d_list[MAXDAEMONS] = { _X_, _X_, _X_, _X_, _X_, _X_, _X_,
-					     _X_, _X_, _X_, _X_, _X_, _X_, _X_,
-					     _X_, _X_, _X_, _X_, _X_, _X_, };
+                                             _X_, _X_, _X_, _X_, _X_, _X_, _X_,
+                                             _X_, _X_, _X_, _X_, _X_, _X_, };
 
 /*
  * d_insert:
@@ -42,36 +42,39 @@ struct delayed_action d_list[MAXDAEMONS] = { _X_, _X_, _X_, _X_, _X_, _X_, _X_,
 struct delayed_action *d_insert(func, arg, type, time) int arg, type, time,
     (*func)();
 {
-	reg struct delayed_action *dev;
+    reg struct delayed_action *dev;
 
-	if (demoncnt < MAXDAEMONS) {
-		dev = &d_list[demoncnt];
-		dev->d_type = type;
-		dev->d_time = time;
-		dev->d_func = func;
-		dev->d_arg = arg;
-		demoncnt += 1;
-		return dev;
-	}
-	return NULL;
+    if (demoncnt < MAXDAEMONS)
+    {
+        dev = &d_list[demoncnt];
+        dev->d_type = type;
+        dev->d_time = time;
+        dev->d_func = func;
+        dev->d_arg = arg;
+        demoncnt += 1;
+        return dev;
+    }
+    return NULL;
 }
 
 d_delete(wire)
 struct delayed_action *wire;
 {
-	reg struct delayed_action *d1, *d2;
+    reg struct delayed_action *d1, *d2;
 
-	for (d1 = d_list; d1 < &d_list[demoncnt]; d1++) {
-		if (wire == d1) {
-			for (d2 = d1 + 1; d2 < &d_list[demoncnt]; d2++)
-				*d1++ = *d2;
-			demoncnt -= 1;
-			d1 = &d_list[demoncnt];
-			d1->d_type = EMPTY;
-			d1->d_func = EMPTY;
-			return 0;
-		}
-	}
+    for (d1 = d_list; d1 < &d_list[demoncnt]; d1++)
+    {
+        if (wire == d1)
+        {
+            for (d2 = d1 + 1; d2 < &d_list[demoncnt]; d2++)
+                *d1++ = *d2;
+            demoncnt -= 1;
+            d1 = &d_list[demoncnt];
+            d1->d_type = EMPTY;
+            d1->d_func = EMPTY;
+            return 0;
+        }
+    }
 }
 /*
  * find_slot:
@@ -79,22 +82,21 @@ struct delayed_action *wire;
  */
 struct delayed_action *find_slot(func) int (*func)();
 {
-	reg struct delayed_action *dev;
+    reg struct delayed_action *dev;
 
-	for (dev = d_list; dev < &d_list[demoncnt]; dev++)
-		if (dev->d_type != EMPTY && func == dev->d_func)
-			return dev;
-	return NULL;
+    for (dev = d_list; dev < &d_list[demoncnt]; dev++)
+        if (dev->d_type != EMPTY && func == dev->d_func)
+            return dev;
+    return NULL;
 }
 
 /*
  * daemon:
  *	Start a daemon, takes a function.
  */
-void srdaemon(func, arg, type)
-int arg, type, (*func)();
+void srdaemon(func, arg, type) int arg, type, (*func)();
 {
-	d_insert(func, arg, type, DAEMON);
+    d_insert(func, arg, type, DAEMON);
 }
 
 /*
@@ -105,11 +107,11 @@ int arg, type, (*func)();
 do_daemons(flag)
 int flag;
 {
-	reg struct delayed_action *dev;
+    reg struct delayed_action *dev;
 
-	for (dev = d_list; dev < &d_list[demoncnt]; dev++)
-		if (dev->d_type == flag && dev->d_time == DAEMON)
-			(*dev->d_func)(dev->d_arg);
+    for (dev = d_list; dev < &d_list[demoncnt]; dev++)
+        if (dev->d_type == flag && dev->d_time == DAEMON)
+            (*dev->d_func)(dev->d_arg);
 }
 
 /*
@@ -119,7 +121,7 @@ int flag;
 fuse(func, arg, time)
 int (*func)(), arg, time;
 {
-	d_insert(func, arg, AFTER, time);
+    d_insert(func, arg, AFTER, time);
 }
 
 /*
@@ -129,11 +131,11 @@ int (*func)(), arg, time;
 lengthen(func, xtime)
 int (*func)(), xtime;
 {
-	reg struct delayed_action *wire;
+    reg struct delayed_action *wire;
 
-	for (wire = d_list; wire < &d_list[demoncnt]; wire++)
-		if (wire->d_type != EMPTY && func == wire->d_func)
-			wire->d_time += xtime;
+    for (wire = d_list; wire < &d_list[demoncnt]; wire++)
+        if (wire->d_type != EMPTY && func == wire->d_func)
+            wire->d_time += xtime;
 }
 
 /*
@@ -143,11 +145,11 @@ int (*func)(), xtime;
 extinguish(func)
 int (*func)();
 {
-	reg struct delayed_action *dev;
+    reg struct delayed_action *dev;
 
-	for (dev = d_list; dev < &d_list[demoncnt]; dev++)
-		if (dev->d_type != EMPTY && func == dev->d_func)
-			d_delete(dev);
+    for (dev = d_list; dev < &d_list[demoncnt]; dev++)
+        if (dev->d_type != EMPTY && func == dev->d_func)
+            d_delete(dev);
 }
 
 /*
@@ -156,16 +158,19 @@ int (*func)();
  */
 do_fuses()
 {
-	reg struct delayed_action *dev;
+    reg struct delayed_action *dev;
 
-	for (dev = d_list; dev < &d_list[demoncnt]; dev++) {
-		if (dev->d_type == AFTER && dev->d_time > DAEMON) {
-			if (--dev->d_time == 0) {
-				(*dev->d_func)(dev->d_arg);
-				d_delete(dev);
-			}
-		}
-	}
+    for (dev = d_list; dev < &d_list[demoncnt]; dev++)
+    {
+        if (dev->d_type == AFTER && dev->d_time > DAEMON)
+        {
+            if (--dev->d_time == 0)
+            {
+                (*dev->d_func)(dev->d_arg);
+                d_delete(dev);
+            }
+        }
+    }
 }
 
 /*
@@ -174,6 +179,6 @@ do_fuses()
  */
 activity()
 {
-	msg("Daemons = %d : Memory Items = %d : Memory Used = %d", demoncnt,
-	    total, sbrk(0));
+    msg("Daemons = %d : Memory Items = %d : Memory Used = %d", demoncnt, total,
+        sbrk(0));
 }

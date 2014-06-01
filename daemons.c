@@ -29,35 +29,39 @@ int between = 0;
 doctor(fromfuse)
 int fromfuse;
 {
-	reg int *thp, lv, ohp, ccon;
+    reg int *thp, lv, ohp, ccon;
 
-	lv = him->s_lvl;
-	thp = &him->s_hpt;
-	ohp = *thp;
-	quiet += 1;
+    lv = him->s_lvl;
+    thp = &him->s_hpt;
+    ohp = *thp;
+    quiet += 1;
 
-	ccon = him->s_ef.a_con;
-	if (ccon > 16 && !isfight)
-		*thp += rnd(ccon - 15);
-	if (lv < 8) {
-		if (quiet > 20 - lv * 2)
-			*thp += 1;
-	} else {
-		if (quiet >= 3)
-			*thp += rnd(lv - 7) + 1;
-	}
-	if (isring(LEFT, R_REGEN))
-		*thp += 1;
-	if (isring(RIGHT, R_REGEN))
-		*thp += 1;
-	if (pl_on(ISREGEN))
-		*thp += 1;
-	if (ohp != *thp) {
-		nochange = FALSE;
-		if (*thp > him->s_maxhp)
-			*thp = him->s_maxhp;
-		quiet = 0;
-	}
+    ccon = him->s_ef.a_con;
+    if (ccon > 16 && !isfight)
+        *thp += rnd(ccon - 15);
+    if (lv < 8)
+    {
+        if (quiet > 20 - lv * 2)
+            *thp += 1;
+    }
+    else
+    {
+        if (quiet >= 3)
+            *thp += rnd(lv - 7) + 1;
+    }
+    if (isring(LEFT, R_REGEN))
+        *thp += 1;
+    if (isring(RIGHT, R_REGEN))
+        *thp += 1;
+    if (pl_on(ISREGEN))
+        *thp += 1;
+    if (ohp != *thp)
+    {
+        nochange = FALSE;
+        if (*thp > him->s_maxhp)
+            *thp = him->s_maxhp;
+        quiet = 0;
+    }
 }
 
 /*
@@ -67,7 +71,7 @@ int fromfuse;
 swander(fromfuse)
 int fromfuse;
 {
-	srdaemon(rollwand, TRUE, BEFORE);
+    srdaemon(rollwand, TRUE, BEFORE);
 }
 
 /*
@@ -78,15 +82,17 @@ rollwand(fromfuse)
 int fromfuse;
 {
 
-	if (++between >= 4) {
-		if (roll(1, 6) == 4) {
-			if (levtype != POSTLEV) /* no monsters for posts */
-				wanderer();
-			extinguish(rollwand);
-			fuse(swander, TRUE, WANDERTIME);
-		}
-		between = 0;
-	}
+    if (++between >= 4)
+    {
+        if (roll(1, 6) == 4)
+        {
+            if (levtype != POSTLEV) /* no monsters for posts */
+                wanderer();
+            extinguish(rollwand);
+            fuse(swander, TRUE, WANDERTIME);
+        }
+        between = 0;
+    }
 }
 
 /*
@@ -96,9 +102,9 @@ int fromfuse;
 unconfuse(fromfuse)
 int fromfuse;
 {
-	if (pl_on(ISHUH))
-		msg("You feel less confused now.");
-	player.t_flags &= ~ISHUH;
+    if (pl_on(ISHUH))
+        msg("You feel less confused now.");
+    player.t_flags &= ~ISHUH;
 }
 
 /*
@@ -108,7 +114,7 @@ int fromfuse;
 unsee(fromfuse)
 int fromfuse;
 {
-	player.t_flags &= ~CANSEE;
+    player.t_flags &= ~CANSEE;
 }
 
 /*
@@ -118,10 +124,10 @@ int fromfuse;
 sight(fromfuse)
 int fromfuse;
 {
-	if (pl_on(ISBLIND))
-		msg("The veil of darkness lifts.");
-	player.t_flags &= ~ISBLIND;
-	light(&hero);
+    if (pl_on(ISBLIND))
+        msg("The veil of darkness lifts.");
+    player.t_flags &= ~ISBLIND;
+    light(&hero);
 }
 
 /*
@@ -131,9 +137,9 @@ int fromfuse;
 nohaste(fromfuse)
 int fromfuse;
 {
-	if (pl_on(ISHASTE))
-		msg("You feel yourself slowing down.");
-	player.t_flags &= ~ISHASTE;
+    if (pl_on(ISHASTE))
+        msg("You feel yourself slowing down.");
+    player.t_flags &= ~ISHASTE;
 }
 
 /*
@@ -143,40 +149,49 @@ int fromfuse;
 stomach(fromfuse)
 int fromfuse;
 {
-	reg int oldfood, old_hunger;
+    reg int oldfood, old_hunger;
 
-	old_hunger = hungry_state;
-	if (food_left <= 0) { /* the hero is fainting */
-		if (--food_left == -150) {
-			msg("Your stomach writhes with hunger pains.");
-		} else if (food_left < -350) {
-			msg("You starve to death !!");
-			msg(" ");
-			death(K_STARVE);
-		}
-		if (player.t_nocmd > 0 || rnd(100) > 20)
-			return 0;
-		player.t_nocmd = rnd(8) + 4;
-		msg("You faint.");
-		running = FALSE;
-		count = 0;
-		hungry_state = F_FAINT;
-	} else {
-		oldfood = food_left;
-		food_left -= ringfood + foodlev - amulet;
-		if (player.t_nocmd > 0) /* wait till he can move */
-			return 0;
-		if (food_left < WEAKTIME && oldfood >= WEAKTIME) {
-			msg("You are starting to feel weak.");
-			hungry_state = F_WEAK;
-		} else if (food_left < HUNGTIME && oldfood >= HUNGTIME) {
-			msg("Getting hungry.");
-			hungry_state = F_HUNGRY;
-		}
-	}
-	if (old_hunger != hungry_state)
-		updpack(); /* new pack weight */
-	wghtchk(FALSE);
+    old_hunger = hungry_state;
+    if (food_left <= 0)
+    { /* the hero is fainting */
+        if (--food_left == -150)
+        {
+            msg("Your stomach writhes with hunger pains.");
+        }
+        else if (food_left < -350)
+        {
+            msg("You starve to death !!");
+            msg(" ");
+            death(K_STARVE);
+        }
+        if (player.t_nocmd > 0 || rnd(100) > 20)
+            return 0;
+        player.t_nocmd = rnd(8) + 4;
+        msg("You faint.");
+        running = FALSE;
+        count = 0;
+        hungry_state = F_FAINT;
+    }
+    else
+    {
+        oldfood = food_left;
+        food_left -= ringfood + foodlev - amulet;
+        if (player.t_nocmd > 0) /* wait till he can move */
+            return 0;
+        if (food_left < WEAKTIME && oldfood >= WEAKTIME)
+        {
+            msg("You are starting to feel weak.");
+            hungry_state = F_WEAK;
+        }
+        else if (food_left < HUNGTIME && oldfood >= HUNGTIME)
+        {
+            msg("Getting hungry.");
+            hungry_state = F_HUNGRY;
+        }
+    }
+    if (old_hunger != hungry_state)
+        updpack(); /* new pack weight */
+    wghtchk(FALSE);
 }
 
 /*
@@ -186,18 +201,20 @@ int fromfuse;
 noteth(fromfuse)
 int fromfuse;
 {
-	int ch;
+    int ch;
 
-	if (pl_on(ISETHER)) {
-		msg("You begin to feel more corporeal.");
-		ch = player.t_oldch;
-		if (dead_end(ch)) {
-			msg("You materialize in %s.", identify(ch));
-			msg(" ");
-			death(K_STONE); /* can't materialize in walls */
-		}
-	}
-	player.t_flags &= ~ISETHER;
+    if (pl_on(ISETHER))
+    {
+        msg("You begin to feel more corporeal.");
+        ch = player.t_oldch;
+        if (dead_end(ch))
+        {
+            msg("You materialize in %s.", identify(ch));
+            msg(" ");
+            death(K_STONE); /* can't materialize in walls */
+        }
+    }
+    player.t_flags &= ~ISETHER;
 }
 
 /*
@@ -207,9 +224,9 @@ int fromfuse;
 sapem(fromfuse)
 int fromfuse;
 {
-	chg_abil(rnd(4) + 1, -1, TRUE);
-	fuse(sapem, TRUE, 150);
-	nochange = FALSE;
+    chg_abil(rnd(4) + 1, -1, TRUE);
+    fuse(sapem, TRUE, 150);
+    nochange = FALSE;
 }
 
 /*
@@ -219,9 +236,9 @@ int fromfuse;
 notslow(fromfuse)
 int fromfuse;
 {
-	if (pl_on(ISSLOW))
-		msg("You no longer feel hindered.");
-	player.t_flags &= ~ISSLOW;
+    if (pl_on(ISSLOW))
+        msg("You no longer feel hindered.");
+    player.t_flags &= ~ISSLOW;
 }
 
 /*
@@ -231,9 +248,9 @@ int fromfuse;
 notregen(fromfuse)
 int fromfuse;
 {
-	if (pl_on(ISREGEN))
-		msg("You no longer feel bolstered.");
-	player.t_flags &= ~ISREGEN;
+    if (pl_on(ISREGEN))
+        msg("You no longer feel bolstered.");
+    player.t_flags &= ~ISREGEN;
 }
 
 /*
@@ -243,7 +260,7 @@ int fromfuse;
 notinvinc(fromfuse)
 int fromfuse;
 {
-	if (pl_on(ISINVINC))
-		msg("You no longer feel invincible.");
-	player.t_flags &= ~ISINVINC;
+    if (pl_on(ISINVINC))
+        msg("You no longer feel invincible.");
+    player.t_flags &= ~ISINVINC;
 }

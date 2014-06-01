@@ -24,50 +24,61 @@
  */
 displevl()
 {
-	reg char ch, mch;
-	reg int i, j;
-	reg struct room *rp;
+    reg char ch, mch;
+    reg int i, j;
+    reg struct room *rp;
 
-	for (rp = rooms; rp < &rooms[MAXROOMS]; rp++)
-		rp->r_flags &= ~ISDARK;
+    for (rp = rooms; rp < &rooms[MAXROOMS]; rp++)
+        rp->r_flags &= ~ISDARK;
 
-	for (i = 0; i < LINES - 2; i++) {
-		for (j = 0; j < COLS - 1; j++) {
-			ch = mvinch(i, j);
-			if (isatrap(ch)) {
-				struct trap *what;
+    for (i = 0; i < LINES - 2; i++)
+    {
+        for (j = 0; j < COLS - 1; j++)
+        {
+            ch = mvinch(i, j);
+            if (isatrap(ch))
+            {
+                struct trap *what;
 
-				what = trap_at(i, j);
-				if (what != NULL)
-					what->tr_flags |= ISFOUND;
-			} else if (ch == SECRETDOOR) {
-				ch = DOOR;
-				mvaddch(i, j, ch);
-			} else if (illeg_ch(ch)) {
-				ch = FLOOR;
-				mvaddch(i, j, ch);
-			}
-			if (mvwinch(mw, i, j) != ' ') {
-				struct linked_list *what;
-				struct thing *it;
+                what = trap_at(i, j);
+                if (what != NULL)
+                    what->tr_flags |= ISFOUND;
+            }
+            else if (ch == SECRETDOOR)
+            {
+                ch = DOOR;
+                mvaddch(i, j, ch);
+            }
+            else if (illeg_ch(ch))
+            {
+                ch = FLOOR;
+                mvaddch(i, j, ch);
+            }
+            if (mvwinch(mw, i, j) != ' ')
+            {
+                struct linked_list *what;
+                struct thing *it;
 
-				what = find_mons(i, j);
-				if (what == NULL) {
-					ch = FLOOR;
-					mvaddch(i, j, ch);
-				} else {
-					it = THINGPTR(what);
-					it->t_oldch = ch;
-				}
-			}
-			mch = mvwinch(cw, i, j);
-			if (isalpha(mch))
-				ch = mch;
-			mvwaddch(cw, i, j, ch);
-		}
-	}
-	nochange = FALSE; /* display status again */
-	draw(cw);
+                what = find_mons(i, j);
+                if (what == NULL)
+                {
+                    ch = FLOOR;
+                    mvaddch(i, j, ch);
+                }
+                else
+                {
+                    it = THINGPTR(what);
+                    it->t_oldch = ch;
+                }
+            }
+            mch = mvwinch(cw, i, j);
+            if (isalpha(mch))
+                ch = mch;
+            mvwaddch(cw, i, j, ch);
+        }
+    }
+    nochange = FALSE; /* display status again */
+    draw(cw);
 }
 
 /*
@@ -76,20 +87,21 @@ displevl()
  */
 dispmons()
 {
-	reg int ch, y, x;
-	reg struct thing *it;
-	reg struct linked_list *item;
+    reg int ch, y, x;
+    reg struct thing *it;
+    reg struct linked_list *item;
 
-	for (item = mlist; item != NULL; item = next(item)) {
-		it = THINGPTR(item);
-		y = it->t_pos.y;
-		x = it->t_pos.x;
-		mvwaddch(cw, y, x, it->t_type);
-		it->t_flags |= ISFOUND;
-		if (it->t_type == 'M')	/* if a mimic */
-			it->t_disguise = 'M'; /* give it away */
-	}
-	draw(cw);
+    for (item = mlist; item != NULL; item = next(item))
+    {
+        it = THINGPTR(item);
+        y = it->t_pos.y;
+        x = it->t_pos.x;
+        mvwaddch(cw, y, x, it->t_type);
+        it->t_flags |= ISFOUND;
+        if (it->t_type == 'M')    /* if a mimic */
+            it->t_disguise = 'M'; /* give it away */
+    }
+    draw(cw);
 }
 
 /*
@@ -99,13 +111,13 @@ dispmons()
 winat(y, x)
 int x, y;
 {
-	reg char ch;
+    reg char ch;
 
-	if (mvwinch(mw, y, x) == ' ')
-		ch = mvinch(y, x); /* non-monsters */
-	else
-		ch = winch(mw); /* monsters */
-	return ch;
+    if (mvwinch(mw, y, x) == ' ')
+        ch = mvinch(y, x); /* non-monsters */
+    else
+        ch = winch(mw); /* monsters */
+    return ch;
 }
 
 /*
@@ -115,9 +127,9 @@ int x, y;
 cordok(y, x)
 int y, x;
 {
-	if (x < 0 || y < 0 || x >= COLS || y >= LINES - 1)
-		return FALSE;
-	return TRUE;
+    if (x < 0 || y < 0 || x >= COLS || y >= LINES - 1)
+        return FALSE;
+    return TRUE;
 }
 
 /*
@@ -127,7 +139,7 @@ int y, x;
 pl_on(what)
 long what;
 {
-	return (player.t_flags & what);
+    return (player.t_flags & what);
 }
 
 /*
@@ -137,7 +149,7 @@ long what;
 pl_off(what)
 long what;
 {
-	return (!(player.t_flags & what));
+    return (!(player.t_flags & what));
 }
 
 /*
@@ -148,12 +160,12 @@ o_on(what, bit)
 struct object *what;
 long bit;
 {
-	reg int flag;
+    reg int flag;
 
-	flag = FALSE;
-	if (what != NULL)
-		flag = (what->o_flags & bit);
-	return flag;
+    flag = FALSE;
+    if (what != NULL)
+        flag = (what->o_flags & bit);
+    return flag;
 }
 
 /*
@@ -164,12 +176,12 @@ o_off(what, bit)
 struct object *what;
 long bit;
 {
-	reg int flag;
+    reg int flag;
 
-	flag = FALSE;
-	if (what != NULL)
-		flag = !(what->o_flags & bit);
-	return flag;
+    flag = FALSE;
+    if (what != NULL)
+        flag = !(what->o_flags & bit);
+    return flag;
 }
 
 /*
@@ -180,7 +192,7 @@ setoflg(what, bit)
 struct object *what;
 long bit;
 {
-	what->o_flags |= bit;
+    what->o_flags |= bit;
 }
 
 /*
@@ -191,5 +203,5 @@ resoflg(what, bit)
 struct object *what;
 long bit;
 {
-	what->o_flags &= ~bit;
+    what->o_flags &= ~bit;
 }

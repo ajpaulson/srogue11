@@ -31,14 +31,14 @@
 _detach(list, item)
 struct linked_list **list, *item;
 {
-	if (*list == item)
-		*list = next(item);
-	if (prev(item) != NULL)
-		item->l_prev->l_next = next(item);
-	if (next(item) != NULL)
-		item->l_next->l_prev = prev(item);
-	item->l_next = NULL;
-	item->l_prev = NULL;
+    if (*list == item)
+        *list = next(item);
+    if (prev(item) != NULL)
+        item->l_prev->l_next = next(item);
+    if (next(item) != NULL)
+        item->l_next->l_prev = prev(item);
+    item->l_next = NULL;
+    item->l_prev = NULL;
 }
 
 /*
@@ -47,15 +47,18 @@ struct linked_list **list, *item;
 _attach(list, item)
 struct linked_list **list, *item;
 {
-	if (*list != NULL) {
-		item->l_next = *list;
-		(*list)->l_prev = item;
-		item->l_prev = NULL;
-	} else {
-		item->l_next = NULL;
-		item->l_prev = NULL;
-	}
-	*list = item;
+    if (*list != NULL)
+    {
+        item->l_next = *list;
+        (*list)->l_prev = item;
+        item->l_prev = NULL;
+    }
+    else
+    {
+        item->l_next = NULL;
+        item->l_prev = NULL;
+    }
+    *list = item;
 }
 
 /*
@@ -64,13 +67,14 @@ struct linked_list **list, *item;
 _free_list(ptr)
 struct linked_list **ptr;
 {
-	register struct linked_list *item;
+    register struct linked_list *item;
 
-	while (*ptr != NULL) {
-		item = *ptr;
-		*ptr = next(item);
-		discard(item);
-	}
+    while (*ptr != NULL)
+    {
+        item = *ptr;
+        *ptr = next(item);
+        discard(item);
+    }
 }
 
 /*
@@ -79,9 +83,9 @@ struct linked_list **ptr;
 discard(item)
 struct linked_list *item;
 {
-	total -= 2;
-	FREE(item->l_data);
-	FREE(item);
+    total -= 2;
+    FREE(item->l_data);
+    FREE(item);
 }
 
 /*
@@ -89,22 +93,23 @@ struct linked_list *item;
  */
 struct linked_list *new_item(size) int size;
 {
-	register struct linked_list *item;
+    register struct linked_list *item;
 
-	item = (struct linked_list *)new (sizeof *item);
-	item->l_data = new (size);
-	item->l_next = item->l_prev = NULL;
-	return item;
+    item = (struct linked_list *)new (sizeof *item);
+    item->l_data = new (size);
+    item->l_next = item->l_prev = NULL;
+    return item;
 }
 
 char *new (size) int size;
 {
-	register char *space = ALLOC(size);
+    register char *space = ALLOC(size);
 
-	if (space == NULL) {
-		sprintf(prbuf, "Rogue ran out of memory (%d).", sbrk(0));
-		fatal(prbuf);
-	}
-	total++;
-	return space;
+    if (space == NULL)
+    {
+        sprintf(prbuf, "Rogue ran out of memory (%d).", sbrk(0));
+        fatal(prbuf);
+    }
+    total++;
+    return space;
 }
