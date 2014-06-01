@@ -26,6 +26,7 @@
 #include <termios.h>
 #include <time.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #include "rogue.h"
 #include "intern.h"
