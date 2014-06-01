@@ -35,7 +35,7 @@
  * command:
  *	Process the user commands
  */
-command()
+void command()
 {
     reg char ch;
     reg int ntimes = 1; /* Number of player moves */
@@ -471,7 +471,7 @@ void quit(int a)
  *	Player gropes about him to find hidden things.
  */
 
-search()
+int search()
 {
     reg int x, y;
     reg char ch;
@@ -515,13 +515,14 @@ search()
             }
         }
     }
+    return 0;
 }
 
 /*
  * help:
  *	Give single character help, or the whole mess if he wants it
  */
-help()
+int help()
 {
     extern struct h_list helpstr[];
     reg struct h_list *strp;
@@ -575,6 +576,7 @@ help()
     wclrtoeol(cw);
     touchwin(cw);
     nochange = FALSE;
+    return 0;
 }
 
 /*
@@ -647,7 +649,7 @@ char *identify(what) int what;
  * d_level:
  *	He wants to go down a level
  */
-d_level()
+int d_level()
 {
     if (winat(hero.y, hero.x) != STAIRS)
         msg("I see no way down.");
@@ -661,13 +663,14 @@ d_level()
         level++;
         new_level(NORMLEV);
     }
+    return 0;
 }
 
 /*
  * u_level:
  *	He wants to go up a level
  */
-u_level()
+int u_level()
 {
     if (winat(hero.y, hero.x) == STAIRS)
     {
@@ -691,12 +694,13 @@ u_level()
         }
     }
     msg("I see no way up.");
+    return 0;
 }
 
 /*
  * Let him escape for a while
  */
-shell()
+void shell()
 {
     reg int pid;
     reg char *sh;
@@ -762,7 +766,7 @@ shell()
  * call:
  *	Allow a user to call a potion, scroll, or ring something
  */
-call()
+int call()
 {
     reg struct object *obj;
     reg struct linked_list *item;
@@ -798,4 +802,5 @@ call()
         guess[wh] = new (strlen(prbuf) + 1);
         strcpy(guess[wh], prbuf);
     }
+    return 0;
 }
