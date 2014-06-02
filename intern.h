@@ -167,7 +167,6 @@ bool price_it();
 int put_things();
 int quaff();
 void raise_level();
-int read();
 int read_scroll();
 char readchar();
 void remove_monster();
