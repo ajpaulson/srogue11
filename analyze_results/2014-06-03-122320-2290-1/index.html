@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>srogue11 - scan-build results</title>
+<link type="text/css" rel="stylesheet" href="scanview.css"/>
+<script src="sorttable.js"></script>
+<script language='javascript' type="text/javascript">
+function SetDisplay(RowClass, DisplayVal)
+{
+  var Rows = document.getElementsByTagName("tr");
+  for ( var i = 0 ; i < Rows.length; ++i ) {
+    if (Rows[i].className == RowClass) {
+      Rows[i].style.display = DisplayVal;
+    }
+  }
+}
+
+function CopyCheckedStateToCheckButtons(SummaryCheckButton) {
+  var Inputs = document.getElementsByTagName("input");
+  for ( var i = 0 ; i < Inputs.length; ++i ) {
+    if (Inputs[i].type == "checkbox") {
+      if(Inputs[i] != SummaryCheckButton) {
+        Inputs[i].checked = SummaryCheckButton.checked;
+        Inputs[i].onclick();
+	  }
+    }
+  }
+}
+
+function returnObjById( id ) {
+    if (document.getElementById) 
+        var returnVar = document.getElementById(id);
+    else if (document.all)
+        var returnVar = document.all[id];
+    else if (document.layers) 
+        var returnVar = document.layers[id];
+    return returnVar; 
+}
+
+var NumUnchecked = 0;
+
+function ToggleDisplay(CheckButton, ClassName) {
+  if (CheckButton.checked) {
+    SetDisplay(ClassName, "");
+    if (--NumUnchecked == 0) {
+      returnObjById("AllBugsCheck").checked = true;
+    }
+  }
+  else {
+    SetDisplay(ClassName, "none");
+    NumUnchecked++;
+    returnObjById("AllBugsCheck").checked = false;
+  }
+}
+</script>
+<!-- SUMMARYENDHEAD -->
+</head>
+<body>
+<h1>srogue11 - scan-build results</h1>
+
+<table>
+<tr><th>Command Line:</th><td>make</td></tr>
+<tr><th>Clang Version:</th><td>Debian clang version 3.5-1~exp1 (trunk) (based on LLVM 3.5)
+</td></tr>
+<tr><th>Date:</th><td>Tue Jun  3 12:23:20 2014</td></tr>
+</table>
+<h2>Bug Summary</h2><table>
+<thead><tr><td>Bug Type</td><td>Quantity</td><td class="sorttable_nosort">Display?</td></tr></thead>
+<tr style="font-weight:bold"><td class="SUMM_DESC">All Bugs</td><td class="Q">22</td><td><center><input type="checkbox" id="AllBugsCheck" onClick="CopyCheckedStateToCheckButtons(this);" checked/></center></td></tr>
+<tr><th>Dead store</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Dead assignment</td><td class="Q">5</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_store_dead_assignment');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Dead initialization</td><td class="Q">2</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_store_dead_initialization');" checked/></center></td></tr>
+<tr><th>Logic error</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Assigned value is garbage or undefined</td><td class="Q">2</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_assigned_value_is_garbage_or_undefined');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Branch condition evaluates to a garbage value</td><td class="Q">1</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_branch_condition_evaluates_to_a_garbage_value');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Out-of-bound array access</td><td class="Q">1</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_out-of-bound_array_access');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Result of operation is garbage or undefined</td><td class="Q">1</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_result_of_operation_is_garbage_or_undefined');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Uninitialized argument value</td><td class="Q">4</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_uninitialized_argument_value');" checked/></center></td></tr>
+<tr><th>Security</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Return value is not checked in call to 'setgid'</td><td class="Q">3</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_security_return_value_is_not_checked_in_call_to_setgid_');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Return value is not checked in call to 'setuid'</td><td class="Q">3</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_security_return_value_is_not_checked_in_call_to_setuid_');" checked/></center></td></tr>
+</table>
+<h2>Reports</h2>
+
+<table class="sortable" style="table-layout:automatic">
+<thead><tr>
+  <td>Bug Group</td>
+  <td class="sorttable_sorted">Bug Type<span id="sorttable_sortfwdind">&nbsp;&#x25BE;</span></td>
+  <td>File</td>
+  <td class="Q">Line</td>
+  <td class="Q">Path Length</td>
+  <td class="sorttable_nosort"></td>
+  <!-- REPORTBUGCOL -->
+</tr></thead>
+<tbody>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>monsters.c</td><td class="Q">197</td><td class="Q">21</td><td><a href="report-7f5dbe.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7f5dbe.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>new_leve.c</td><td class="Q">108</td><td class="Q">13</td><td><a href="report-a1acf9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a1acf9.html" -->
+</tr>
+<tr class="bt_logic_error_branch_condition_evaluates_to_a_garbage_value"><td class="DESC">Logic error</td><td class="DESC">Branch condition evaluates to a garbage value</td><td>trader.c</td><td class="Q">452</td><td class="Q">11</td><td><a href="report-bbe7d3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-bbe7d3.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>pstats.c</td><td class="Q">338</td><td class="Q">1</td><td><a href="report-2913ce.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2913ce.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>pstats.c</td><td class="Q">370</td><td class="Q">1</td><td><a href="report-1f2da5.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1f2da5.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>sticks.c</td><td class="Q">256</td><td class="Q">1</td><td><a href="report-623a5f.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-623a5f.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>armor.c</td><td class="Q">87</td><td class="Q">1</td><td><a href="report-39fb62.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-39fb62.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>monsters.c</td><td class="Q">282</td><td class="Q">1</td><td><a href="report-55f4f6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-55f4f6.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>state.c</td><td class="Q">369</td><td class="Q">1</td><td><a href="report-6fa516.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6fa516.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>state.c</td><td class="Q">331</td><td class="Q">1</td><td><a href="report-1d2712.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1d2712.html" -->
+</tr>
+<tr class="bt_logic_error_out-of-bound_array_access"><td class="DESC">Logic error</td><td class="DESC">Out-of-bound array access</td><td>main.c</td><td class="Q">457</td><td class="Q">3</td><td><a href="report-fbf6f8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fbf6f8.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>things.c</td><td class="Q">270</td><td class="Q">5</td><td><a href="report-472729.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-472729.html" -->
+</tr>
+<tr class="bt_security_return_value_is_not_checked_in_call_to_setgid_"><td class="DESC">Security</td><td class="DESC">Return value is not checked in call to 'setgid'</td><td>command.c</td><td class="Q">728</td><td class="Q">1</td><td><a href="report-c7f4e9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c7f4e9.html" -->
+</tr>
+<tr class="bt_security_return_value_is_not_checked_in_call_to_setgid_"><td class="DESC">Security</td><td class="DESC">Return value is not checked in call to 'setgid'</td><td>save.c</td><td class="Q">147</td><td class="Q">1</td><td><a href="report-0cc4c9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0cc4c9.html" -->
+</tr>
+<tr class="bt_security_return_value_is_not_checked_in_call_to_setgid_"><td class="DESC">Security</td><td class="DESC">Return value is not checked in call to 'setgid'</td><td>save.c</td><td class="Q">326</td><td class="Q">1</td><td><a href="report-ca58f9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ca58f9.html" -->
+</tr>
+<tr class="bt_security_return_value_is_not_checked_in_call_to_setuid_"><td class="DESC">Security</td><td class="DESC">Return value is not checked in call to 'setuid'</td><td>save.c</td><td class="Q">325</td><td class="Q">1</td><td><a href="report-e8ddaa.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e8ddaa.html" -->
+</tr>
+<tr class="bt_security_return_value_is_not_checked_in_call_to_setuid_"><td class="DESC">Security</td><td class="DESC">Return value is not checked in call to 'setuid'</td><td>command.c</td><td class="Q">727</td><td class="Q">1</td><td><a href="report-85416f.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-85416f.html" -->
+</tr>
+<tr class="bt_security_return_value_is_not_checked_in_call_to_setuid_"><td class="DESC">Security</td><td class="DESC">Return value is not checked in call to 'setuid'</td><td>save.c</td><td class="Q">146</td><td class="Q">1</td><td><a href="report-874886.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-874886.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>scrolls.c</td><td class="Q">452</td><td class="Q">10</td><td><a href="report-735e88.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-735e88.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>xcrypt.c</td><td class="Q">538</td><td class="Q">8</td><td><a href="report-9f3dc2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9f3dc2.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>monsters.c</td><td class="Q">222</td><td class="Q">4</td><td><a href="report-acca1b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-acca1b.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>new_leve.c</td><td class="Q">107</td><td class="Q">13</td><td><a href="report-a8337b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a8337b.html" -->
+</tr>
+</tbody>
+</table>
+
+</body></html>
