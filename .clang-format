@@ -1,9 +1,6 @@
-BasedOnStyle:                           LLVM
-Standard:                               Auto
-IndentWidth:                            4
-TabWidth:                               4
-BreakBeforeBraces:                      Allman
-AllowShortIfStatementsOnASingleLine:    false
-IndentCaseLabels:                       false
-AlignTrailingComments:                  true
-ColumnLimit:                            80
+BasedOnStyle:		LLVM
+IndentWidth:		8
+UseTab:			Always
+BreakBeforeBraces:	Linux
+AllowShortIfStatementsOnASingleLine:	false
+IndentCaseLabels:	false
