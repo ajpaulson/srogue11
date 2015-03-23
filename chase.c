@@ -65,7 +65,7 @@ int do_chase(mon) struct linked_list *mon;
   reg int mindist, i, dist;
   struct stats *st;
   bool stoprun = FALSE, ondoor = FALSE, link = FALSE;
-  char runaway, dofight, wound, sch, ch;
+  unsigned long runaway, dofight, wound, sch, ch;
   struct coord this;
   struct trap *trp;
 
