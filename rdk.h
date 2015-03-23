@@ -6,5 +6,5 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
-extern bool My_term,	/* user specied terminal	*/
-extern int _tty_ch;	/* channel with tty on it	*/
+extern bool My_term,    /* user specied terminal	*/
+    extern int _tty_ch; /* channel with tty on it	*/

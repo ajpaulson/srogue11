@@ -22,47 +22,47 @@
 
 #include "rogue.h"
 
-struct room rooms[MAXROOMS];	/* One for each room -- A level */
-struct room *oldrp;		    /* Roomin(&oldpos) */
+struct room rooms[MAXROOMS];        /* One for each room -- A level */
+struct room *oldrp;                 /* Roomin(&oldpos) */
 struct linked_list *mlist = NULL;   /* monsters on this level */
-struct thing player;		    /* The rogue */
-struct stats max_stats;		    /* The maximum for the player */
+struct thing player;                /* The rogue */
+struct stats max_stats;             /* The maximum for the player */
 struct linked_list *lvl_obj = NULL; /* objects on this level */
 struct object *cur_weapon = NULL;   /* Which weapon he is weilding */
 struct object *cur_armor = NULL;    /* the rogue's armor */
-struct object *cur_ring[2];	 /* Which rings are being worn */
-struct stats *him;		    /* pointer to hero stats */
-struct trap traps[MAXTRAPS];	/* traps on this level */
+struct object *cur_ring[2];         /* Which rings are being worn */
+struct stats *him;                  /* pointer to hero stats */
+struct trap traps[MAXTRAPS];        /* traps on this level */
 
-int playuid;		    /* uid of current player */
-int playgid;		    /* gid of current player */
-int level = 1;		    /* What level rogue is on */
-int levcount = 0;	   /* # of active mons this level */
+int playuid;                /* uid of current player */
+int playgid;                /* gid of current player */
+int level = 1;              /* What level rogue is on */
+int levcount = 0;           /* # of active mons this level */
 int levtype = NORMLEV;      /* type of level this is, maze, etc. */
-int trader = 0;		    /* no. of purchases */
-int curprice = -1;	  /* current price of item */
-int purse = 0;		    /* How much gold the rogue has */
-int mpos = 0;		    /* Where cursor is on top line */
-int ntraps;		    /* # of traps on this level */
-int packvol = 0;	    /* volume of things in pack */
-int total = 0;		    /* Total dynamic memory bytes */
-int demoncnt = 0;	   /* number of active daemons */
-int lastscore = -1;	 /* Score before this turn */
-int no_food = 0;	    /* # of levels without food */
-int seed;		    /* Random number seed */
-int dnum;		    /* Dungeon number */
-int count = 0;		    /* # of times to repeat cmd */
-int fung_hit = 0;	   /* # of time fungi has hit */
-int quiet = 0;		    /* # of quiet turns */
-int max_level = 1;	  /* Deepest player has gone */
+int trader = 0;             /* no. of purchases */
+int curprice = -1;          /* current price of item */
+int purse = 0;              /* How much gold the rogue has */
+int mpos = 0;               /* Where cursor is on top line */
+int ntraps;                 /* # of traps on this level */
+int packvol = 0;            /* volume of things in pack */
+int total = 0;              /* Total dynamic memory bytes */
+int demoncnt = 0;           /* number of active daemons */
+int lastscore = -1;         /* Score before this turn */
+int no_food = 0;            /* # of levels without food */
+int seed;                   /* Random number seed */
+int dnum;                   /* Dungeon number */
+int count = 0;              /* # of times to repeat cmd */
+int fung_hit = 0;           /* # of time fungi has hit */
+int quiet = 0;              /* # of quiet turns */
+int max_level = 1;          /* Deepest player has gone */
 int food_left = HUNGERTIME; /* Amount of food stomach */
 int group = NEWGROUP;       /* Current group number */
 int hungry_state = F_OKAY;  /* How hungry is he */
-int foodlev = 1;	    /* how fast he eats food */
-int ringfood = 0;	   /* rings affect on food consumption */
-char take;		    /* Thing the rogue is taking */
-char runch;		    /* Direction player is running */
-char curpurch[15];	  /* name of item ready to buy */
+int foodlev = 1;            /* how fast he eats food */
+int ringfood = 0;           /* rings affect on food consumption */
+char take;                  /* Thing the rogue is taking */
+char runch;                 /* Direction player is running */
+char curpurch[15];          /* name of item ready to buy */
 
 char prbuf[LINLEN];     /* Buffer for sprintfs */
 char whoami[LINLEN];    /* Name of player */
@@ -106,19 +106,19 @@ char illegal[] = {"Illegal command '%s'."};
 char callit[] = {"Call it: "};
 char starlist[] = {" (* for a list)"};
 
-struct coord oldpos;		 /* Pos before last look() call */
-struct coord delta;		 /* Change indicated to get_dir() */
-struct coord stairs;		 /* where the stairs are put */
+struct coord oldpos;             /* Pos before last look() call */
+struct coord delta;              /* Change indicated to get_dir() */
+struct coord stairs;             /* where the stairs are put */
 struct coord rndspot = {-1, -1}; /* for random teleporting */
 
 struct monster *mtlev[MONRANGE];
 
 #define _r                                                                     \
-	{                                                                      \
-		10, 10, 10, 10                                                 \
-	}	     /* real ability (unused) */
+  {                                                                            \
+    10, 10, 10, 10                                                             \
+  }                   /* real ability (unused) */
 #define _p 0, 0, 0, 0 /* hit points, pack, carry (unused) */
-#define _c 10	 /* constitution (unused) */
+#define _c 10         /* constitution (unused) */
 
 /*
  * NAME SHOW CARRY {LEVEL} FLAGS _r {STR DEX WIS _c} EXP LVL ARM
@@ -452,51 +452,51 @@ struct monster monsters[MAXMONS + 1] = {
 #undef _r
 
 struct h_list helpstr[] = {'?',       "	prints help",
-			   '/',       "	identify object",
-			   'h',       "	left",
-			   'j',       "	down",
-			   'k',       "	up",
-			   'l',       "	right",
-			   'y',       "	up & left",
-			   'u',       "	up & right",
-			   'b',       "	down & left",
-			   'n',       "	down & right",
-			   'H',       "	run left",
-			   'J',       "	run down",
-			   'K',       "	run up",
-			   'L',       "	run right",
-			   'Y',       "	run up & left",
-			   'U',       "	run up & right",
-			   'B',       "	run down & left",
-			   'N',       "	run down & right",
-			   't',       "<dir>	throw something",
-			   'f',       "<dir>	forward until find something",
-			   'p',       "<dir>	zap a wand in a direction",
-			   'z',       "	zap a wand or staff",
-			   '>',       "	go down a staircase",
-			   's',       "	search for trap/secret door",
-			   '.',       "	(dot) rest for a while",
-			   'i',       "	inventory pack",
-			   'I',       "	inventory single item",
-			   'q',       "	quaff potion",
-			   'r',       "	read a scroll",
-			   'e',       "	eat food",
-			   'w',       "	wield a weapon",
-			   'W',       "	wear armor",
-			   'T',       "	take armor off",
-			   'P',       "	put on ring",
-			   'R',       "	remove ring",
-			   'd',       "	drop object",
-			   'c',       "	call object",
-			   'O',       "	examine/set options",
-			   'a',       "	display maximum stats",
-			   'D',       "	dip object in pool",
-			   CTRL('L'), "	redraw screen",
-			   ESCAPE,    "	cancel command",
-			   '!',       "	shell escape",
-			   'S',       "	save game",
-			   'Q',       "	quit",
-			   0,	 0};
+                           '/',       "	identify object",
+                           'h',       "	left",
+                           'j',       "	down",
+                           'k',       "	up",
+                           'l',       "	right",
+                           'y',       "	up & left",
+                           'u',       "	up & right",
+                           'b',       "	down & left",
+                           'n',       "	down & right",
+                           'H',       "	run left",
+                           'J',       "	run down",
+                           'K',       "	run up",
+                           'L',       "	run right",
+                           'Y',       "	run up & left",
+                           'U',       "	run up & right",
+                           'B',       "	run down & left",
+                           'N',       "	run down & right",
+                           't',       "<dir>	throw something",
+                           'f',       "<dir>	forward until find something",
+                           'p',       "<dir>	zap a wand in a direction",
+                           'z',       "	zap a wand or staff",
+                           '>',       "	go down a staircase",
+                           's',       "	search for trap/secret door",
+                           '.',       "	(dot) rest for a while",
+                           'i',       "	inventory pack",
+                           'I',       "	inventory single item",
+                           'q',       "	quaff potion",
+                           'r',       "	read a scroll",
+                           'e',       "	eat food",
+                           'w',       "	wield a weapon",
+                           'W',       "	wear armor",
+                           'T',       "	take armor off",
+                           'P',       "	put on ring",
+                           'R',       "	remove ring",
+                           'd',       "	drop object",
+                           'c',       "	call object",
+                           'O',       "	examine/set options",
+                           'a',       "	display maximum stats",
+                           'D',       "	dip object in pool",
+                           CTRL('L'), "	redraw screen",
+                           ESCAPE,    "	cancel command",
+                           '!',       "	shell escape",
+                           'S',       "	save game",
+                           'Q',       "	quit",
+                           0,         0};
 
 char *s_names[MAXSCROLLS];      /* Names of the scrolls */
 char *p_colors[MAXPOTIONS];     /* Colors of the potions */
@@ -764,7 +764,7 @@ struct magic_info thnginfo[NUMTHINGS] = {
 };
 
 long e_levels[] = {
-    10L,       20L,       40L,       80L,	160L,       320L,
+    10L,       20L,       40L,       80L,        160L,       320L,
     640L,      1280L,     2560L,     5120L,      10240L,     20480L,
     40920L,    81920L,    163840L,   327680L,    655360L,    1310720L,
     2621440L,  3932160L,  5242880L,  7864320L,   10485760L,  15728640L,

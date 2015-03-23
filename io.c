@@ -33,24 +33,24 @@ static int newpos = 0;
 
 int msg(char *fmt, ...)
 {
-	va_list ap;
-	/*
-	 * if the string is "", just clear the line
-	 */
-	if (*fmt == '\0') {
-		wmove(cw, 0, 0);
-		wclrtoeol(cw);
-		mpos = 0;
-		return 0;
-	}
-	/*
-	 * otherwise add to the message and flush it out
-	 */
-	va_start(ap, fmt);
-	doadd(fmt, ap);
-	va_end(ap);
-	endmsg();
-	return 0;
+  va_list ap;
+  /*
+   * if the string is "", just clear the line
+   */
+  if (*fmt == '\0') {
+    wmove(cw, 0, 0);
+    wclrtoeol(cw);
+    mpos = 0;
+    return 0;
+  }
+  /*
+   * otherwise add to the message and flush it out
+   */
+  va_start(ap, fmt);
+  doadd(fmt, ap);
+  va_end(ap);
+  endmsg();
+  return 0;
 }
 
 /*
@@ -59,11 +59,11 @@ int msg(char *fmt, ...)
  */
 void addmsg(char *fmt, ...)
 {
-	va_list ap;
+  va_list ap;
 
-	va_start(ap, fmt);
-	doadd(fmt, ap);
-	va_end(ap);
+  va_start(ap, fmt);
+  doadd(fmt, ap);
+  va_end(ap);
 }
 
 /*
@@ -73,18 +73,18 @@ void addmsg(char *fmt, ...)
  */
 void endmsg()
 {
-	strcpy(huh, msgbuf);
-	if (mpos > 0) {
-		wmove(cw, 0, mpos);
-		waddstr(cw, morestr);
-		draw(cw);
-		wait_for(cw, ' ');
-	}
-	mvwaddstr(cw, 0, 0, msgbuf);
-	wclrtoeol(cw);
-	mpos = newpos;
-	newpos = 0;
-	draw(cw);
+  strcpy(huh, msgbuf);
+  if (mpos > 0) {
+    wmove(cw, 0, mpos);
+    waddstr(cw, morestr);
+    draw(cw);
+    wait_for(cw, ' ');
+  }
+  mvwaddstr(cw, 0, 0, msgbuf);
+  wclrtoeol(cw);
+  mpos = newpos;
+  newpos = 0;
+  draw(cw);
 }
 
 /*
@@ -93,8 +93,8 @@ void endmsg()
  */
 void doadd(char *fmt, va_list ap)
 {
-	vsprintf(&msgbuf[newpos], fmt, ap);
-	newpos = strlen(msgbuf);
+  vsprintf(&msgbuf[newpos], fmt, ap);
+  newpos = strlen(msgbuf);
 }
 
 /*
@@ -103,11 +103,11 @@ void doadd(char *fmt, va_list ap)
  */
 bool step_ok(ch) unsigned char ch;
 {
-	if (dead_end(ch))
-		return FALSE;
-	else if (ch >= 32 && ch <= 127 && !isalpha(ch))
-		return TRUE;
-	return FALSE;
+  if (dead_end(ch))
+    return FALSE;
+  else if (ch >= 32 && ch <= 127 && !isalpha(ch))
+    return TRUE;
+  return FALSE;
 }
 
 /*
@@ -116,10 +116,10 @@ bool step_ok(ch) unsigned char ch;
  */
 bool dead_end(ch) char ch;
 {
-	if (ch == '-' || ch == '|' || ch == ' ' || ch == SECRETDOOR)
-		return TRUE;
-	else
-		return FALSE;
+  if (ch == '-' || ch == '|' || ch == ' ' || ch == SECRETDOOR)
+    return TRUE;
+  else
+    return FALSE;
 }
 
 /*
@@ -130,10 +130,10 @@ bool dead_end(ch) char ch;
 
 char readchar()
 {
-	char c;
+  char c;
 
-	fflush(stdout);
-	return (wgetch(cw));
+  fflush(stdout);
+  return (wgetch(cw));
 }
 
 char *hungstr[] = {
@@ -146,71 +146,71 @@ char *hungstr[] = {
  */
 int status(fromfuse) int fromfuse;
 {
-	reg int totwght, carwght;
-	reg struct real *stef, *stre, *stmx;
-	reg char *pb;
-	int oy, ox, ch;
-	static char buf[LINLEN];
-	static char hwidth[] = {"%2d(%2d)"};
+  reg int totwght, carwght;
+  reg struct real *stef, *stre, *stmx;
+  reg char *pb;
+  int oy, ox, ch;
+  static char buf[LINLEN];
+  static char hwidth[] = {"%2d(%2d)"};
 
-	/*
-	 * If nothing has changed since the last time, then done
-	 */
-	if (nochange)
-		return 0;
-	nochange = true;
-	updpack(); /* get all weight info */
-	stef = &player.t_stats.s_ef;
-	stre = &player.t_stats.s_re;
-	stmx = &max_stats.s_re;
-	totwght = him->s_carry / 10;
-	carwght = him->s_pack / 10;
-	getyx(cw, oy, ox);
-	if (him->s_maxhp >= 100) {
-		hwidth[1] = '3'; /* if hit point >= 100	*/
-		hwidth[5] = '3'; /* change %2d to %3d	*/
-	}
-	if (stre->a_str < stmx->a_str)
-		ch = '*';
-	else
-		ch = ' ';
-	snprintf(buf, "Str: %2d(%c%2d)", stef->a_str, ch, stre->a_str);
-	pb = &buf[strlen(buf)];
-	if (stre->a_dex < stmx->a_dex)
-		ch = '*';
-	else
-		ch = ' ';
-	snprintf(pb, "  Dex: %2d(%c%2d)", stef->a_dex, ch, stre->a_dex);
-	pb = &buf[strlen(buf)];
-	if (stre->a_wis < stmx->a_wis)
-		ch = '*';
-	else
-		ch = ' ';
-	snprintf(pb, "  Wis: %2d(%c%2d)", stef->a_wis, ch, stre->a_wis);
-	pb = &buf[strlen(buf)];
-	if (stre->a_con < stmx->a_con)
-		ch = '*';
-	else
-		ch = ' ';
-	snprintf(pb, "  Con: %2d(%c%2d)", stef->a_con, ch, stre->a_con);
-	pb = &buf[strlen(buf)];
-	snprintf(pb, "  Carry: %3d(%3d)", carwght, totwght);
-	mvwaddstr(cw, LINES - 1, 0, buf);
-	snprintf(buf, "Level: %d  Gold: %5d  Hp: ", level, purse);
-	pb = &buf[strlen(buf)];
-	snprintf(pb, hwidth, him->s_hpt, him->s_maxhp);
-	pb = &buf[strlen(buf)];
-	snprintf(pb, "  Ac: %-2d  Exp: %d/%ld",
-		 cur_armor == NULL ? him->s_arm : cur_armor->o_ac, him->s_lvl,
-		 him->s_exp);
-	carwght = (packvol * 100) / V_PACK;
-	pb = &buf[strlen(buf)];
-	snprintf(pb, "  Vol: %3d%%", carwght);
-	mvwaddstr(cw, LINES - 2, 0, buf);
-	waddstr(cw, hungstr[hungry_state]);
-	wclrtoeol(cw);
-	wmove(cw, oy, ox);
-	return 0;
+  /*
+   * If nothing has changed since the last time, then done
+   */
+  if (nochange)
+    return 0;
+  nochange = true;
+  updpack(); /* get all weight info */
+  stef = &player.t_stats.s_ef;
+  stre = &player.t_stats.s_re;
+  stmx = &max_stats.s_re;
+  totwght = him->s_carry / 10;
+  carwght = him->s_pack / 10;
+  getyx(cw, oy, ox);
+  if (him->s_maxhp >= 100) {
+    hwidth[1] = '3'; /* if hit point >= 100	*/
+    hwidth[5] = '3'; /* change %2d to %3d	*/
+  }
+  if (stre->a_str < stmx->a_str)
+    ch = '*';
+  else
+    ch = ' ';
+  snprintf(buf, "Str: %2d(%c%2d)", stef->a_str, ch, stre->a_str);
+  pb = &buf[strlen(buf)];
+  if (stre->a_dex < stmx->a_dex)
+    ch = '*';
+  else
+    ch = ' ';
+  snprintf(pb, "  Dex: %2d(%c%2d)", stef->a_dex, ch, stre->a_dex);
+  pb = &buf[strlen(buf)];
+  if (stre->a_wis < stmx->a_wis)
+    ch = '*';
+  else
+    ch = ' ';
+  snprintf(pb, "  Wis: %2d(%c%2d)", stef->a_wis, ch, stre->a_wis);
+  pb = &buf[strlen(buf)];
+  if (stre->a_con < stmx->a_con)
+    ch = '*';
+  else
+    ch = ' ';
+  snprintf(pb, "  Con: %2d(%c%2d)", stef->a_con, ch, stre->a_con);
+  pb = &buf[strlen(buf)];
+  snprintf(pb, "  Carry: %3d(%3d)", carwght, totwght);
+  mvwaddstr(cw, LINES - 1, 0, buf);
+  snprintf(buf, "Level: %d  Gold: %5d  Hp: ", level, purse);
+  pb = &buf[strlen(buf)];
+  snprintf(pb, hwidth, him->s_hpt, him->s_maxhp);
+  pb = &buf[strlen(buf)];
+  snprintf(pb, "  Ac: %-2d  Exp: %d/%ld",
+           cur_armor == NULL ? him->s_arm : cur_armor->o_ac, him->s_lvl,
+           him->s_exp);
+  carwght = (packvol * 100) / V_PACK;
+  pb = &buf[strlen(buf)];
+  snprintf(pb, "  Vol: %3d%%", carwght);
+  mvwaddstr(cw, LINES - 2, 0, buf);
+  waddstr(cw, hungstr[hungry_state]);
+  wclrtoeol(cw);
+  wmove(cw, oy, ox);
+  return 0;
 }
 
 /*
@@ -219,11 +219,11 @@ int status(fromfuse) int fromfuse;
  */
 void dispmax()
 {
-	reg struct real *hmax;
+  reg struct real *hmax;
 
-	hmax = &max_stats.s_re;
-	msg("Maximums:  Str = %d  Dex = %d  Wis = %d  Con = %d", hmax->a_str,
-	    hmax->a_dex, hmax->a_wis, hmax->a_con);
+  hmax = &max_stats.s_re;
+  msg("Maximums:  Str = %d  Dex = %d  Wis = %d  Con = %d", hmax->a_str,
+      hmax->a_dex, hmax->a_wis, hmax->a_con);
 }
 
 /*
@@ -232,11 +232,11 @@ void dispmax()
  */
 bool illeg_ch(ch) unsigned char ch;
 {
-	if (ch < 32 || ch > 127)
-		return TRUE;
-	if (ch >= '0' && ch <= '9')
-		return TRUE;
-	return FALSE;
+  if (ch < 32 || ch > 127)
+    return TRUE;
+  if (ch >= '0' && ch <= '9')
+    return TRUE;
+  return FALSE;
 }
 
 /*
@@ -246,14 +246,14 @@ bool illeg_ch(ch) unsigned char ch;
 void wait_for(win, ch) WINDOW *win;
 char ch;
 {
-	register char c;
+  register char c;
 
-	if (ch == '\n')
-		while ((c = wgetch(win)) != '\n' && c != '\r')
-			continue;
-	else
-		while (wgetch(win) != ch)
-			continue;
+  if (ch == '\n')
+    while ((c = wgetch(win)) != '\n' && c != '\r')
+      continue;
+  else
+    while (wgetch(win) != ch)
+      continue;
 }
 
 #ifdef NEED_GETTIME
@@ -273,13 +273,13 @@ char ch;
 
 char *gettime()
 {
-	register char *timeptr;
-	char *ctime();
-	long int now, time();
+  register char *timeptr;
+  char *ctime();
+  long int now, time();
 
-	time(&now);	    /* get current time */
-	timeptr = ctime(&now); /* convert to string */
-	return timeptr;	/* return the string */
+  time(&now);            /* get current time */
+  timeptr = ctime(&now); /* convert to string */
+  return timeptr;        /* return the string */
 }
 #endif
 
@@ -290,9 +290,9 @@ char *gettime()
 void dbotline(scr, message) WINDOW *scr;
 char *message;
 {
-	mvwaddstr(scr, LINES - 1, 0, message);
-	draw(scr);
-	wait_for(scr, ' ');
+  mvwaddstr(scr, LINES - 1, 0, message);
+  draw(scr);
+  wait_for(scr, ' ');
 }
 
 /*
@@ -301,8 +301,8 @@ char *message;
  */
 void restscr(scr) WINDOW *scr;
 {
-	clearok(scr, true);
-	touchwin(scr);
+  clearok(scr, true);
+  touchwin(scr);
 }
 
 /*
@@ -311,10 +311,10 @@ void restscr(scr) WINDOW *scr;
  */
 int npch(ch) char ch;
 {
-	reg char nch;
-	if (ch >= 'z')
-		nch = 'A';
-	else
-		nch = ch + 1;
-	return nch;
+  reg char nch;
+  if (ch >= 'z')
+    nch = 'A';
+  else
+    nch = ch + 1;
+  return nch;
 }

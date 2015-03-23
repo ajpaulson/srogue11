@@ -74,7 +74,7 @@ void do_run();
 int do_zap();
 void doadd(char *fmt, va_list ap);
 void door();
-bool  dosave();
+bool dosave();
 int drain();
 void draw_maze();
 void draw_room();

@@ -6,7 +6,6 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
-#include	<sgtty.h>
-typedef	struct sgttyb	SGTTY;
+#include <sgtty.h>
+typedef struct sgttyb SGTTY;
 static SGTTY _tty, _res_flg;
-
