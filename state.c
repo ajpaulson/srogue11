@@ -317,7 +317,7 @@ int rs_write_long(FILE *savef, long c)
 {
   int c2;
   unsigned char bytes[4];
-  unsigned char *buf = (unsigned char *)&c;
+  unsigned char *buf;
 
   if (sizeof(long) == 8) {
     c2 = c;
@@ -353,7 +353,7 @@ int rs_write_ulong(FILE *savef, unsigned long c)
 {
   unsigned int c2;
   unsigned char bytes[4];
-  unsigned char *buf = (unsigned char *)&c;
+  unsigned char *buf;
 
   if ((sizeof(long) == 8) && (sizeof(int) == 4)) {
     c2 = c;

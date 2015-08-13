@@ -229,7 +229,7 @@ int do_zap(gotdir) bool gotdir;
           delta.y = y;
           delta.x = x;
           monster = rnd_mon(FALSE, TRUE);
-          item = new_monster(monster, &delta, FALSE);
+          /* item = new_monster(monster, &delta, FALSE); */
           if (!(tp->t_flags & ISRUN))
             runto(&delta, &hero);
           if (isalpha(mvwinch(cw, y, x)))

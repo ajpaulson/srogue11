@@ -478,7 +478,10 @@ char *out;
 int salt;
 int count;
 {
-  unsigned int l_out, r_out, rawl, rawr;
+  unsigned int l_out = 0;
+  unsigned int r_out = 0;
+  unsigned int rawl = 0;
+  unsigned int rawr = 0;
   unsigned int x[2];
   int retval;
 

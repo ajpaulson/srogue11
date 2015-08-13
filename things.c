@@ -204,7 +204,7 @@ void money()
  */
 bool drop(item) struct linked_list *item;
 {
-  reg char ch;
+  reg char ch = FLOOR;
   reg struct linked_list *ll, *nll;
   reg struct object *op;
 

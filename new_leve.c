@@ -27,7 +27,7 @@
 void new_level(ltype) int ltype;
 {
   register int i;
-  register char ch;
+  register char ch = FLOOR;
   struct coord traploc;
   struct room *rp;
 

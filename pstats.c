@@ -308,7 +308,7 @@ int str_plus(who) struct stats *who;
 {
   reg int hitplus, str;
 
-  hitplus = 0;
+  /* hitplus = 0; */
   str = who->s_ef.a_str;
   if (str > 24) /* > 24 */
     hitplus = str - 21;
@@ -339,7 +339,7 @@ int add_dam(who) struct stats *who;
 {
   reg int exdam, str;
 
-  exdam = 0;
+  /* exdam = 0; */
   str = who->s_ef.a_str;
   if (str > 24) /* > 24 */
     exdam = str - 18;

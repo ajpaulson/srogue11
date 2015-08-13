@@ -139,8 +139,8 @@ bool dosave()
   FILE *savef;
 
   ignore();
-  setuid(playuid);
-  setgid(playgid);
+  (void) setuid(playuid);
+  (void) setgid(playgid);
   umask(022);
 
   if (file_name[0] != '\0') {
@@ -303,8 +303,8 @@ bool restore(file, envp) char *file, **envp;
 
     /* set id to unlink file */
     if (pid == 0) {
-      setuid(playuid);
-      setgid(playgid);
+      (void) setuid(playuid);
+      (void) setgid(playgid);
       unlink(file);
       exit(0);
     }

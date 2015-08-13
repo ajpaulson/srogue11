@@ -81,7 +81,7 @@ int what;
   obj->o_type = ARMOR;
   obj->o_which = what;
   iwa = &armors[what];
-  mi = &a_magic[what];
+  /* mi = &a_magic[what]; */
   obj->o_vol = iwa->a_vol;
   obj->o_ac = iwa->a_class;
   obj->o_weight = iwa->a_wght;

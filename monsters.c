@@ -165,7 +165,7 @@ char type;
   if (iswearing(R_AGGR) && !treas)
     runto(cp, &hero);
   if (tp->t_type == 'M') {
-    char mch;
+    char mch = FLOOR;
 
     if (tp->t_pack != NULL)
       mch = (OBJPTR(tp->t_pack))->o_type;
@@ -196,7 +196,7 @@ char type;
  */
 void wanderer()
 {
-  reg int ch;
+  reg int ch = FLOOR;
   reg struct room *rp, *hr = player.t_room;
   reg struct linked_list *item;
   reg struct thing *tp;
@@ -263,7 +263,7 @@ struct linked_list *wake_monster(y, x) int y, x;
    * Hide invisible monsters
    */
   if ((tp->t_flags & ISINVIS) && pl_off(CANSEE))
-    ch = mvinch(y, x);
+    /* ch = mvinch(y, x); */
   /*
    * Let greedy ones guard gold
    */

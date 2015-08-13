@@ -386,7 +386,7 @@ int read_scroll()
     when S_BAN:
     {
       int howdeep;
-      char *ptr;
+      char *ptr = "";
 
       if (bless) {
         if (level > 6) {

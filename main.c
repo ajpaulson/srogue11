@@ -428,7 +428,7 @@ int directory_exists(char *dirname)
 
 char *roguehome()
 {
-  static char path[1024];
+  static char path[PATH_MAX];
   char *end, *home;
 
   if ((home = getenv("ROGUEHOME")) != NULL) {
