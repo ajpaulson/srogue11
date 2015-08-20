@@ -170,6 +170,6 @@ void do_fuses()
  */
 void activity()
 {
-  msg("Daemons = %d : Memory Items = %d : Memory Used = %d", demoncnt, total,
+  msg("Daemons = %d : Memory Items = %d : Memory Used = %p", demoncnt, total,
       sbrk(0));
 }
