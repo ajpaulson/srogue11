@@ -180,7 +180,7 @@ char **envp;
     byebye(1);
   }
 
-  if ((whoami == NULL) || (*whoami == '\0') ||
+  if ((whoami[0] == '\0') || (*whoami == '\0') ||
       (strcmp(whoami, "dosuser") == 0)) {
     echo();
     mvaddstr(23, 2, "Rogue's Name? ");
@@ -188,7 +188,7 @@ char **envp;
     noecho();
   }
 
-  if ((whoami == NULL) || (*whoami == '\0'))
+  if ((whoami[0] == '\0') || (*whoami == '\0'))
     strcpy(whoami, "Rodney");
 
   setup();
