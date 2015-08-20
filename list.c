@@ -61,7 +61,7 @@ void _attach(list, item) struct linked_list **list, *item;
  */
 void _free_list(ptr) struct linked_list **ptr;
 {
-  register struct linked_list *item;
+  struct linked_list *item;
 
   while (*ptr != NULL) {
     item = *ptr;
@@ -85,7 +85,7 @@ void discard(item) struct linked_list *item;
  */
 struct linked_list *new_item(size) int size;
 {
-  register struct linked_list *item;
+  struct linked_list *item;
 
   item = (struct linked_list *)new (sizeof *item);
   item->l_data = new (size);
@@ -95,7 +95,7 @@ struct linked_list *new_item(size) int size;
 
 char *new (size) int size;
 {
-  register char *space = ALLOC(size);
+  char *space = ALLOC(size);
 
   if (space == NULL) {
     sprintf(prbuf, "Rogue ran out of memory (%d).", sbrk(0));

@@ -29,10 +29,10 @@
  */
 int read_scroll()
 {
-  reg struct object *obj;
-  reg struct linked_list *item;
-  reg int i, j, wh;
-  reg char ch, nch;
+  struct object *obj;
+  struct linked_list *item;
+  int i, j, wh;
+  char ch, nch;
   struct room *rp;
   struct linked_list *titem;
   char buf[LINLEN];
@@ -106,14 +106,14 @@ int read_scroll()
        * spaces
        * from chasing after the hero.
        */
-      reg int x, y;
-      reg struct linked_list *mon;
+      int x, y;
+      struct linked_list *mon;
 
       for (x = hero.x - 3; x <= hero.x + 3; x++) {
         for (y = hero.y - 3; y <= hero.y + 3; y++) {
           if (y > 0 && x > 0 && isalpha(mvwinch(mw, y, x))) {
             if ((mon = find_mons(y, x)) != NULL) {
-              reg struct thing *th;
+              struct thing *th;
 
               th = THINGPTR(mon);
               th->t_flags &= ~ISRUN;

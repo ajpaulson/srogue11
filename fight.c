@@ -34,9 +34,9 @@ struct object *weap;
 bool thrown;
 {
 
-  reg struct thing *tp;
-  reg struct stats *st;
-  reg struct linked_list *item;
+  struct thing *tp;
+  struct stats *st;
+  struct linked_list *item;
   bool did_hit = TRUE;
 
   if (pl_on(ISETHER)) /* cant fight when ethereal */
@@ -67,7 +67,7 @@ bool thrown;
     did_hit = thrown;
   }
   if (did_hit) {
-    reg char *mname;
+    char *mname;
 
     did_hit = FALSE;
     if (pl_on(ISBLIND))
@@ -128,7 +128,7 @@ bool thrown;
  */
 int attack(mp) struct thing *mp;
 {
-  reg char *mname;
+  char *mname;
 
   if (pl_on(ISETHER)) /* ethereal players cant be hit */
     return (0);
@@ -364,8 +364,8 @@ int attack(mp) struct thing *mp;
  */
 int swing(at_lvl, op_arm, wplus) int at_lvl, op_arm, wplus;
 {
-  reg int res = rnd(20) + 1;
-  reg int need = (21 - at_lvl) - op_arm;
+  int res = rnd(20) + 1;
+  int need = (21 - at_lvl) - op_arm;
 
   return (res + wplus >= need);
 }
@@ -376,7 +376,7 @@ int swing(at_lvl, op_arm, wplus) int at_lvl, op_arm, wplus;
  */
 int check_level()
 {
-  reg int lev, add, dif;
+  int lev, add, dif;
 
   for (lev = 0; e_levels[lev] != 0; lev++)
     if (e_levels[lev] > him->s_exp)
@@ -402,9 +402,9 @@ bool roll_em(att, def, weap, hurl) struct stats *att, *def;
 struct object *weap;
 bool hurl;
 {
-  reg char *cp;
-  reg int ndice, nsides, def_arm, prop_hplus, prop_dplus;
-  reg bool did_hit = FALSE;
+  char *cp;
+  int ndice, nsides, def_arm, prop_hplus, prop_dplus;
+  bool did_hit = FALSE;
   char *mindex();
 
   prop_hplus = prop_dplus = 0;
@@ -464,7 +464,7 @@ bool hurl;
       hplus += getpdex(att, TRUE);
     if (swing(att->s_lvl, def_arm + getpdex(def, FALSE),
               hplus + str_plus(att))) {
-      reg int proll;
+      int proll;
 
       proll = roll(ndice, nsides);
       damage = dplus + proll + add_dam(att);
@@ -485,7 +485,7 @@ bool hurl;
  */
 char *mindex(cp, c) char *cp, c;
 {
-  reg int i;
+  int i;
 
   for (i = 0; i < 3; i++)
     if (*cp != c)
@@ -544,8 +544,8 @@ void miss(er) char *er;
 int save_throw(which, tp) int which;
 struct thing *tp;
 {
-  reg int need;
-  reg struct stats *st;
+  int need;
+  struct stats *st;
 
   st = &tp->t_stats;
   need = 14 + which - (st->s_lvl / 2) - getpwis(st);
@@ -604,7 +604,7 @@ char *mname;
 void remove_monster(mp, item) struct coord *mp;
 struct linked_list *item;
 {
-  reg char what;
+  char what;
 
   mvwaddch(mw, mp->y, mp->x, ' ');
   if (pl_on(ISBLIND))
@@ -644,8 +644,8 @@ bool is_magic(obj) struct object *obj;
 void killed(item, pr) struct linked_list *item;
 bool pr;
 {
-  reg struct thing *tp;
-  reg struct object *obj;
+  struct thing *tp;
+  struct object *obj;
   struct linked_list *pitem, *nexti, *itspack;
   struct coord here;
 
@@ -664,7 +664,7 @@ bool pr;
   check_level();
   unhold(tp->t_type); /* free player if held */
   if (tp->t_type == 'L') {
-    reg struct room *rp;
+    struct room *rp;
 
     rp = roomin(&here);
     if (rp != NULL) {

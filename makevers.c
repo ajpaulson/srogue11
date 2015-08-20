@@ -26,8 +26,8 @@ char *strrchr(), *strchr(), *fgets();
 main(argc, argv) int argc;
 char **argv;
 {
-  register int i;
-  register char *ptr;
+  int i;
+  char *ptr;
   char ts[30];
   FILE *fp;
 
@@ -75,8 +75,8 @@ char **argv;
 updvers(vers, fname) char *fname;
 char *vers;
 {
-  register FILE *fp;
-  register char *ptr, *c;
+  FILE *fp;
+  char *ptr, *c;
   char line[LINESIZ];
 
   if ((fp = fopen(fname, "r+")) == NULL) {

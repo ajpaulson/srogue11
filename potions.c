@@ -28,10 +28,10 @@
  */
 int quaff()
 {
-  reg struct object *obj;
-  reg struct linked_list *item, *titem;
-  reg struct thing *th;
-  reg int wh;
+  struct object *obj;
+  struct linked_list *item, *titem;
+  struct thing *th;
+  int wh;
   char buf[LINLEN];
   bool bless, curse;
 
@@ -133,7 +133,7 @@ int quaff()
         }
       }
       for (titem = mlist; titem != NULL; titem = next(titem)) {
-        reg struct linked_list *pitem;
+        struct linked_list *pitem;
 
         th = THINGPTR(titem);
         for (pitem = th->t_pack; pitem != NULL; pitem = next(pitem)) {

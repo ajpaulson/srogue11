@@ -31,7 +31,7 @@
 int rnd_mon(wander, baddie) bool wander;
 bool baddie; /* TRUE when from a polymorph stick */
 {
-  reg int i, ok, cnt;
+  int i, ok, cnt;
 
   cnt = 0;
   if (levcount == 0) /* if only asmodeus possible */
@@ -66,8 +66,8 @@ bool baddie; /* TRUE when from a polymorph stick */
  */
 void lev_mon()
 {
-  reg int i;
-  reg struct monster *mm;
+  int i;
+  struct monster *mm;
 
   levcount = 0;
   for (i = 0; i < MAXMONS; i++) {
@@ -90,10 +90,10 @@ struct linked_list *new_monster(type, cp, treas) struct coord *cp;
 bool treas;
 char type;
 {
-  reg struct linked_list *item;
-  reg struct thing *tp;
-  reg struct monster *mp;
-  reg struct stats *st;
+  struct linked_list *item;
+  struct thing *tp;
+  struct monster *mp;
+  struct stats *st;
   float killexp; /* experience gotten for killing him */
 
   item = new_item(sizeof(struct thing));
@@ -196,10 +196,10 @@ char type;
  */
 void wanderer()
 {
-  reg int ch = FLOOR;
-  reg struct room *rp, *hr = player.t_room;
-  reg struct linked_list *item;
-  reg struct thing *tp;
+  int ch = FLOOR;
+  struct room *rp, *hr = player.t_room;
+  struct linked_list *item;
+  struct thing *tp;
   struct coord mp;
 
   do {
@@ -221,10 +221,10 @@ void wanderer()
  */
 struct linked_list *wake_monster(y, x) int y, x;
 {
-  reg struct thing *tp;
-  reg struct linked_list *it;
-  reg struct room *rp;
-  reg char ch;
+  struct thing *tp;
+  struct linked_list *it;
+  struct room *rp;
+  char ch;
   bool treas = FALSE;
 
   if ((it = find_mons(y, x)) == NULL)
@@ -282,10 +282,10 @@ struct linked_list *wake_monster(y, x) int y, x;
  */
 int genocide()
 {
-  reg struct linked_list *ip, *nip;
-  reg struct thing *mp;
+  struct linked_list *ip, *nip;
+  struct thing *mp;
   struct monster *mm;
-  reg int i, ii, c;
+  int i, ii, c;
 
   if (levcount == 0) {
     mpos = 0;
@@ -365,8 +365,8 @@ int midx(whichmon) char whichmon;
  */
 bool monhurt(th) struct thing *th;
 {
-  reg int ewis, crithp, f1, f2;
-  reg struct stats *st;
+  int ewis, crithp, f1, f2;
+  struct stats *st;
 
   st = &th->t_stats;
   ewis = st->s_ef.a_wis;

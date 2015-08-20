@@ -26,7 +26,6 @@
 #define _IOSTRG 01
 #endif
 
-#define reg register /* register abbr.       */
 
 /*
  * Maximum number of different things

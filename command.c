@@ -37,8 +37,8 @@
  */
 void command()
 {
-  reg char ch;
-  reg int ntimes = 1; /* Number of player moves */
+  char ch;
+  int ntimes = 1; /* Number of player moves */
   static char countch, direction, newcount = FALSE;
 
   if (pl_on(ISHASTE))
@@ -395,7 +395,7 @@ void command()
  */
 void quit(int a)
 {
-  reg char ch, good;
+  char ch, good;
   /*
    * Reset the signal in case we got here via an interrupt
    */
@@ -436,8 +436,8 @@ void quit(int a)
 
 int search()
 {
-  reg int x, y;
-  reg char ch;
+  int x, y;
+  char ch;
 
   /*
    * Look all around the hero, if there is something hidden there,
@@ -449,7 +449,7 @@ int search()
     for (y = hero.y - 1; y <= hero.y + 1; y++) {
       ch = winat(y, x);
       if (isatrap(ch)) { /* see if its a trap */
-        reg struct trap *tp;
+        struct trap *tp;
 
         if ((tp = trap_at(y, x)) == NULL)
           break;
@@ -482,9 +482,9 @@ int search()
 int help()
 {
   extern struct h_list helpstr[];
-  reg struct h_list *strp;
-  reg char helpch;
-  reg int cnt;
+  struct h_list *strp;
+  char helpch;
+  int cnt;
 
   strp = &helpstr[0];
   msg("Character you want help for (* for all): ");
@@ -538,7 +538,7 @@ int help()
  */
 char *identify(what) int what;
 {
-  reg char ch, *str;
+  char ch, *str;
 
   if (what == 0) {
     msg("What do you want identified? ");
@@ -643,8 +643,8 @@ int u_level()
  */
 void shell()
 {
-  reg int pid;
-  reg char *sh;
+  int pid;
+  char *sh;
   int ret_status;
 
   /*
@@ -706,9 +706,9 @@ void shell()
  */
 int call()
 {
-  reg struct object *obj;
-  reg struct linked_list *item;
-  reg char **guess, *elsewise;
+  struct object *obj;
+  struct linked_list *item;
+  char **guess, *elsewise;
   int wh;
 
   if ((item = get_item("call", 0)) == NULL)

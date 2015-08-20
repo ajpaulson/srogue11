@@ -26,8 +26,8 @@
  */
 void new_level(ltype) int ltype;
 {
-  register int i;
-  register char ch = FLOOR;
+  int i;
+  char ch = FLOOR;
   struct coord traploc;
   struct room *rp;
 
@@ -138,7 +138,7 @@ void new_level(ltype) int ltype;
  */
 int rnd_room()
 {
-  register int rm;
+  int rm;
 
   if (levtype != NORMLEV)
     rm = 0;
@@ -157,7 +157,7 @@ int rnd_room()
 
 int put_things()
 {
-  register int i, cnt, rm;
+  int i, cnt, rm;
   struct linked_list *item;
   struct object *cur;
   struct coord tp;

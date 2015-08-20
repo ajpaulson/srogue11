@@ -69,7 +69,7 @@ int chg_abil(what, amt, how) int amt, what, how;
 int updabil(what, amt, pst, how) struct real *pst;
 int what, amt, how;
 {
-  register int *wh, *mx, *mr;
+  int *wh, *mx, *mr;
   struct real *mst, *msr;
   bool is_str = FALSE;
   int rtype;
@@ -156,7 +156,7 @@ void add_haste(potion) bool potion;
 int getpdex(who, heave) struct stats *who;
 bool heave;
 {
-  reg int edex;
+  int edex;
 
   edex = who->s_ef.a_dex;
   if (heave) {/* an object was thrown here */
@@ -227,7 +227,7 @@ bool heave;
  */
 int getpwis(who) struct stats *who;
 {
-  reg int ewis;
+  int ewis;
 
   ewis = who->s_ef.a_wis;
   if (ewis > 18)
@@ -267,7 +267,7 @@ int getpwis(who) struct stats *who;
  */
 int getpcon(who) struct stats *who;
 {
-  reg int econ;
+  int econ;
 
   econ = who->s_ef.a_con;
   if (econ > 18)
@@ -306,7 +306,7 @@ int getpcon(who) struct stats *who;
  */
 int str_plus(who) struct stats *who;
 {
-  reg int hitplus, str;
+  int hitplus, str;
 
   /* hitplus = 0; */
   str = who->s_ef.a_str;
@@ -337,7 +337,7 @@ int str_plus(who) struct stats *who;
  */
 int add_dam(who) struct stats *who;
 {
-  reg int exdam, str;
+  int exdam, str;
 
   /* exdam = 0; */
   str = who->s_ef.a_str;

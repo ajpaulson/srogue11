@@ -29,9 +29,9 @@
  */
 int ring_on()
 {
-  reg struct object *obj;
-  reg struct linked_list *item;
-  reg int ring, wh;
+  struct object *obj;
+  struct linked_list *item;
+  int ring, wh;
   char buf[LINLEN];
   bool okring;
 
@@ -138,8 +138,8 @@ int ring_on()
  */
 int ring_off()
 {
-  reg int ring;
-  reg struct object *obj;
+  int ring;
+  struct object *obj;
 
   if (cur_ring[LEFT] == NULL && cur_ring[RIGHT] == NULL) {
     msg("You're not wearing any rings.");
@@ -209,7 +209,7 @@ void toss_ring(what) struct object *what;
  */
 int gethand(isrmv) bool isrmv;
 {
-  reg int c;
+  int c;
   char *ptr;
   struct object *obj;
 
@@ -261,8 +261,8 @@ int gethand(isrmv) bool isrmv;
  */
 int ring_eat()
 {
-  reg struct object *lb;
-  reg int hand, i, howmuch;
+  struct object *lb;
+  int hand, i, howmuch;
   bool addit;
 
   howmuch = 0;
@@ -349,8 +349,8 @@ bool magring(what) struct object *what;
  */
 void ringabil()
 {
-  reg struct object *rptr;
-  reg int i;
+  struct object *rptr;
+  int i;
 
   for (i = LEFT; i <= RIGHT; i++) {
     rptr = cur_ring[i];
@@ -373,7 +373,7 @@ void ringabil()
 void init_ring(what, fromwiz) struct object *what;
 bool fromwiz; /* TRUE when from wizards */
 {
-  reg int much;
+  int much;
 
   switch (what->o_which) {
   case R_DIGEST: /* -3 to +3 rings */
@@ -418,7 +418,7 @@ bool fromwiz; /* TRUE when from wizards */
  */
 int ringex(rtype) int rtype;
 {
-  reg int howmuch = 0;
+  int howmuch = 0;
 
   if (isring(LEFT, rtype))
     howmuch += cur_ring[LEFT]->o_ac;

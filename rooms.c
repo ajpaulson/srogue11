@@ -29,10 +29,10 @@ void do_rooms()
 {
   int mloops, mchance, nummons, left_out, roomtries;
   bool treas = FALSE;
-  reg int i;
-  reg struct room *rp;
-  reg struct linked_list *item;
-  reg struct thing *tp;
+  int i;
+  struct room *rp;
+  struct linked_list *item;
+  struct thing *tp;
   struct coord top, bsze, mp;
 
   /*
@@ -139,8 +139,8 @@ void do_rooms()
 void add_mon(rm, treas) struct room *rm;
 bool treas;
 {
-  reg struct thing *tp;
-  reg struct linked_list *item;
+  struct thing *tp;
+  struct linked_list *item;
   struct coord mp;
   int chance;
 
@@ -154,7 +154,7 @@ bool treas;
    * See if monster has a treasure
    */
   if (levtype == MAZELEV && rnd(100) < 20) {
-    reg struct linked_list *fd;
+    struct linked_list *fd;
 
     fd = new_thing(FALSE, FOOD, 0);
     attach(tp->t_pack, fd);
@@ -170,7 +170,7 @@ bool treas;
  */
 void draw_room(rp) struct room *rp;
 {
-  reg int j, k;
+  int j, k;
 
   move(rp->r_pos.y, rp->r_pos.x + 1);
   vert(rp->r_max.y - 2); /* Draw left side */
@@ -211,7 +211,7 @@ void horiz(cnt) int cnt;
  */
 void vert(cnt) int cnt;
 {
-  reg int x, y;
+  int x, y;
 
   getyx(stdscr, y, x);
   x--;
@@ -227,7 +227,7 @@ void vert(cnt) int cnt;
  */
 struct coord *rnd_pos(rp) struct room *rp;
 {
-  reg int y, x, i;
+  int y, x, i;
   static struct coord spot;
 
   i = 0;

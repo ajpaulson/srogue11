@@ -43,7 +43,7 @@ struct delayed_action d_list[MAXDAEMONS] = {
 struct delayed_action *d_insert(func, arg, type, time) int arg, type, time,
     (*func)();
 {
-  reg struct delayed_action *dev;
+  struct delayed_action *dev;
 
   if (demoncnt < MAXDAEMONS) {
     dev = &d_list[demoncnt];
@@ -59,7 +59,7 @@ struct delayed_action *d_insert(func, arg, type, time) int arg, type, time,
 
 int d_delete(wire) struct delayed_action *wire;
 {
-  reg struct delayed_action *d1, *d2;
+  struct delayed_action *d1, *d2;
 
   for (d1 = d_list; d1 < &d_list[demoncnt]; d1++) {
     if (wire == d1) {
@@ -80,7 +80,7 @@ int d_delete(wire) struct delayed_action *wire;
  */
 struct delayed_action *find_slot(func) int (*func)();
 {
-  reg struct delayed_action *dev;
+  struct delayed_action *dev;
 
   for (dev = d_list; dev < &d_list[demoncnt]; dev++)
     if (dev->d_type != EMPTY && func == dev->d_func)
@@ -104,7 +104,7 @@ void srdaemon(func, arg, type) int arg, type, (*func)();
  */
 void do_daemons(flag) int flag;
 {
-  reg struct delayed_action *dev;
+  struct delayed_action *dev;
 
   for (dev = d_list; dev < &d_list[demoncnt]; dev++)
     if (dev->d_type == flag && dev->d_time == DAEMON)
@@ -126,7 +126,7 @@ void fuse(func, arg, time) int (*func)(), arg, time;
  */
 void lengthen(func, xtime) int (*func)(), xtime;
 {
-  reg struct delayed_action *wire;
+  struct delayed_action *wire;
 
   for (wire = d_list; wire < &d_list[demoncnt]; wire++)
     if (wire->d_type != EMPTY && func == wire->d_func)
@@ -139,7 +139,7 @@ void lengthen(func, xtime) int (*func)(), xtime;
  */
 void extinguish(func) int (*func)();
 {
-  reg struct delayed_action *dev;
+  struct delayed_action *dev;
 
   for (dev = d_list; dev < &d_list[demoncnt]; dev++)
     if (dev->d_type != EMPTY && func == dev->d_func)
@@ -152,7 +152,7 @@ void extinguish(func) int (*func)();
  */
 void do_fuses()
 {
-  reg struct delayed_action *dev;
+  struct delayed_action *dev;
 
   for (dev = d_list; dev < &d_list[demoncnt]; dev++) {
     if (dev->d_type == AFTER && dev->d_time > DAEMON) {

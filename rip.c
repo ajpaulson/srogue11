@@ -66,7 +66,7 @@ char *killname();
 
 void death(monst) char monst;
 {
-  reg char dp, *killer;
+  char dp, *killer;
   struct tm *lt;
   time_t date;
   char buf[LINLEN];
@@ -119,9 +119,9 @@ int oldpurse;
 int score(amount, aflag, monst) char monst;
 int amount, aflag;
 {
-  reg struct sc_ent *scp, *sc2;
-  reg int i, fd, prflags = 0;
-  reg FILE *outf;
+  struct sc_ent *scp, *sc2;
+  int i, fd, prflags = 0;
+  FILE *outf;
   char *packend;
 
   signal(SIGINT, byebye);
@@ -220,7 +220,7 @@ int amount, aflag;
  */
 bool showtop(showname) int showname;
 {
-  reg int fd, i;
+  int fd, i;
   char *killer;
   struct sc_ent *scp;
 
@@ -312,10 +312,10 @@ void total_winner()
 void showpack(winner, howso) bool winner;
 char *howso;
 {
-  reg char *iname;
-  reg int cnt, worth, ch;
-  reg struct linked_list *item;
-  reg struct object *obj;
+  char *iname;
+  int cnt, worth, ch;
+  struct linked_list *item;
+  struct object *obj;
 
   idenpack();
   cnt = 1;

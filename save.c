@@ -57,8 +57,8 @@ void ignore()
  */
 bool save_game()
 {
-  reg FILE *savef;
-  reg int c;
+  FILE *savef;
+  int c;
   char buf[LINLEN];
 
   mpos = 0;
@@ -158,7 +158,7 @@ bool dosave()
  */
 void save_file(savef) FILE *savef;
 {
-  reg int fnum;
+  int fnum;
   int slines = LINES;
   int scols = COLS;
 
@@ -196,7 +196,7 @@ void save_file(savef) FILE *savef;
  */
 bool restore(file, envp) char *file, **envp;
 {
-  register int inf, pid;
+  int inf, pid;
   int ret_status;
 #ifndef _AIX
   extern char **environ;

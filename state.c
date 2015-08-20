@@ -84,12 +84,12 @@ char encstr[] = "\354\251\243\332A\201|\301\321p\210\251\327\"\257\365t\341%"
 /*
  * perform an encrypted write
  */
-void encwrite(starta, size, outf) register void *starta;
+void encwrite(starta, size, outf) void *starta;
 unsigned int size;
-register FILE *outf;
+FILE *outf;
 {
-  register char *ep;
-  register char *start = starta;
+  char *ep;
+  char *start = starta;
 
   ep = encstr;
 
@@ -103,13 +103,13 @@ register FILE *outf;
 /*
  * perform an encrypted read
  */
-int encread(starta, size, inf) register void *starta;
+int encread(starta, size, inf) void *starta;
 unsigned int size;
-register int inf;
+int inf;
 {
-  register char *ep;
-  register int read_size;
-  register char *start = starta;
+  char *ep;
+  int read_size;
+  char *start = starta;
 
   if ((read_size = read(inf, start, size)) == -1 || read_size == 0)
     return read_size;

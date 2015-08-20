@@ -66,10 +66,10 @@ void fix_stick(cur) struct object *cur;
  */
 int do_zap(gotdir) bool gotdir;
 {
-  reg struct linked_list *item;
-  reg struct object *obj;
-  reg struct thing *tp;
-  reg int y, x, wh;
+  struct linked_list *item;
+  struct object *obj;
+  struct thing *tp;
+  int y, x, wh;
   struct room *rp;
   bool bless, curse;
   int better = 0;
@@ -138,7 +138,7 @@ int do_zap(gotdir) bool gotdir;
     {
       struct linked_list *mitem;
       struct thing *it;
-      reg int i, j;
+      int i, j;
 
       for (i = hero.y - 3; i <= hero.y + 3; i++) {
         for (j = hero.x - 3; j <= hero.x + 3; j++) {
@@ -204,7 +204,7 @@ int do_zap(gotdir) bool gotdir;
     when WS_POLYM : case WS_TELAWAY : case WS_TELTO : case WS_CANCEL
                                                       : case WS_MINVIS:
     {
-      reg char monster, oldch;
+      char monster, oldch;
 
       y = hero.y;
       x = hero.x;
@@ -313,7 +313,7 @@ int do_zap(gotdir) bool gotdir;
     }
     when WS_HASTE_M : case WS_CONFMON : case WS_SLOW_M : case WS_MOREMON:
     {
-      reg int m1, m2;
+      int m1, m2;
       struct coord mp;
       struct linked_list *titem;
 
@@ -372,8 +372,8 @@ int do_zap(gotdir) bool gotdir;
     }
     when WS_ELECT : case WS_FIRE : case WS_COLD:
     {
-      reg char dirch, ch, *name;
-      reg bool bounced, used;
+      char dirch, ch, *name;
+      bool bounced, used;
       int boingcnt, boltlen;
       struct coord pos;
       struct coord spotpos[BOLT_LENGTH * 2];
@@ -461,7 +461,7 @@ int do_zap(gotdir) bool gotdir;
     }
     when WS_ANTIM:
     {
-      reg int m1, m2, x1, y1;
+      int m1, m2, x1, y1;
       struct linked_list *ll;
       struct thing *lt;
       int ch, radius;
@@ -529,9 +529,9 @@ int do_zap(gotdir) bool gotdir;
  */
 int drain(ymin, ymax, xmin, xmax) int ymin, ymax, xmin, xmax;
 {
-  reg int i, j, cnt;
-  reg struct thing *ick;
-  reg struct linked_list *item;
+  int i, j, cnt;
+  struct thing *ick;
+  struct linked_list *item;
 
   /*
    * First count how many things we need to spread the hit points among

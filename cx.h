@@ -10,7 +10,6 @@
 #include <sgtty.h>
 
 #define bool char    /* boolean variable	*/
-#define reg register /* register abbr.	*/
 
 #define TRUE (1)
 #define FALSE (0)

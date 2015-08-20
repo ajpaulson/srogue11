@@ -146,9 +146,9 @@ char *hungstr[] = {
  */
 int status(fromfuse) int fromfuse;
 {
-  reg int totwght, carwght;
-  reg struct real *stef, *stre, *stmx;
-  reg char *pb;
+  int totwght, carwght;
+  struct real *stef, *stre, *stmx;
+  char *pb;
   int oy, ox, ch;
   static char buf[LINLEN];
   static char hwidth[] = {"%2d(%2d)"};
@@ -219,7 +219,7 @@ int status(fromfuse) int fromfuse;
  */
 void dispmax()
 {
-  reg struct real *hmax;
+  struct real *hmax;
 
   hmax = &max_stats.s_re;
   msg("Maximums:  Str = %d  Dex = %d  Wis = %d  Con = %d", hmax->a_str,
@@ -246,7 +246,7 @@ bool illeg_ch(ch) unsigned char ch;
 void wait_for(win, ch) WINDOW *win;
 char ch;
 {
-  register char c;
+  char c;
 
   if (ch == '\n')
     while ((c = wgetch(win)) != '\n' && c != '\r')
@@ -273,7 +273,7 @@ char ch;
 
 char *gettime()
 {
-  register char *timeptr;
+  char *timeptr;
   char *ctime();
   long int now, time();
 
@@ -311,7 +311,7 @@ void restscr(scr) WINDOW *scr;
  */
 int npch(ch) char ch;
 {
-  reg char nch;
+  char nch;
   if (ch >= 'z')
     nch = 'A';
   else
