@@ -128,7 +128,7 @@ void look(wakeup) bool wakeup;
             mvaddch(y, x, FLOOR);
           else {
             tp = THINGPTR(it);
-            if (isatrap(ch)) {
+            if (isatrap(tp->t_oldch = mvinch(y, x))) {
               struct trap *trp;
 
               if ((trp = trap_at(y, x)) == NULL)
