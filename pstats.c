@@ -42,6 +42,7 @@ char what;
 int rchg_str(amt) int amt;
 {
   chg_abil(STR, amt, TRUE);
+  return chg_abil();
 }
 
 /*

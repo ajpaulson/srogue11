@@ -143,12 +143,14 @@ bool pr;
     return 0;
   }
 
-  if (pr)
-    if (obj->o_type == WEAPON) /* BUGFIX: Identification trick */
+  if (pr) {
+    if (obj->o_type == WEAPON) {/* BUGFIX: Identification trick */
       msg("Your %s vanishes as it hits the ground.",
           w_magic[obj->o_which].mi_name);
-    else
+    } else {
       msg("%s vanishes as it hits the ground.", inv_name(obj, TRUE));
+    }
+  }
 
   discard(item);
   return 0;

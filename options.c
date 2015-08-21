@@ -216,7 +216,7 @@ void parse_opts(str) char *str;
 void strucpy(s1, s2, len) char *s1, *s2;
 int len;
 {
-  char *sp;
+  const char *sp;
 
   while (len-- > 0) {
     strcpy(s1, (sp = unctrl(*s2)));

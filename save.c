@@ -332,4 +332,5 @@ bool restore(file, envp) char *file, **envp;
   restscr(cw);
   srand48(getpid());
   playit();
+  return 0;
 }

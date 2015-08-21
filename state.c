@@ -63,6 +63,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "rogue.h"
 #include "rogue.ext"
@@ -828,6 +829,7 @@ int rs_write_window(FILE *savef, WINDOW *win)
   for (row = 0; row < height; row++)
     for (col = 0; col < width; col++)
       rs_write_int(savef, mvwinch(win, row, col));
+  return (WRITESTAT);
 }
 
 int rs_read_window(int inf, WINDOW *win)
@@ -1245,6 +1247,7 @@ int rs_write_monster_references(FILE *savef, struct monster *marray[],
 
   for (i = 0; i < count; i++)
     rs_write_monster_reference(savef, marray[i]);
+  return (WRITESTAT);
 }
 
 int rs_read_monster_references(int inf, struct monster *marray[], int count)
@@ -1253,6 +1256,7 @@ int rs_read_monster_references(int inf, struct monster *marray[], int count)
 
   for (i = 0; i < count; i++)
     rs_read_monster_reference(inf, &marray[i]);
+  return (READSTAT);
 }
 
 int rs_write_object(FILE *savef, struct object *o)
@@ -1405,6 +1409,7 @@ int rs_write_traps(FILE *savef, struct trap *trap, int count)
     rs_write_int(savef, trap[n].tr_flags);
     rs_write_char(savef, trap[n].tr_type);
   }
+  return (WRITESTAT);
 }
 
 int rs_read_traps(int inf, struct trap *trap, int count)
