@@ -263,7 +263,7 @@ struct linked_list *wake_monster(y, x) int y, x;
    * Hide invisible monsters
    */
   if ((tp->t_flags & ISINVIS) && pl_off(CANSEE))
-    /* ch = mvinch(y, x); */
+    ch = mvinch(y, x);
   /*
    * Let greedy ones guard gold
    */
