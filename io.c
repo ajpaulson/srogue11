@@ -31,7 +31,7 @@
 static char msgbuf[BUFSIZ];
 static int newpos = 0;
 
-int msg(char *fmt, ...)
+void msg(char *fmt, ...)
 {
   va_list ap;
   /*
@@ -41,7 +41,6 @@ int msg(char *fmt, ...)
     wmove(cw, 0, 0);
     wclrtoeol(cw);
     mpos = 0;
-    return 0;
   }
   /*
    * otherwise add to the message and flush it out
@@ -50,7 +49,6 @@ int msg(char *fmt, ...)
   doadd(fmt, ap);
   va_end(ap);
   endmsg();
-  return 0;
 }
 
 /*
@@ -157,7 +155,6 @@ int status(fromfuse) int fromfuse;
    * If nothing has changed since the last time, then done
    */
   if (nochange)
-    return 0;
   nochange = true;
   updpack(); /* get all weight info */
   stef = &player.t_stats.s_ef;

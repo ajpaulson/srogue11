@@ -24,7 +24,7 @@
  */
 void displevl()
 {
-  unsigned long ch, mch;
+  char ch, mch;
   int i, j;
   struct room *rp;
 
@@ -98,7 +98,7 @@ void dispmons()
  */
 char winat(y, x) int x, y;
 {
-  unsigned long ch;
+  char ch;
 
   if (mvwinch(mw, y, x) == ' ')
     ch = mvinch(y, x); /* non-monsters */
