@@ -144,7 +144,7 @@ void miss();
 int missile();
 void money();
 bool monhurt();
-void msg(char *fmt, ...);
+int msg(char *fmt, ...);
 void new_level();
 int ntohl();
 int o_off();
