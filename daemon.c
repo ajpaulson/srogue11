@@ -39,7 +39,7 @@ struct delayed_action *
 d_insert(func, arg, type, time)
 int arg, type, time, (*func)();
 {
-	reg struct delayed_action *dev;
+	struct delayed_action *dev;
 
 	if (demoncnt < MAXDAEMONS) {
 		dev = &d_list[demoncnt];
@@ -56,7 +56,7 @@ int arg, type, time, (*func)();
 d_delete(wire)
 struct delayed_action *wire;
 {
-	reg struct delayed_action *d1, *d2;
+	struct delayed_action *d1, *d2;
 
 	for (d1 = d_list; d1 < &d_list[demoncnt]; d1++) {
 		if (wire == d1) {
@@ -78,7 +78,7 @@ struct delayed_action *
 find_slot(func)
 int (*func)();
 {
-	reg struct delayed_action *dev;
+	struct delayed_action *dev;
 
 	for (dev = d_list; dev < &d_list[demoncnt]; dev++)
 		if (dev->d_type != EMPTY && func == dev->d_func)
@@ -104,7 +104,7 @@ int arg, type, (*func)();
 do_daemons(flag)
 int flag;
 {
-	reg struct delayed_action *dev;
+	struct delayed_action *dev;
 
 	for (dev = d_list; dev < &d_list[demoncnt]; dev++)
 		if (dev->d_type == flag && dev->d_time == DAEMON)
@@ -128,7 +128,7 @@ int (*func)(), arg, time;
 lengthen(func, xtime)
 int (*func)(), xtime;
 {
-	reg struct delayed_action *wire;
+	struct delayed_action *wire;
 
 	for (wire = d_list; wire < &d_list[demoncnt]; wire++)
 		if (wire->d_type != EMPTY && func == wire->d_func)
@@ -142,7 +142,7 @@ int (*func)(), xtime;
 extinguish(func)
 int (*func)();
 {
-	reg struct delayed_action *dev;
+	struct delayed_action *dev;
 
 	for (dev = d_list; dev < &d_list[demoncnt]; dev++)
 		if (dev->d_type != EMPTY && func == dev->d_func)
@@ -155,7 +155,7 @@ int (*func)();
  */
 do_fuses()
 {
-	reg struct delayed_action *dev;
+	struct delayed_action *dev;
 
 	for (dev = d_list; dev < &d_list[demoncnt]; dev++) {
 		if (dev->d_type == AFTER && dev->d_time > DAEMON) {

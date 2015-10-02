@@ -132,8 +132,8 @@ init_things()
  */
 init_colors()
 {
-	reg int i, j;
-	reg char *str;
+	int i, j;
+	char *str;
 	bool used[NCOLORS];
 
 	for (i = 0; i < NCOLORS; i++)
@@ -159,9 +159,9 @@ init_colors()
  */
 init_names()
 {
-	reg int nsyl;
-	reg char *cp, *sp;
-	reg int i, nwords;
+	int nsyl;
+	char *cp, *sp;
+	int i, nwords;
 
 	for (i = 0; i < MAXSCROLLS; i++) {
 		cp = prbuf;
@@ -193,8 +193,8 @@ init_names()
 
 init_stones()
 {
-	reg int i, j;
-	reg char *str;
+	int i, j;
+	char *str;
 	bool used[NSTONES];
 
 	for (i = 0; i < NSTONES; i++)
@@ -320,7 +320,7 @@ init_player()
 pinit()
 {
 	int best[4];
-	reg int i, min, minind, dicetot;
+	int i, min, minind, dicetot;
 
 	for (i = 0 ; i < 4 ; i++)
 		best[i] = roll(1,6);	/* populate array */

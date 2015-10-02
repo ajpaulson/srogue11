@@ -29,8 +29,8 @@
 missile(ydelta, xdelta)
 int ydelta, xdelta;
 {
-	reg struct object *obj, *nowwield;
-	reg struct linked_list *item, *nitem;
+	struct object *obj, *nowwield;
+	struct linked_list *item, *nitem;
 
 	/*
 	 * Get which thing we are hurling
@@ -42,7 +42,7 @@ int ydelta, xdelta;
 	if (!dropcheck(obj) || is_current(obj))
 		return;
 	if (obj == nowwield || obj->o_type != WEAPON) {
-		reg int c;
+		int c;
 
 		msg("Do you want to throw that %s? (y or n)",obj->o_typname);
 		do {
@@ -91,7 +91,7 @@ do_motion(obj, ydelta, xdelta)
 struct object *obj;
 int ydelta, xdelta;
 {
-	reg int ch, y, x;
+	int ch, y, x;
 
 	obj->o_pos = hero;
 	while (1) {
@@ -128,8 +128,8 @@ fall(item, pr)
 struct linked_list *item;
 bool pr;
 {
-	reg struct object *obj;
-	reg struct room *rp;
+	struct object *obj;
+	struct room *rp;
 	static struct coord fpos;
 
 	obj = OBJPTR(item);
@@ -163,7 +163,7 @@ init_weapon(weap, type)
 struct object *weap;
 int type;
 {
-	reg struct init_weps *iwp;
+	struct init_weps *iwp;
 
 	weap->o_type = WEAPON;
 	weap->o_which = type;
@@ -218,8 +218,8 @@ int n1, n2;
  */
 wield()
 {
-	reg struct linked_list *item;
-	reg struct object *obj, *oweapon;
+	struct linked_list *item;
+	struct object *obj, *oweapon;
 
 	oweapon = cur_weapon;
 	if (!dropcheck(cur_weapon)) {
@@ -246,7 +246,7 @@ fallpos(pos, newpos, passages)
 struct coord *pos, *newpos;
 bool passages;
 {
-	reg int y, x, ch;
+	int y, x, ch;
 
 	for (y = pos->y - 1; y <= pos->y + 1; y++) {
 		for (x = pos->x - 1; x <= pos->x + 1; x++) {

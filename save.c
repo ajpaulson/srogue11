@@ -54,8 +54,8 @@ ignore()
  */
 save_game()
 {
-	reg FILE *savef;
-	reg int c;
+	FILE *savef;
+	int c;
 	char buf[LINLEN];
 
 	mpos = 0;
@@ -159,7 +159,7 @@ dosave()
 save_file(savef)
 FILE *savef;
 {
-	reg int fnum;
+	int fnum;
 	int slines = LINES;
 	int scols = COLS;
 
@@ -198,7 +198,7 @@ FILE *savef;
 restore(file, envp)
 char *file, **envp;
 {
-	register inf, pid;
+	inf, pid;
 	int ret_status;
 #ifndef _AIX
 	extern char **environ;

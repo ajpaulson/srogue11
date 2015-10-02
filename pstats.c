@@ -73,7 +73,7 @@ updabil(what, amt, pst, how)
 struct real *pst;
 int what, amt, how;
 {
-	register int *wh, *mx, *mr;
+	int *wh, *mx, *mr;
 	struct real *mst, *msr;
 	bool is_str = FALSE;
 	int rtype;
@@ -167,7 +167,7 @@ getpdex(who, heave)
 struct stats *who;
 bool heave;
 {
-	reg int edex;
+	int edex;
 
 	edex = who->s_ef.a_dex;
 	if (heave) {				/* an object was thrown here */
@@ -223,7 +223,7 @@ bool heave;
 getpwis(who)
 struct stats *who;
 {
-	reg int ewis;
+	int ewis;
 
 	ewis = who->s_ef.a_wis;
 	if (ewis > 18)
@@ -255,7 +255,7 @@ struct stats *who;
 getpcon(who)
 struct stats *who;
 {
-	reg int econ;
+	int econ;
 
 	econ = who->s_ef.a_con;
 	if (econ > 18)
@@ -288,7 +288,7 @@ struct stats *who;
 str_plus(who)
 struct stats *who;
 {
-	reg int hitplus, str;
+	int hitplus, str;
 
 	hitplus = 0;
 	str = who->s_ef.a_str;
@@ -321,7 +321,7 @@ struct stats *who;
 add_dam(who)
 struct stats *who;
 {
-	reg int exdam, str;
+	int exdam, str;
 
 	exdam = 0;
 	str = who->s_ef.a_str;

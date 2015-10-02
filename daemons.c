@@ -28,7 +28,7 @@ int between = 0;
 doctor(fromfuse)
 int fromfuse;
 {
-	reg int *thp, lv, ohp, ccon;
+	int *thp, lv, ohp, ccon;
 
 	lv = him->s_lvl;
 	thp = &him->s_hpt;
@@ -147,7 +147,7 @@ int fromfuse;
 stomach(fromfuse)
 int fromfuse;
 {
-	reg int oldfood, old_hunger;
+	int oldfood, old_hunger;
 
 	old_hunger = hungry_state;
 	if (food_left <= 0) {		 /* the hero is fainting */

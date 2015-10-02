@@ -32,8 +32,8 @@ struct coord ch_ret;	/* Where chasing takes you */
  */
 runners()
 {
-	reg struct thing *tp;
-	reg struct linked_list *mon,*nextmon;
+	struct thing *tp;
+	struct linked_list *mon,*nextmon;
 
 	for (mon = mlist; mon != NULL; mon = nextmon) {
 		tp = THINGPTR(mon);
@@ -61,9 +61,9 @@ runners()
 do_chase(mon)
 struct linked_list *mon;
 {
-	reg struct thing *th;
-	reg struct room *rer, *ree, *rxx;
-	reg int mindist, i, dist;
+	struct thing *th;
+	struct room *rer, *ree, *rxx;
+	int mindist, i, dist;
 	struct stats *st;
 	bool stoprun = FALSE, ondoor = FALSE, link = FALSE;
 	char runaway, dofight, wound, sch, ch;
@@ -250,9 +250,9 @@ struct thing *tp;
 struct coord *ee;
 bool runaway, dofight;
 {
-	reg int x, y, ch;
-	reg int dist, thisdist, closest;
-	reg struct coord *er = &tp->t_pos;
+	int x, y, ch;
+	int dist, thisdist, closest;
+	struct coord *er = &tp->t_pos;
 	struct coord try, closecoord;
 	int numsteps, onscare;
 
@@ -393,8 +393,8 @@ runto(runner, spot)
 struct coord *runner;
 struct coord *spot;
 {
-	reg struct linked_list *item;
-	reg struct thing *tp;
+	struct linked_list *item;
+	struct thing *tp;
 
 	if ((item = find_mons(runner->y, runner->x)) == NULL)
 		return;
@@ -416,7 +416,7 @@ struct room *
 roomin(cp)
 struct coord *cp;
 {
-	reg struct room *rp;
+	struct room *rp;
 
 	if (cordok(cp->y, cp->x)) {
 		for (rp = rooms; rp < &rooms[MAXROOMS]; rp += 1)
@@ -435,8 +435,8 @@ struct linked_list *
 find_mons(y, x)
 int y, x;
 {
-	reg struct linked_list *item;
-	reg struct thing *th;
+	struct linked_list *item;
+	struct thing *th;
 
 	for (item = mlist; item != NULL; item = next(item)) {
 		th = THINGPTR(item);
@@ -469,7 +469,7 @@ struct coord *sp, *ep;
 cansee(y, x)
 int y, x;
 {
-	reg struct room *rer;
+	struct room *rer;
 	struct coord tp;
 
 	if (pl_on(ISBLIND))

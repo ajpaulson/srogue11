@@ -50,8 +50,8 @@ OPTION	optlist[] = {
  */
 option()
 {
-	reg OPTION	*op;
-	reg int	wh;
+	OPTION	*op;
+	int	wh;
 
 	wclear(hw);
 	touchwin(hw);
@@ -101,8 +101,8 @@ get_str(opt, awin)
 char *opt;
 WINDOW *awin;
 {
-	reg char *sp;
-	reg int c, oy, ox;
+	char *sp;
+	int c, oy, ox;
 	char buf[LINLEN];
 
 	draw(awin);
@@ -127,7 +127,7 @@ WINDOW *awin;
 			continue;
 		else if(c == terminal.c_cc[VERASE])	{	/* process erase char */
 			if (sp > buf) {
-				reg int i;
+				int i;
 	
 				sp--;
 				for (i = strlen(unctrl(*sp)); i; i--)
@@ -180,9 +180,9 @@ WINDOW *awin;
 parse_opts(str)
 char *str;
 {
-	reg char *sp;
-	reg OPTION *op;
-	reg int len;
+	char *sp;
+	OPTION *op;
+	int len;
 
 	while (*str) {
 		for (sp = str; isalpha(*sp); sp++)	/* get option name */
@@ -190,7 +190,7 @@ char *str;
 		len = sp - str;
 		for (op = optlist; op < &optlist[NUM_OPTS]; op++) {
 			if (EQSTR(str, op->o_name, len)) {
-				reg char *start;
+				char *start;
 	
 				for (str = sp + 1; *str == '='; str++)
 					continue;
@@ -223,7 +223,7 @@ strucpy(s1, s2, len)
 char *s1, *s2;
 int len;
 {
-	reg char *sp;
+	char *sp;
 
 	while (len-- > 0) {
 		strcpy(s1, (sp = unctrl(*s2)));

@@ -27,9 +27,9 @@
 
 do_passages()
 {
-	reg struct rdes *r1, *r2;
-	reg int i, j;
-	reg int roomcount;
+	struct rdes *r1, *r2;
+	int i, j;
+	int roomcount;
 	static struct rdes {
 		bool conn[MAXROOMS];		/* possible to connect to room i */
 		bool isconn[MAXROOMS];		/* connection was made to room i */
@@ -129,9 +129,9 @@ do_passages()
 conn(r1, r2)
 int r1, r2;
 {
-	reg struct room *rpf, *rpt;
-	reg char rmt, direc;
-	reg int distance, turn_spot, turn_distance, rm;
+	struct room *rpf, *rpt;
+	char rmt, direc;
+	int distance, turn_spot, turn_distance, rm;
 	struct coord curr, turn_delta, spos, epos;
 
 	if (r1 < r2) {
@@ -274,7 +274,7 @@ struct coord *cp;
  */
 add_pass()
 {
-	reg int y, x, ch;
+	int y, x, ch;
 
 	for (y = 1; y < LINES - 3; y++)
 		for (x = 0; x < COLS; x++)

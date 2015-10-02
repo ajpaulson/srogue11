@@ -28,10 +28,10 @@
 do_post()
 {
 	struct coord tp;
-	reg int i;
-	reg struct room *rp;
-	reg struct object *op;
-	reg struct linked_list *ll;
+	int i;
+	struct room *rp;
+	struct object *op;
+	struct linked_list *ll;
 
 	free_list(lvl_obj);		/* throw old items away */
 
@@ -78,9 +78,9 @@ price_it()
 		"quality product",
 		"exceptional find",
 	};
-	reg struct linked_list *item;
-	reg struct object *obj;
-	reg int worth;
+	struct linked_list *item;
+	struct object *obj;
+	int worth;
 
 	if (!open_market())		/* after buying hours */
 		return FALSE;
@@ -107,7 +107,7 @@ price_it()
  */
 buy_it()
 {
-	reg int wh;
+	int wh;
 
 	if (purse <= 0) {
 		msg("You have no money.");
@@ -158,9 +158,9 @@ buy_it()
  */
 sell_it()
 {
-	reg struct linked_list *item;
-	reg struct object *obj;
-	reg int wo, ch;
+	struct linked_list *item;
+	struct object *obj;
+	int wo, ch;
 
 	if (!open_market())		/* after selling hours */
 		return;
@@ -221,7 +221,7 @@ open_market()
 get_worth(obj)
 struct object *obj;
 {
-	reg int worth, wh;
+	int worth, wh;
 
 	worth = 0;
 	wh = obj->o_which;
@@ -290,8 +290,8 @@ trans_line()
 do_maze()
 {
 	struct coord tp;
-	reg int i, least;
-	reg struct room *rp;
+	int i, least;
+	struct room *rp;
 	bool treas;
 
 	for (rp = rooms; rp < &rooms[MAXROOMS]; rp++) {
@@ -342,8 +342,8 @@ int tlines, tcols;
  */
 draw_maze()
 {
-	reg int i, j, more;
-	reg char *ptr;
+	int i, j, more;
+	char *ptr;
 
 	tlines = (LINES - 3) / 2;
 	tcols = (COLS - 1) / 2;
@@ -407,7 +407,7 @@ int y, x;
 findcells(y,x)
 int x, y;
 {
-	reg int rtpos, i;
+	int rtpos, i;
 
 	*foffset(y, x) = FALSE;
 	mborder.num_pos = 0;
@@ -458,7 +458,7 @@ int x, y;
 rmwall(newy, newx, oldy, oldx)
 int newy, newx, oldy, oldx;
 {
-	reg int xdif,ydif;
+	int xdif,ydif;
 	
 	xdif = newx - oldx;
 	ydif = newy - oldy;
@@ -474,7 +474,7 @@ int newy, newx, oldy, oldx;
  */
 crankout()
 {
-	reg int x, y, i;
+	int x, y, i;
 
 	for (y = 0; y < LINES - 3; y++) {
 		move(y + 1, 0);

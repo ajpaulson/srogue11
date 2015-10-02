@@ -23,9 +23,9 @@
  */
 displevl()
 {
-	reg char ch, mch;
-	reg int i,j;
-	reg struct room *rp;
+	char ch, mch;
+	int i,j;
+	struct room *rp;
 
 	for (rp = rooms; rp < &rooms[MAXROOMS]; rp++)
 		rp->r_flags &= ~ISDARK;
@@ -78,9 +78,9 @@ displevl()
  */
 dispmons()
 {
-	reg int ch, y, x;
-	reg struct thing *it;
-	reg struct linked_list *item;
+	int ch, y, x;
+	struct thing *it;
+	struct linked_list *item;
 
 	for (item = mlist; item != NULL; item = next(item)) {
 		it = THINGPTR(item);
@@ -101,7 +101,7 @@ dispmons()
 winat(y, x)
 int x, y;
 {
-	reg char ch;
+	char ch;
 
 	if (mvwinch(mw,y,x) == ' ')
 		ch = mvinch(y, x);			/* non-monsters */
@@ -152,7 +152,7 @@ o_on(what,bit)
 struct object *what;
 long bit;
 {
-	reg int flag;
+	int flag;
 
 	flag = FALSE;
 	if (what != NULL)
@@ -169,7 +169,7 @@ o_off(what,bit)
 struct object *what;
 long bit;
 {
-	reg int flag;
+	int flag;
 
 	flag = FALSE;
 	if (what != NULL)

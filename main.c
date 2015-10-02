@@ -44,9 +44,9 @@ main(argc, argv, envp)
 char **argv;
 char **envp;
 {
-	register char *env;
-	register struct linked_list *item;
-	register struct object *obj;
+	char *env;
+	struct linked_list *item;
+	struct object *obj;
 	struct passwd *pw;
 	struct passwd *getpwuid();
 	char alldone, wpt;
@@ -326,7 +326,7 @@ int how;
 rnd(range)
 int range;
 {
-	reg int wh;
+	int wh;
 
 	if (range == 0)
 		wh = 0;
@@ -344,7 +344,7 @@ int range;
 roll(number, sides)
 int number, sides;
 {
-	reg int dtotal = 0;
+	int dtotal = 0;
 
 	while(number-- > 0)
 		dtotal += rnd(sides)+1;
@@ -390,7 +390,7 @@ setup()
 
 playit()
 {
-	reg char *opts;
+	char *opts;
 
 	tcgetattr(0,&terminal);
 

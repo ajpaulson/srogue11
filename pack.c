@@ -32,8 +32,8 @@ add_pack(item, silent)
 struct linked_list *item;
 bool silent;
 {
-	reg struct linked_list *ip, *lp;
-	reg struct object *obj, *op;
+	struct linked_list *ip, *lp;
+	struct object *obj, *op;
 	bool from_floor;
 	char delchar;
 
@@ -199,10 +199,10 @@ inventory(list, type)
 struct linked_list *list;
 int type;
 {
-	reg struct linked_list *pc;
-	reg struct object *obj;
-	reg char ch;
-	reg int cnt;
+	struct linked_list *pc;
+	struct object *obj;
+	char ch;
+	int cnt;
 
 	if (list == NULL) {			/* empty list */
 		msg(type == 0 ? "Empty handed." : "Nothing appropriate.");
@@ -260,8 +260,8 @@ char ch;
  */
 picky_inven()
 {
-	reg struct linked_list *item;
-	reg char ch, mch;
+	struct linked_list *item;
+	char ch, mch;
 
 	if (pack == NULL)
 		msg("You aren't carrying anything.");
@@ -296,7 +296,7 @@ get_item(purpose, type)
 char *purpose;
 int type;
 {
-	reg struct linked_list *obj, *pit, *savepit;
+	struct linked_list *obj, *pit, *savepit;
 	struct object *pob;
 	int ch, och, anr, cnt;
 
@@ -415,8 +415,8 @@ char
 pack_char(obj)
 struct object *obj;
 {
-	reg struct linked_list *item;
-	reg char c;
+	struct linked_list *item;
+	char c;
 
 	c = 'a';
 	for (item = pack; item != NULL; item = next(item))
@@ -433,7 +433,7 @@ struct object *obj;
  */
 idenpack()
 {
-	reg struct linked_list *pc;
+	struct linked_list *pc;
 
 	for (pc = pack ; pc != NULL ; pc = next(pc))
 		whatis(pc);
@@ -447,7 +447,7 @@ idenpack()
 del_pack(what)
 struct linked_list *what;
 {
-	reg struct object *op;
+	struct object *op;
 
 	op = OBJPTR(what);
 	cur_null(op);		/* check for current stuff */

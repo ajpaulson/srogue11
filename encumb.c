@@ -22,7 +22,7 @@
  */
 updpack()
 {
-	reg int topcarry, curcarry;
+	int topcarry, curcarry;
 
 	him->s_carry = totalenc();			/* get total encumb */
 	curcarry = packweight();			/* get pack weight */
@@ -49,9 +49,9 @@ updpack()
  */
 packweight()
 {
-	reg struct object *obj;
-	reg struct linked_list *pc;
-	reg int weight, i;
+	struct object *obj;
+	struct linked_list *pc;
+	int weight, i;
 
 	weight = 0;
 	for (pc = pack ; pc != NULL ; pc = next(pc)) {
@@ -78,7 +78,7 @@ packweight()
 itemweight(wh)
 struct object *wh;
 {
-	reg int weight;
+	int weight;
 
 	weight = wh->o_weight;		/* get base weight */
 	switch (wh->o_type) {
@@ -102,9 +102,9 @@ struct object *wh;
  */
 pack_vol()
 {
-	reg struct object *obj;
-	reg struct linked_list *pc;
-	reg int volume;
+	struct object *obj;
+	struct linked_list *pc;
+	int volume;
 
 	volume = 0;
 	for (pc = pack ; pc != NULL ; pc = next(pc)) {
@@ -121,7 +121,7 @@ pack_vol()
 itemvol(wh)
 struct object *wh;
 {
-	reg int volume, what, extra;
+	int volume, what, extra;
 
 	extra = 0;
 	what = getindex(wh->o_type);
@@ -144,7 +144,7 @@ struct object *wh;
  */
 playenc()
 {
-	reg estr = him->s_ef.a_str;
+	estr = him->s_ef.a_str;
 	if (estr >= 24)
 		return 3000;
 	switch(him->s_ef.a_str) {
@@ -179,7 +179,7 @@ playenc()
  */
 totalenc()
 {
-	reg int wtotal;
+	int wtotal;
 
 	wtotal = NORMENCB + playenc();
 	switch(hungry_state) {
@@ -198,8 +198,8 @@ totalenc()
 wghtchk(fromfuse)
 int fromfuse;
 {
-	reg int dropchk, err = TRUE;
-	reg char ch;
+	int dropchk, err = TRUE;
+	char ch;
 
 	inwhgt = TRUE;
 	if (him->s_pack > him->s_carry) {

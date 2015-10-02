@@ -34,8 +34,8 @@ inv_name(obj, drop)
 struct object *obj;
 bool drop;
 {
-	reg char *pb, *tn, *pl;
-	reg int wh, knowit;
+	char *pb, *tn, *pl;
+	int wh, knowit;
 	char nm[3], *inm, *q;
 
 	wh = obj->o_which;
@@ -187,9 +187,9 @@ bool drop;
  */
 money()
 {
-	reg struct room *rp;
-	reg struct linked_list *item;
-	reg struct thing *tp;
+	struct room *rp;
+	struct linked_list *item;
+	struct thing *tp;
 
 	rp = player.t_room;
 	if (rp != NULL && ce(hero, rp->r_gold)) {
@@ -220,9 +220,9 @@ money()
 drop(item)
 struct linked_list *item;
 {
-	reg char ch;
-	reg struct linked_list *ll, *nll;
-	reg struct object *op;
+	char ch;
+	struct linked_list *ll, *nll;
+	struct object *op;
 
 	if (item == NULL) {
 		ch = mvinch(hero.y, hero.x);
@@ -427,7 +427,7 @@ struct object *cur;
  */
 extras()
 {
-	reg int i;
+	int i;
 
 	i = rnd(100);
 	if (i < 4)			/* 4% for 2 more */
@@ -446,8 +446,8 @@ extras()
 pick_one(mag)
 struct magic_item *mag;
 {
-	reg struct magic_item *start;
-	reg int i;
+	struct magic_item *start;
+	int i;
 
 	start = mag;
 	for (i = rnd(1000); mag->mi_name != NULL; mag++) {

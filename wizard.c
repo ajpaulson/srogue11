@@ -32,9 +32,9 @@ extern struct termios terminal;
 whatis(what)
 struct linked_list *what;
 {
-	reg struct object *obj;
-	reg struct linked_list *item;
-	reg int wh;
+	struct object *obj;
+	struct linked_list *item;
+	int wh;
 
 	if (what == NULL) {				/* we need to ask */
 		if ((item = get_item("identify", 0)) == NULL)
@@ -83,9 +83,9 @@ struct linked_list *what;
 create_obj(fscr)
 bool fscr;
 {
-	reg struct linked_list *item;
-	reg struct object *obj;
-	reg int wh, ch, otype;
+	struct linked_list *item;
+	struct object *obj;
+	int wh, ch, otype;
 	char newitem, newtype, msz, *oname;
 	struct magic_info *mf;
 	bool nogood = TRUE, inhw = FALSE;
@@ -268,7 +268,7 @@ getbless()
 makemons(what)
 int what;
 {
-	reg int x, y, oktomake = FALSE, appear = 1;
+	int x, y, oktomake = FALSE, appear = 1;
 	struct coord mp;
 
 	oktomake = FALSE;
@@ -299,7 +299,7 @@ teleport(spot, th)
 struct coord spot;
 struct thing *th;
 {
-	reg int rm, y, x;
+	int rm, y, x;
 	struct coord oldspot;
 	struct room *rp;
 	bool ishero;
@@ -348,7 +348,7 @@ struct thing *th;
  */
 passwd()
 {
-	reg char *sp, c;
+	char *sp, c;
 	bool passok;
 	char buf[LINLEN], *xcrypt();
 

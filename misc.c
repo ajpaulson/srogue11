@@ -65,7 +65,7 @@ char *
 tr_name(ch)
 char ch;
 {
-	reg char *s;
+	char *s;
 
 	switch (ch) {
 		case TRAPDOOR:
@@ -99,9 +99,9 @@ char ch;
 look(wakeup)
 bool wakeup;
 {
-	reg char ch;
-	reg int oldx, oldy, y, x;
-	reg struct room *rp;
+	char ch;
+	int oldx, oldy, y, x;
+	struct room *rp;
 	int ey, ex, oex, oey;
 	int passcount = 0;
 	bool inpass, blind;
@@ -126,8 +126,8 @@ bool wakeup;
 				if (y <= 0 || y >= LINES - 2)
 					continue;
 				if (isalpha(mvwinch(mw, y, x))) {
-					reg struct linked_list *it;
-					reg struct thing *tp;
+					struct linked_list *it;
+					struct thing *tp;
 
 					if (wakeup || (!inpass && rf_on(rp, ISTREAS)))
 						it = wake_monster(y, x);
@@ -237,8 +237,8 @@ struct linked_list *
 find_obj(y, x)
 int y, x;
 {
-	reg struct linked_list *obj;
-	reg struct object *op;
+	struct linked_list *obj;
+	struct object *op;
 
 	for (obj = lvl_obj; obj != NULL; obj = next(obj)) {
 		op = OBJPTR(obj);
@@ -254,9 +254,9 @@ int y, x;
  */
 eat()
 {
-	reg struct linked_list *item;
-	reg struct object *obj;
-	reg int goodfood, cursed;
+	struct linked_list *item;
+	struct object *obj;
+	int goodfood, cursed;
 
 	if ((item = get_item("eat", FOOD)) == NULL)
 		return;
@@ -303,7 +303,7 @@ eat()
  */
 aggravate()
 {
-	reg struct linked_list *mi;
+	struct linked_list *mi;
 
 	for (mi = mlist; mi != NULL; mi = next(mi))
 		runto(&(THINGPTR(mi))->t_pos, &hero);
@@ -352,8 +352,8 @@ struct object *obj;
  */
 get_dir()
 {
-	reg char *prompt;
-	reg bool gotit;
+	char *prompt;
+	bool gotit;
 
 	prompt = "Direction: ";
 	do {

@@ -49,8 +49,8 @@ char ch;
 do_move(dy, dx)
 int dy, dx;
 {
-	reg int ch;
-	reg struct room *rp;
+	int ch;
+	struct room *rp;
 
 	firstmove = FALSE;
 	curprice = -1;
@@ -83,7 +83,7 @@ int dy, dx;
 	if (running) {
 		ch = winat(nh.y, nh.x);
 		if (dead_end(ch)) {
-			reg int gox, goy, apsg, whichway;
+			int gox, goy, apsg, whichway;
 
 			gox = goy = apsg = 0;
 			if (dy == 0) {
@@ -215,10 +215,10 @@ int dy, dx;
 light(cp)
 struct coord *cp;
 {
-	reg struct room *rp;
-	reg int j, k, x, y;
-	reg char ch, rch;
-	reg struct linked_list *item;
+	struct room *rp;
+	int j, k, x, y;
+	char ch, rch;
+	struct linked_list *item;
 
 	rp = roomin(cp);
 	if (rp == NULL)
@@ -297,10 +297,10 @@ struct coord *cp;
 show(y, x)
 int y, x;
 {
-	reg char ch = winat(y, x);
-	reg struct linked_list *it;
-	reg struct thing *tp;
-	reg struct trap *ta;
+	char ch = winat(y, x);
+	struct linked_list *it;
+	struct thing *tp;
+	struct trap *ta;
 
 	if (isatrap(ch)) {
 		if ((ta = trap_at(y, x)) == NULL)
@@ -337,8 +337,8 @@ be_trapped(tc, th)
 struct thing *th;
 struct coord *tc;
 {
-	reg struct trap *trp;
-	reg int ch, ishero;
+	struct trap *trp;
+	int ch, ishero;
 	struct linked_list *mon;
 	char stuckee[35], seeit, sayso;
 
@@ -524,10 +524,10 @@ goner:
  */
 dip_it()
 {
-	reg struct linked_list *what;
-	reg struct object *ob;
-	reg struct trap *tp;
-	reg int wh;
+	struct linked_list *what;
+	struct object *ob;
+	struct trap *tp;
+	int wh;
 
 	tp = trap_at(hero.y,hero.x);
 	if (tp == NULL || inpool == FALSE || (tp->tr_flags & ISGONE))
@@ -660,7 +660,7 @@ struct trap *
 trap_at(y, x)
 int y, x;
 {
-	reg struct trap *tp, *ep;
+	struct trap *tp, *ep;
 
 	ep = &traps[ntraps];
 	for (tp = traps; tp < ep; tp += 1)
@@ -679,7 +679,7 @@ struct coord *
 rndmove(who)
 struct thing *who;
 {
-	reg int x, y, ex, ey, ch;
+	int x, y, ex, ey, ch;
 	int nopen = 0;
 	struct linked_list *item;
 	static struct coord ret;  /* what we will be returning */

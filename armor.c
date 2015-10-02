@@ -26,8 +26,8 @@
  */
 wear()
 {
-	reg struct linked_list *item;
-	reg struct object *obj;
+	struct linked_list *item;
+	struct object *obj;
 
 	if (cur_armor != NULL) {
 		msg("You are already wearing some.");
@@ -55,7 +55,7 @@ wear()
  */
 take_off()
 {
-	reg struct object *obj;
+	struct object *obj;
 
 	if ((obj = cur_armor) == NULL) {
 		msg("Not wearing any armor.");
@@ -96,7 +96,7 @@ int what;
 hurt_armor(obj)
 struct object *obj;
 {
-	reg int type, ac;
+	int type, ac;
 
 	if (obj != NULL) {
 		if (o_on(obj, ISPROT) || (o_on(obj, ISBLESS) && rnd(100) < 10))
