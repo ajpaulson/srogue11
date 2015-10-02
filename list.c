@@ -16,91 +16,97 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 #include "rogue.h"
 #include "rogue.ext"
-#include "intern.h"
 
 /*
  * detach:
  *	Takes an item out of whatever linked list it might be in
  */
 
-void _detach(list, item) struct linked_list **list, *item;
+_detach(list, item)
+struct linked_list **list, *item;
 {
-  if (*list == item)
-    *list = next(item);
-  if (prev(item) != NULL)
-    item->l_prev->l_next = next(item);
-  if (next(item) != NULL)
-    item->l_next->l_prev = prev(item);
-  item->l_next = NULL;
-  item->l_prev = NULL;
+	if (*list == item)
+		*list = next(item);
+	if (prev(item) != NULL)
+		item->l_prev->l_next = next(item);
+	if (next(item) != NULL)
+		item->l_next->l_prev = prev(item);
+	item->l_next = NULL;
+	item->l_prev = NULL;
 }
 
 /*
  * _attach:	add an item to the head of a list
  */
-void _attach(list, item) struct linked_list **list, *item;
+_attach(list, item)
+struct linked_list **list, *item;
 {
-  if (*list != NULL) {
-    item->l_next = *list;
-    (*list)->l_prev = item;
-    item->l_prev = NULL;
-  } else {
-    item->l_next = NULL;
-    item->l_prev = NULL;
-  }
-  *list = item;
+	if (*list != NULL) 	{
+		item->l_next = *list;
+		(*list)->l_prev = item;
+		item->l_prev = NULL;
+	}
+	else 	{
+		item->l_next = NULL;
+		item->l_prev = NULL;
+	}
+	*list = item;
 }
 
 /*
  * _free_list:	Throw the whole blamed thing away
  */
-void _free_list(ptr) struct linked_list **ptr;
+_free_list(ptr)
+struct linked_list **ptr;
 {
-  struct linked_list *item;
+	register struct linked_list *item;
 
-  while (*ptr != NULL) {
-    item = *ptr;
-    *ptr = next(item);
-    discard(item);
-  }
+	while (*ptr != NULL) {
+		item = *ptr;
+		*ptr = next(item);
+		discard(item);
+	}
 }
 
 /*
  * discard:  free up an item
  */
-void discard(item) struct linked_list *item;
+discard(item)
+struct linked_list *item;
 {
-  total -= 2;
-  FREE(item->l_data);
-  FREE(item);
+	total -= 2;
+	FREE(item->l_data);
+	FREE(item);
 }
 
 /*
  * new_item:	get a new item with a specified size
  */
-struct linked_list *new_item(size) int size;
+struct linked_list *
+new_item(size)
+int size;
 {
-  struct linked_list *item;
+	register struct linked_list *item;
 
-  item = (struct linked_list *)new (sizeof *item);
-  item->l_data = new (size);
-  item->l_next = item->l_prev = NULL;
-  return item;
+	item = (struct linked_list *) new(sizeof *item);
+	item->l_data = new(size);
+	item->l_next = item->l_prev = NULL;
+	return item;
 }
 
-char *new (size) int size;
+char *
+new(size)
+int size;
 {
-  char *space = ALLOC(size);
+	register char *space = ALLOC(size);
 
-  if (space == NULL) {
-    sprintf(prbuf, "Rogue ran out of memory.");
-    fatal(prbuf);
-  }
-  total++;
-  return space;
+	if (space == NULL) {
+		sprintf(prbuf,"Rogue ran out of memory (%d).",sbrk(0));
+		fatal(prbuf);
+	}
+	total++;
+	return space;
 }
