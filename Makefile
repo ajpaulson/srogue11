@@ -14,7 +14,7 @@
 DISTNAME=srogue9.0-1
 PROGRAM=srogue
 
-HDRS= bob.h cx.h ncx.h rdk.h rogue.h intern.h
+HDRS= bob.h cx.h ncx.h rdk.h rogue.h
 OBJS= vers.o armor.o chase.o command.o daemon.o daemons.o disply.o encumb.o \
       fight.o global.o init.o io.o list.o main.o misc.o monsters.o move.o \
       new_leve.o options.o pack.o passages.o potions.o pstats.o rings.o rip.o \
