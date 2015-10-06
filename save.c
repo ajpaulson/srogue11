@@ -16,7 +16,6 @@
 
 #include <fcntl.h>
 #include <curses.h>
-#include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -198,7 +197,8 @@ FILE *savef;
 restore(file, envp)
 char *file, **envp;
 {
-	inf, pid;
+  char inf;
+  int pid;
 	int ret_status;
 #ifndef _AIX
 	extern char **environ;

@@ -160,7 +160,7 @@ int fromfuse;
 			death(K_STARVE);
 		}
 		if (player.t_nocmd > 0 || rnd(100) > 20)
-			return;
+			return 0;
 		player.t_nocmd = rnd(8)+4;
 		msg("You faint.");
 		running = FALSE;
@@ -171,7 +171,7 @@ int fromfuse;
 		oldfood = food_left;
 		food_left -= ringfood + foodlev - amulet;
 		if (player.t_nocmd > 0)		/* wait till he can move */
-			return;
+			return 0;
 		if (food_left < WEAKTIME && oldfood >= WEAKTIME) {
 			msg("You are starting to feel weak.");
 			hungry_state = F_WEAK;

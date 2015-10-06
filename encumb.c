@@ -142,9 +142,9 @@ struct object *wh;
  * playenc:
  *	Get hero's carrying ability above norm
  */
-playenc()
+int playenc()
 {
-	estr = him->s_ef.a_str;
+	int estr = him->s_ef.a_str;
 	if (estr >= 24)
 		return 3000;
 	switch(him->s_ef.a_str) {
@@ -208,7 +208,7 @@ int fromfuse;
 		if ((ch != FLOOR && ch != PASSAGE) || isfight) {
 			fuse(wghtchk, TRUE, 1);
 			inwhgt = FALSE;
-			return;
+			return 0;
 		}
 		msg("Your pack is too heavy for you.");
 		do {

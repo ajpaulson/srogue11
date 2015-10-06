@@ -293,7 +293,7 @@ genocide()
 	if (levcount == 0) {
 		mpos = 0;
 		msg("You cannot genocide Asmodeus !!");
-		return;
+		return 0;
 	}
 tryagain:
 	i = TRUE;		/* assume an error now */
@@ -302,7 +302,7 @@ tryagain:
 		c = readchar();		/* get a char */
 		if (c == ESCAPE) {	/* he can abort (the fool) */
 			msg("");
-			return;
+			return 0;
 		}
 		if (isalpha(c))		/* valid char here */
 			i = FALSE;		/* exit the loop */

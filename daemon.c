@@ -66,7 +66,7 @@ struct delayed_action *wire;
 			d1 = &d_list[demoncnt];
 			d1->d_type = EMPTY;
 			d1->d_func = EMPTY;
-			return;
+			return 0;
 		}
 	}
 }

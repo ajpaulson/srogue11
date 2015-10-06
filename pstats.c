@@ -55,7 +55,7 @@ chg_abil(what,amt,how)
 int amt, what, how;
 {
 	if (amt == 0)
-		return;
+		return 0;
 	if (how == TRUE) {			/* real (must be 1st) */
 		updabil(what,amt,&pstats.s_re,TRUE);
 		how = FALSE;
@@ -106,7 +106,7 @@ int what, amt, how;
 			mr = &msr->a_wis;
 			rtype = R_KNOW;
 		otherwise:
-			return;
+			return 0;
 	}
 	*wh += amt;						/* update by amt */
 	if (amt < 0) {					/* if decrement */

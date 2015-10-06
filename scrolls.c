@@ -38,12 +38,12 @@ read_scroll()
 	bool bless, curse;
 
 	if ((item = get_item("read", SCROLL)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	if (obj->o_type != SCROLL) {
 		msg("Nothing to read.");
 		after = FALSE;
-		return;
+		return 0;
 	}
 	msg("As you read the scroll, it vanishes.");
 	wh = obj->o_which;
@@ -448,7 +448,7 @@ read_scroll()
 	}
 	otherwise:
 		msg("What a puzzling scroll!");
-		return;
+		return 0;
 	}
 	look(TRUE);
 	nochange = FALSE;

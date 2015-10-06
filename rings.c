@@ -37,26 +37,26 @@ ring_on()
 	if (cur_ring[LEFT] != NULL && cur_ring[RIGHT] != NULL) {
 		msg("Already wearing two rings.");
 		after = FALSE;
-		return;
+		return 0;
 	}
 	/*
 	 * Make certain that it is somethings that we want to wear
 	 */
 	if ((item = get_item("put on", RING)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	if (obj->o_type != RING) {
 		msg("That won't fit on your finger.");
-		return;
+		return 0;
 	}
 	/*
 	 * find out which hand to put it on
 	 */
 	if (is_current(obj))
-		return;
+		return 0;
 	if (cur_ring[LEFT] == NULL && cur_ring[RIGHT] == NULL) {
 		if ((ring = gethand(FALSE)) < 0)
-			return;
+			return 0;
 	}
 	else if (cur_ring[LEFT] == NULL)
 		ring = LEFT;
@@ -154,7 +154,7 @@ ring_off()
 	
 	if (cur_ring[LEFT] == NULL && cur_ring[RIGHT] == NULL) {
 		msg("You're not wearing any rings.");
-		return;
+		return 0;
 	}
 	else if (cur_ring[LEFT] == NULL)
 		ring = RIGHT;
@@ -162,12 +162,12 @@ ring_off()
 		ring = LEFT;
 	else
 		if ((ring = gethand(TRUE)) < 0)
-			return;
+			return 0;
 	mpos = 0;
 	obj = cur_ring[ring];
 	if (obj == NULL) {
 		msg("Not wearing such a ring.");
-		return;
+		return 0;
 	}
 	if (dropcheck(obj)) {
 		msg("Was wearing %s", inv_name(obj, TRUE));

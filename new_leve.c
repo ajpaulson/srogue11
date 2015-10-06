@@ -26,7 +26,6 @@
 new_level(ltype)
 int ltype;
 {
-	i;
 	char ch;
 	struct coord traploc;
 	struct room *rp;
@@ -147,9 +146,9 @@ again:
  * rnd_room:
  *	Pick a room that is really there
  */
-rnd_room()
+int rnd_room()
 {
-	rm;
+	int rm;
 
 	if (levtype != NORMLEV)
 		rm = 0;
@@ -170,7 +169,7 @@ rnd_room()
 
 put_things()
 {
-	i, cnt, rm;
+	int i, cnt, rm;
 	struct linked_list *item;
 	struct object *cur;
 	struct coord tp;
@@ -182,7 +181,7 @@ put_things()
 	/* The only way to get new stuff is to go down into the dungeon. */
 
 	if (goingup())
-		return;
+		return 0;
 
 	/* Do MAXOBJ attempts to put things on a level */
 

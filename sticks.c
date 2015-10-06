@@ -78,7 +78,7 @@ bool gotdir;
 	int better = 0;
 
 	if ((item = get_item("zap with", STICK)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	wh = obj->o_which;
 	bless = o_on(obj, ISBLESS);
@@ -86,11 +86,11 @@ bool gotdir;
 	if (obj->o_type != STICK) {
 		msg("You can't zap with that!");
 		after = FALSE;
-		return;
+		return 0;
 	}
 	if (obj->o_charges == 0) {
 		msg("Nothing happens.");
-		return;
+		return 0;
 	}
 	if (!gotdir)
 	do {
@@ -197,7 +197,7 @@ bool gotdir;
 		 */
 		if (him->s_hpt < 2) {
 			msg("You are too weak to use it.");
-			return;
+			return 0;
 		}
 		else if (!curse) {
 			if (rp == NULL)
@@ -558,7 +558,7 @@ int ymin, ymax, xmin, xmax;
 				cnt++;
 	if (cnt == 0) {
 		msg("You have a tingling feeling.");
-		return;
+		return 0;
 	}
 	cnt = him->s_hpt / cnt;
 	him->s_hpt /= 2;

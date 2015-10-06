@@ -37,10 +37,10 @@ int ydelta, xdelta;
 	 */
 	nowwield = cur_weapon;		/* must save current weap */
 	if ((item = get_item("throw", WEAPON)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	if (!dropcheck(obj) || is_current(obj))
-		return;
+		return 0;
 	if (obj == nowwield || obj->o_type != WEAPON) {
 		int c;
 
@@ -53,7 +53,7 @@ int ydelta, xdelta;
 				msg("");
 				cur_weapon = nowwield;
 				after = FALSE;		/* ooops, a mistake */
-				return;
+				return 0;
 			}
 		} while (c != 'y');	/* keep looking for good ans */
 	}
@@ -142,7 +142,7 @@ bool pr;
 			mvwaddch(cw, hero.y, hero.x, PLAYER);
 		}
 		attach(lvl_obj, item);
-		return;
+		return 0;
 	}
 
 	if (pr)
@@ -224,15 +224,15 @@ wield()
 	oweapon = cur_weapon;
 	if (!dropcheck(cur_weapon)) {
 		cur_weapon = oweapon;
-		return;
+		return 0;
 	}
 	cur_weapon = oweapon;
 	if ((item = get_item("wield", WEAPON)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	if (is_current(obj)) {
 		after = FALSE;
-		return;
+		return 0;
 	}
 	msg("Wielding %s", inv_name(obj, TRUE));
 	cur_weapon = obj;

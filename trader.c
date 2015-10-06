@@ -14,7 +14,6 @@
 #include <curses.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "rogue.h"
 #include "rogue.ext"
@@ -111,12 +110,12 @@ buy_it()
 
 	if (purse <= 0) {
 		msg("You have no money.");
-		return;
+		return 0;
 	}
 	if (curprice < 0) {		/* if not yet priced */
 		wh = price_it();
 		if (!wh)			/* nothing to price */
-			return;
+			return 0;
 		msg("Do you want to buy it? ");
 		do {
 			wh = readchar();
@@ -124,20 +123,20 @@ buy_it()
 				wh = tolower(wh);
 			if (wh == ESCAPE || wh == 'n') {
 				msg("");
-				return;
+				return 0;
 			}
 		} until(wh == 'y');
 	}
 	mpos = 0;
 	if (curprice > purse) {
 		msg("You can't afford to buy that %s !",curpurch);
-		return;
+		return 0;
 	}
 	/*
 	 * See if the hero has done all his transacting
 	 */
 	if (!open_market())
-		return;
+		return 0;
 	/*
 	 * The hero bought the item here
 	 */
@@ -163,16 +162,16 @@ sell_it()
 	int wo, ch;
 
 	if (!open_market())		/* after selling hours */
-		return;
+		return 0;
 
 	if ((item = get_item("sell",0)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	wo = get_worth(obj);
 	if (wo <= 0) {
 		mpos = 0;
 		msg("We don't buy those.");
-		return;
+		return 0;
 	}
 	if (wo < 25)
 		wo = 25;
@@ -184,7 +183,7 @@ sell_it()
 			ch = tolower(ch);
 		if (ch == ESCAPE || ch == 'n') {
 			msg("");
-			return;
+			return 0;
 		}
 	} until (ch == 'y');
 	mpos = 0;

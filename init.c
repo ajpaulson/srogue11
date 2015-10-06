@@ -275,7 +275,7 @@ struct magic_item *magic;
 	for (mg = magic; mg->mi_name != NULL; mg++)
 		;
 	if ((mg - 1)->mi_prob == 1000)
-		return;
+		return 0;
 	printf("\nBad percentages for %s:\n", name);
 	for (mg = magic; mg->mi_name != NULL; mg++)
 		printf("%4d%% %s\n", mg->mi_prob, mg->mi_name);
@@ -317,7 +317,7 @@ init_player()
  * pinit:
  *	Returns the best 3 of 4 on a 6-sided die
  */
-pinit()
+int pinit()
 {
 	int best[4];
 	int i, min, minind, dicetot;

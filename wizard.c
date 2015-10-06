@@ -38,7 +38,7 @@ struct linked_list *what;
 
 	if (what == NULL) {				/* we need to ask */
 		if ((item = get_item("identify", 0)) == NULL)
-			return;
+			return 0;
 	}
 	else							/* no need to ask */
 		item = what;
@@ -97,7 +97,7 @@ bool fscr;
 		ch = readchar();
 		mpos = 0;
 		if (ch == ESCAPE)
-			return;
+			return 0;
 		else if (ch != '*')
 			nogood = FALSE;
 	}
@@ -120,7 +120,7 @@ bool fscr;
 			if (ch == ESCAPE) {
 				after = FALSE;
 				restscr(cw);
-				return;
+				return 0;
 			}
 			switch (ch) {
 				case RING:		case STICK:	case POTION:
@@ -138,7 +138,7 @@ bool fscr;
 		if (inhw)
 			restscr(cw);
 		makemons(ch);		/* make monster & be done with it */
-		return;
+		return 0;
 	}
 	otype = getindex(ch);
 	if (otype == -1 || (otype == AMULET && !wizard)) {
@@ -146,7 +146,7 @@ bool fscr;
 			restscr(cw);
 		mpos = 0;
 		msg("You can't create that !!");
-		return;
+		return 0;
 	}
 	newitem = ch;
 	mf = &thnginfo[otype];
@@ -162,7 +162,7 @@ bool fscr;
 			msg("Which %s?%s: ", oname, starlist);
 			ch = readchar();
 			if (ch == ESCAPE)
-				return;
+				return 0;
 			if (ch != '*')
 				nogood = FALSE;
 		}
@@ -196,7 +196,7 @@ bool fscr;
 			if (ch == ESCAPE) {
 				restscr(cw);
 				msg("");
-				return;
+				return 0;
 			}
 		} while (!isalpha(ch));
 	}
@@ -210,7 +210,7 @@ bool fscr;
 		if (inhw)
 			restscr(cw);
 		msg("There is no such %s", oname);
-		return;
+		return 0;
 	}
 	mpos = 0;
 	item = new_thing(FALSE, newitem, newtype);

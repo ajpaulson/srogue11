@@ -413,7 +413,7 @@ search()
 	 * give him a chance to find it.  If its found, display it.
 	 */
 	if (pl_on(ISBLIND))
-		return;
+		return 0;
 	for (x = hero.x - 1; x <= hero.x + 1; x++) {
 		for (y = hero.y - 1; y <= hero.y + 1; y++) {
 			ch = winat(y, x);
@@ -474,7 +474,7 @@ help()
 		}
 		if (strp->h_ch != helpch)
 			msg("Unknown character '%s'", unctrl(helpch));
-		return;
+		return 0;
 	}
 	/*
 	 * Here we print help for everything.
@@ -575,7 +575,7 @@ d_level()
 	else {
 		if (pl_on(ISHELD)) {
 			msg("You are being held.");
-			return;
+			return 0;
 		}
 		level++;
 		new_level(NORMLEV);
@@ -591,7 +591,7 @@ u_level()
 	if (winat(hero.y, hero.x) == STAIRS)  {
 		if (pl_on(ISHELD)) {
 			msg("You are being held.");
-			return;
+			return 0;
 		}
 		else {				/* player not held here */
 			if (amulet) {
@@ -600,7 +600,7 @@ u_level()
 					total_winner();
 				new_level(NORMLEV);
 				msg("You feel a wrenching sensation in your gut.");
-				return;
+				return 0;
 			}
 		}
 	}
@@ -684,7 +684,7 @@ call()
 	int wh;
 
 	if ((item = get_item("call", 0)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	wh = obj->o_which;
 	switch (obj->o_type) {
@@ -703,7 +703,7 @@ call()
 			ws_guess[wh] : ws_stuff[wh].ws_made);
 	otherwise:
 		msg("You can't call %ss anything",obj->o_typname);
-		return;
+		return 0;
 	}
 	msg("Was called \"%s\"", elsewise);
 	msg(callit);

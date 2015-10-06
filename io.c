@@ -39,7 +39,7 @@ msg(char *fmt, ...)
 		wmove(cw, 0, 0);
 		wclrtoeol(cw);
 		mpos = 0;
-		return;
+		return 0;
 	}
 	/*
 	 * otherwise add to the message and flush it out
@@ -162,7 +162,7 @@ int fromfuse;
 	 * If nothing has changed since the last time, then done
 	 */
 	if (nochange)
-		return;
+		return 0;
 	nochange = TRUE;
 	updpack();					/* get all weight info */
 	stef = &player.t_stats.s_ef;

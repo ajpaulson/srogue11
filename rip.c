@@ -142,7 +142,7 @@ int amount, aflag;
 	 * Open file and read list
 	 */
 	if ((fd = open(scorefile, O_RDWR | O_CREAT, 0666)) < 0)
-		return;
+		return 0;
 	outf = (FILE *) fdopen(fd, "w");
 	for (scp = top_ten; scp <= &top_ten[9]; scp++) {
 		scp->sc_score = 0;

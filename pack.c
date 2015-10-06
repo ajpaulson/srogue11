@@ -272,12 +272,12 @@ picky_inven()
 		mpos = 0;
 		if ((mch = readchar()) == ESCAPE) {
 			msg("");
-			return;
+			return 0;
 		}
 		for (ch='a',item=pack; item != NULL; item=next(item),ch=npch(ch))
 			if (ch == mch) {
 				msg("%c) %s",ch,inv_name(OBJPTR(item), FALSE));
-				return;
+				return 0;
 			}
 		if (ch == 'A')
 			ch = 'z';

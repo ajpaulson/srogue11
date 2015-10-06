@@ -84,7 +84,7 @@ char *vers;
 
 	if ((fp = fopen(fname, "r+")) == NULL) {
 		fprintf(stderr,"%s: Not able to update %s\n", who, fname);
-		return;
+		return 0;
 	}
 	while ((c = fgets(line, LINESIZ, fp)) != NULL) {
 		if (line[1] == '*' && line[3] == '@' && line[5] == '#') {

@@ -397,10 +397,10 @@ struct coord *spot;
 	struct thing *tp;
 
 	if ((item = find_mons(runner->y, runner->x)) == NULL)
-		return;
+		return 0;
 	tp = THINGPTR(item);
 	if (tp->t_flags & ISPARA)
-		return;
+		return 0;
 	tp->t_dest = spot;
 	tp->t_flags |= ISRUN;
 	tp->t_flags &= ~ISHELD;

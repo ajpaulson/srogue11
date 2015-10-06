@@ -38,12 +38,12 @@ quaff()
 	 * Make certain that it is somethings that we want to drink
 	 */
 	if ((item = get_item("quaff", POTION)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	if (obj->o_type != POTION) {
 		msg("That's undrinkable!");
 		after = FALSE;
-		return;
+		return 0;
 	}
 	wh = obj->o_which;
 	bless = o_on(obj, ISBLESS);
@@ -309,7 +309,7 @@ quaff()
 	}
 	otherwise:
 		msg("What an odd tasting potion!");
-		return;
+		return 0;
 	}
 	nochange = FALSE;
 	if (p_know[wh] && p_guess[wh]) {

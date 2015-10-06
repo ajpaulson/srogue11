@@ -59,7 +59,7 @@ int dy, dx;
 	if (player.t_nomove > 0) {
 		player.t_nomove -= 1;
 		msg("You are still stuck in the bear trap.");
-		return;
+		return 0;
 	}
 	/*
 	 * Do a confused move (maybe)
@@ -78,7 +78,7 @@ int dy, dx;
 	if (!cordok(nh.y, nh.x) ||
 	  (pl_off(ISETHER) && !diag_ok(&hero, &nh))) {
 		after = running = FALSE;
-		return;
+		return 0;
 	}
 	if (running) {
 		ch = winat(nh.y, nh.x);
@@ -112,7 +112,7 @@ int dy, dx;
 			}
 			if (apsg != 1) {
 				running = after = FALSE;
-				return;
+				return 0;
 			}
 			else {			/* can still run here */
 				nh.y = hero.y + goy;
@@ -137,21 +137,21 @@ int dy, dx;
 	ch = winat(nh.y, nh.x);
 	if (pl_on(ISHELD) && ch != 'F' && ch != 'd') {
 		msg("You are being held.");
-		return;
+		return 0;
 	}
 	if (pl_off(ISETHER)) {
 		if (isatrap(ch)) {
 			ch = be_trapped(&nh, &player);
 			if (nlmove) {
 				nlmove = FALSE;
-				return;
+				return 0;
 			}
 			else if (ch == POOL)
 				inpool = TRUE;
 		}
 	 	else if (dead_end(ch)) {
 			after = running = FALSE;
-			return;
+			return 0;
 		}
 		else {
 			switch(ch) {
@@ -167,7 +167,7 @@ int dy, dx;
 						teleport(rndspot, &player);
 						light(&nh);
 						msg("The spatial warp disappears !");
-						return;
+						return 0;
 					}
 			}
 		}
@@ -191,7 +191,7 @@ int dy, dx;
 	else if (isalpha(ch) && pl_off(ISETHER)) {
 		running = FALSE;
 		fight(&nh, cur_weapon, FALSE);
-		return;
+		return 0;
 	}
 	if (rp == NULL && player.t_room != NULL)
 		light(&hero);		/* exiting a room */
@@ -222,7 +222,7 @@ struct coord *cp;
 
 	rp = roomin(cp);
 	if (rp == NULL)
-		return;
+		return 0;
 	if (pl_on(ISBLIND)) {
 		for (j = 0; j < rp->r_max.y; j += 1) {
 			for (k = 0; k < rp->r_max.x; k += 1) {
@@ -232,7 +232,7 @@ struct coord *cp;
 			}
 		}
 		look(FALSE);
-		return;
+		return 0;
 	}
 	if (iswearing(R_LIGHT))
 		rp->r_flags &= ~ISDARK;
@@ -343,7 +343,7 @@ struct coord *tc;
 	char stuckee[35], seeit, sayso;
 
 	if ((trp = trap_at(tc->y, tc->x)) == NULL)
-		return;
+		return 0;
 	ishero = (th == &player);
 	if (ishero) {
 		strcpy(stuckee, "You");
@@ -531,10 +531,10 @@ dip_it()
 
 	tp = trap_at(hero.y,hero.x);
 	if (tp == NULL || inpool == FALSE || (tp->tr_flags & ISGONE))
-		return;
+		return 0;
 
 	if ((what = get_item("dip",0)) == NULL)
-		return;
+		return 0;
 	ob = OBJPTR(what);
 	mpos = 0;
 	/*
@@ -546,18 +546,18 @@ dip_it()
 		if (cur_weapon != NULL && o_on(cur_weapon, ISCURSED)) {
 			msg("You are unable to release your weapon.");
 			after = FALSE;
-			return;
+			return 0;
 		}
 	}
 	if (ob == cur_armor) {
 		msg("You have to take off your armor before you can dip it.");
 		after = FALSE;
-		return;
+		return 0;
 	}
 	else if (ob == cur_ring[LEFT] || ob == cur_ring[RIGHT]) {
 		msg("You have to take that ring off before you can dip it.");
 		after = FALSE;
-		return;
+		return 0;
 	}
 	wh = ob->o_which;
 	tp->tr_flags |= ISGONE;

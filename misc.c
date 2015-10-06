@@ -29,7 +29,7 @@
 waste_time()
 {
 	if (inwhgt)		/* if from wghtchk, then done */
-	     return;
+	     return 0;
 	do_daemons(BEFORE);
 	do_daemons(AFTER);
 	do_fuses();
@@ -259,12 +259,12 @@ eat()
 	int goodfood, cursed;
 
 	if ((item = get_item("eat", FOOD)) == NULL)
-		return;
+		return 0;
 	obj = OBJPTR(item);
 	if (obj->o_type != FOOD) {
 		msg("That's Inedible!");
 		after = FALSE;
-		return;
+		return 0;
 	}
 	cursed = 1;
 	if (o_on(obj, ISCURSED))
