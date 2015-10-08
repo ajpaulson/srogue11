@@ -42,8 +42,8 @@ tags: $(HDRS) $(CFILES)
 	ed - tags < :ctfix
 	sort tags -o tags
 
-lint:
-	lint -hxbc $(CFILES) $(CRLIB) > linterrs
+scan:
+	scan-build -analyze-headers -k -o analysis make
 
 clean:
 	rm -f $(OBJS) core
