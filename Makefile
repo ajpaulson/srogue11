@@ -11,8 +11,9 @@
 #
 # See the file LICENSE.TXT for full copyright and licensing information.
 
-DISTNAME=srogue9.0-1
+DISTNAME=srogue-$(GIT_VERSION)
 PROGRAM=srogue
+GIT_VERSION=$(shell git describe --abbrev=4 --dirty --always --tags)
 
 HDRS= bob.h cx.h ncx.h rdk.h rogue.h
 OBJS= vers.o armor.o chase.o command.o daemon.o daemons.o disply.o encumb.o \
