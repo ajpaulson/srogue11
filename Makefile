@@ -23,7 +23,7 @@ MISC=	Makefile LICENSE.TXT rogue.nr
 
 CC    = clang
 CFLAGS= -g -O0 -std=gnu11 -Werror
-CRLIB = -lcurses
+CRLIB = -lncurses
 RM    = rm -f
 TAR   = tar
 
