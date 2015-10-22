@@ -60,24 +60,6 @@ dist.src:
 	tar cf $(DISTNAME)-src.tar $(CFILES) $(HDRS) $(MISC)
 	gzip -f $(DISTNAME)-src.tar
 
-dist.irix:
-	make clean
-	make CC=cc CFLAGS="-woff 1116 -O3" $(PROGRAM)
-	tbl rogue.nr | nroff -mm | colcrt - > $(PROGRAM).doc
-	tar cf $(DISTNAME)-irix.tar $(PROGRAM) LICENSE.TXT $(PROGRAM).doc
-	gzip -f $(DISTNAME)-irix.tar
-
-debug.aix:
-	make clean
-	make CC=xlc CFLAGS="-qmaxmem=16768 -g -DWIZARD  -qstrict" $(PROGRAM)
-
-dist.aix:
-	make clean
-	make CC=xlc CFLAGS="-qmaxmem=16768 -O3 -qstrict" $(PROGRAM)
-	tbl rogue.nr | nroff -mm | colcrt - > $(PROGRAM).doc
-	tar cf $(DISTNAME)-aix.tar $(PROGRAM) LICENSE.TXT $(PROGRAM).doc
-	gzip -f $(DISTNAME)-aix.tar
-
 debug.linux:
 	make clean
 	make CFLAGS="-g -DWIZARD" $(PROGRAM)
@@ -88,36 +70,3 @@ dist.linux:
 	groff -P-c -t -mm -Tascii rogue.nr | sed -e 's/.\x08//g' >$(PROGRAM).doc
 	tar cf $(DISTNAME)-linux.tar $(PROGRAM) LICENSE.TXT $(PROGRAM).doc
 	gzip -f $(DISTNAME)-linux.tar
-
-debug.interix:
-	make clean
-	make CFLAGS="-g3 -DWIZARD" $(PROGRAM)
-
-dist.interix:
-	make clean
-	make $(PROGRAM)
-	groff -P-b -P-u -t -mm -Tascii rogue.nr > $(PROGRAM).doc
-	tar cf $(DISTNAME)-interix.tar $(PROGRAM) LICENSE.TXT $(PROGRAM).doc
-	gzip -f $(DISTNAME)-interix.tar
-
-debug.cygwin:
-	make clean
-	make CFLAGS="-g3 -DWIZARD" $(PROGRAM)
-
-dist.cygwin:
-	make clean
-	make $(PROGRAM)
-	groff -P-c -t -mm -Tascii rogue.nr | sed -e 's/.\x08//g' >$(PROGRAM).doc
-	tar cf $(DISTNAME)-cygwin.tar $(PROGRAM).exe LICENSE.TXT $(PROGRAM).doc
-	gzip -f $(DISTNAME)-cygwin.tar
-
-debug.djgpp:
-	make clean
-	make CFGLAGS="-g3 -DWIZARD" LDFLAGS="-L$(DJDIR)/LIB" CRLIB="-lpdcurses" $(PROGRAM)
-
-dist.djgpp:
-	make clean
-	make LDFLAGS="-L$(DJDIR)/LIB" CRLIB="-lpdcurses" $(PROGRAM)
-	groff -t -mm -Tascii rogue.nr | sed -e 's/.\x08//g' > $(PROGRAM).doc
-	rm -f $(DISTNAME)-djgpp.zip
-	zip $(DISTNAME)-djgpp.zip $(PROGRAM).exe LICENSE.TXT $(PROGRAM).doc
