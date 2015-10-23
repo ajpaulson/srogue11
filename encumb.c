@@ -12,6 +12,7 @@
 
 #include <curses.h>
 #include <stddef.h>
+#include <string.h>
 
 #include "rogue.h"
 #include "rogue.ext"

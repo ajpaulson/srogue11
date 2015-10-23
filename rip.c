@@ -21,6 +21,7 @@
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "rogue.h"
 #include "rogue.ext"

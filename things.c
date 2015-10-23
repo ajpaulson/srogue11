@@ -20,6 +20,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <unctrl.h>
+#include <string.h>
 
 #include "rogue.h"
 #include "rogue.ext"

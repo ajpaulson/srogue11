@@ -23,6 +23,8 @@
 #include <sys/stat.h>
 #include <termios.h>
 #include <time.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "rogue.h"
 

@@ -19,6 +19,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <termios.h>
+#include <string.h>
 
 #include "rogue.h"
 #include "rogue.ext"

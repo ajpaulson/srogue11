@@ -16,6 +16,7 @@
 
 #include <curses.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "rogue.h"
 #include "rogue.ext"
