@@ -14,10 +14,6 @@
  * See the file LICENSE.TXT for full copyright and licensing information.
  */
 
-//#ifdef BSD
-//#include "cx.h"
-//#endif
-
 #include <ctype.h>
 #include <curses.h>
 
