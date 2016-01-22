@@ -701,3 +701,6 @@ struct sgttyb _tty;
 #define flushout() ioctl(2, TCFLSH, 0)
 
 #endif
+
+// internal declarations
+bool isatrap();

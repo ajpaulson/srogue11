@@ -723,7 +723,7 @@ struct thing *who;
  * isatrap:
  *	Returns TRUE if this character is some kind of trap
  */
-isatrap(ch)
+bool isatrap(ch)
 char ch;
 {
 	switch(ch) {
