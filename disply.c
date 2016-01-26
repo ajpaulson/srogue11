@@ -114,7 +114,7 @@ int x, y;
  * cordok:
  *	Returns TRUE if coordinate is on usable screen
  */
-cordok(y, x)
+bool cordok(y, x)
 int y, x;
 {
 	if (x < 0 || y < 0 || x >= COLS || y >= LINES - 1)
