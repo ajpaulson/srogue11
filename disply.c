@@ -21,7 +21,7 @@
  * displevl:
  *	Display detailed level for wizard and scroll
  */
-displevl()
+void displevl()
 {
 	char ch, mch;
 	int i,j;

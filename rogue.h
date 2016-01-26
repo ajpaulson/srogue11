@@ -704,3 +704,4 @@ struct sgttyb _tty;
 
 // internal declarations
 bool isatrap();
+void displevl();
