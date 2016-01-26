@@ -234,7 +234,7 @@ dispmax()
  * illeg_ch:
  * 	Returns TRUE if a char shouldn't show on the screen
  */
-illeg_ch(ch)
+bool illeg_ch(ch)
 unsigned char ch;
 {
 	if (ch < 32 || ch > 127)
