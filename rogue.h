@@ -707,3 +707,4 @@ bool isatrap();
 void displevl();
 bool illeg_ch();
 void dispmons();
+char winat();

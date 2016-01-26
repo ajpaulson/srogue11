@@ -98,7 +98,7 @@ void dispmons()
  * winat:
  *	Get whatever character is at a location on the screen
  */
-winat(y, x)
+char winat(y, x)
 int x, y;
 {
 	char ch;
