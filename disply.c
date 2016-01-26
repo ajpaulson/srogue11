@@ -76,7 +76,7 @@ void displevl()
  * dispmons:
  *	Show monsters for wizard and potion
  */
-dispmons()
+void dispmons()
 {
 	int ch, y, x;
 	struct thing *it;

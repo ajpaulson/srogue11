@@ -706,3 +706,4 @@ struct sgttyb _tty;
 bool isatrap();
 void displevl();
 bool illeg_ch();
+void dispmons();
