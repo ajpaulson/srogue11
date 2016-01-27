@@ -709,3 +709,7 @@ bool illeg_ch();
 void dispmons();
 char winat();
 bool cordok();
+bool pl_on();
+bool pl_off();
+bool o_on();
+bool o_off();

@@ -126,7 +126,7 @@ int y, x;
  * pl_on:
  *	Returns TRUE if the player's flag is set
  */
-pl_on(what)
+bool pl_on(what)
 long what;
 {
 	return (player.t_flags & what);
@@ -137,7 +137,7 @@ long what;
  * pl_off:
  *	Returns TRUE when player's flag is reset
  */
-pl_off(what)
+bool pl_off(what)
 long what;
 {
 	return (!(player.t_flags & what));
@@ -148,7 +148,7 @@ long what;
  * o_on:
  *	Returns TRUE in the objects flag is set
  */
-o_on(what,bit)
+bool o_on(what,bit)
 struct object *what;
 long bit;
 {
@@ -165,7 +165,7 @@ long bit;
  * o_off:
  *	Returns TRUE is the objects flag is reset
  */
-o_off(what,bit)
+bool o_off(what,bit)
 struct object *what;
 long bit;
 {
