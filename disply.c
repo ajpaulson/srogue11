@@ -182,7 +182,7 @@ long bit;
  * setoflg:
  *	Set the specified flag for the object
  */
-setoflg(what,bit)
+void setoflg(what,bit)
 struct object *what;
 long bit;
 {
@@ -194,7 +194,7 @@ long bit;
  * resoflg:
  *	Reset the specified flag for the object
  */
-resoflg(what,bit)
+void resoflg(what,bit)
 struct object *what;
 long bit;
 {

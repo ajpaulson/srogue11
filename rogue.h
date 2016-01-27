@@ -713,3 +713,5 @@ bool pl_on();
 bool pl_off();
 bool o_on();
 bool o_off();
+void setoflg();
+void resoflg();
