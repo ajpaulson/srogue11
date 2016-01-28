@@ -64,6 +64,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "rogue.h"
 #include "rogue.ext"
@@ -83,7 +84,7 @@ char encstr[] = "\354\251\243\332A\201|\301\321p\210\251\327\"\257\365t\341%3\27
 /*
  * perform an encrypted write
  */
-encwrite(starta, size, outf)
+void encwrite(starta, size, outf)
 void *starta;
 unsigned int size;
 FILE *outf;
@@ -104,7 +105,7 @@ FILE *outf;
 /*
  * perform an encrypted read
  */
-encread(starta, size, inf)
+int encread(starta, size, inf)
 void *starta;
 unsigned int size;
 int inf;

@@ -715,3 +715,5 @@ bool o_on();
 bool o_off();
 void setoflg();
 void resoflg();
+void encwrite();
+int encread();
