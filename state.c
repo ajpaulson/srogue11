@@ -928,6 +928,7 @@ rs_write_window(FILE *savef, WINDOW *win)
     for(row=0;row<height;row++)
         for(col=0;col<width;col++)
             rs_write_int(savef, mvwinch(win,row,col));
+    return(WRITESTAT);
 }
 
 int
@@ -1374,6 +1375,7 @@ rs_write_monster_references(FILE *savef, struct monster *marray[], int count)
 
     for(i = 0; i < count; i++)
         rs_write_monster_reference(savef, marray[i]);
+    return(WRITESTAT);
 }
 
 int 
@@ -1383,6 +1385,7 @@ rs_read_monster_references(int inf, struct monster *marray[], int count)
 
     for(i = 0; i < count; i++)
         rs_read_monster_reference(inf, &marray[i]);
+    return(READSTAT);
 }
 
 int
@@ -1553,8 +1556,10 @@ rs_write_traps(FILE *savef, struct trap *trap,int count)
         rs_write_int(savef, trap[n].tr_flags);
         rs_write_char(savef, trap[n].tr_type);
     }
+    return(WRITESTAT);
 }
 
+int
 rs_read_traps(int inf, struct trap *trap, int count)
 {
     int id = 0, value = 0, n = 0;
@@ -1884,6 +1889,7 @@ rs_read_thing(int inf, struct thing *t)
     return(READSTAT);
 }
 
+void
 rs_fix_monster_list(list)
 struct linked_list *list;
 {
@@ -1969,6 +1975,7 @@ rs_write_object_reference(FILE *savef, struct linked_list *list,
     return(WRITESTAT);
 }
 
+int
 rs_read_object_reference(int inf, struct linked_list *list, 
     struct object **item)
 {
@@ -2224,6 +2231,7 @@ rs_save_file(FILE *savef)
     return(WRITESTAT);
 }
 
+int
 rs_restore_file(int inf)
 {
     bool junk;
