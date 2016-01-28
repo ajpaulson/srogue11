@@ -214,6 +214,26 @@ rs_write_boolean(FILE *savef, bool c)
 }
 
 int
+rs_write_int(FILE *savef, int c)
+{
+    unsigned char bytes[4];
+    unsigned char *buf = (unsigned char *) &c;
+
+    if (big_endian)
+    {
+        bytes[3] = buf[0];
+        bytes[2] = buf[1];
+        bytes[1] = buf[2];
+        bytes[0] = buf[3];
+        buf = bytes;
+    }
+    
+    rs_write(savef, buf, 4);
+
+    return(WRITESTAT);
+}
+
+int
 rs_write_booleans(FILE *savef, bool *c, int count)
 {
     int n = 0;
@@ -281,26 +301,6 @@ rs_write_ushort(FILE *savef, unsigned short c)
     }
 
     rs_write(savef, buf, 2);
-
-    return(WRITESTAT);
-}
-
-int
-rs_write_int(FILE *savef, int c)
-{
-    unsigned char bytes[4];
-    unsigned char *buf = (unsigned char *) &c;
-
-    if (big_endian)
-    {
-        bytes[3] = buf[0];
-        bytes[2] = buf[1];
-        bytes[1] = buf[2];
-        bytes[0] = buf[3];
-        buf = bytes;
-    }
-    
-    rs_write(savef, buf, 4);
 
     return(WRITESTAT);
 }
@@ -520,6 +520,29 @@ rs_read_boolean(int inf, bool *i)
 }
 
 int
+rs_read_int(int inf, int *i)
+{
+    unsigned char bytes[4];
+    int  input;
+    unsigned char *buf = (unsigned char *)&input;
+    
+    rs_read(inf, &input, 4);
+
+    if (big_endian)
+    {
+        bytes[3] = buf[0];
+        bytes[2] = buf[1];
+        bytes[1] = buf[2];
+        bytes[0] = buf[3];
+        buf = bytes;
+    }
+    
+    *i = *((int *) buf);
+
+    return(READSTAT);
+}
+
+int
 rs_read_booleans(int inf, bool *i, int count)
 {
     int n = 0, value = 0;
@@ -613,29 +636,6 @@ rs_read_ushort(int inf, unsigned short *i)
 
     return(READSTAT);
 } 
-
-int
-rs_read_int(int inf, int *i)
-{
-    unsigned char bytes[4];
-    int  input;
-    unsigned char *buf = (unsigned char *)&input;
-    
-    rs_read(inf, &input, 4);
-
-    if (big_endian)
-    {
-        bytes[3] = buf[0];
-        bytes[2] = buf[1];
-        bytes[1] = buf[2];
-        bytes[0] = buf[3];
-        buf = bytes;
-    }
-    
-    *i = *((int *) buf);
-
-    return(READSTAT);
-}
 
 int
 rs_read_ints(int inf, int *i, int count)
