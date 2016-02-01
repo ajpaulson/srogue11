@@ -715,5 +715,5 @@ bool o_on(struct object *what,long bit);
 bool o_off(struct object *what,long bit);
 void setoflg(struct object *what,long bit);
 void resoflg(struct object *what,long bit);
-void encwrite();
-int encread();
+void encwrite(void *starta,unsigned int size,FILE *outf);
+int encread(void *starta,unsigned int size,int inf);
