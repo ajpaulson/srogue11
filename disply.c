@@ -98,8 +98,7 @@ void dispmons()
  * winat:
  *	Get whatever character is at a location on the screen
  */
-char winat(y, x)
-int x, y;
+char winat(int y,int x)
 {
 	char ch;
 
@@ -114,8 +113,7 @@ int x, y;
  * cordok:
  *	Returns TRUE if coordinate is on usable screen
  */
-bool cordok(y, x)
-int y, x;
+bool cordok(int y,int x)
 {
 	if (x < 0 || y < 0 || x >= COLS || y >= LINES - 1)
 		return FALSE;
@@ -126,8 +124,7 @@ int y, x;
  * pl_on:
  *	Returns TRUE if the player's flag is set
  */
-bool pl_on(what)
-long what;
+bool pl_on(long what)
 {
 	return (player.t_flags & what);
 }
@@ -137,8 +134,7 @@ long what;
  * pl_off:
  *	Returns TRUE when player's flag is reset
  */
-bool pl_off(what)
-long what;
+bool pl_off(long what)
 {
 	return (!(player.t_flags & what));
 }
@@ -148,9 +144,7 @@ long what;
  * o_on:
  *	Returns TRUE in the objects flag is set
  */
-bool o_on(what,bit)
-struct object *what;
-long bit;
+bool o_on(struct object *what,long bit)
 {
 	int flag;
 
@@ -165,9 +159,7 @@ long bit;
  * o_off:
  *	Returns TRUE is the objects flag is reset
  */
-bool o_off(what,bit)
-struct object *what;
-long bit;
+bool o_off(struct object *what,long bit)
 {
 	int flag;
 
@@ -182,9 +174,7 @@ long bit;
  * setoflg:
  *	Set the specified flag for the object
  */
-void setoflg(what,bit)
-struct object *what;
-long bit;
+void setoflg(struct object *what,long bit)
 {
 	what->o_flags |= bit;
 }
@@ -194,9 +184,7 @@ long bit;
  * resoflg:
  *	Reset the specified flag for the object
  */
-void resoflg(what,bit)
-struct object *what;
-long bit;
+void resoflg(struct object *what,long bit)
 {
 	what->o_flags &= ~bit;
 }
