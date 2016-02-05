@@ -703,7 +703,7 @@ struct sgttyb _tty;
 #endif
 
 // internal declarations
-bool isatrap();
+bool isatrap(char ch);
 void displevl();
 bool illeg_ch();
 void dispmons();
@@ -729,3 +729,9 @@ void init_ring(struct object *what,bool fromwiz);
 int ringex(int rtype);
 bool iswearing(int ring);
 bool isring(int hand,int ring);
+void do_run(char ch);
+int do_move(int dy,int dx);
+int light(struct coord *cp);
+char show(int y,int x);
+char be_trapped(struct coord *tc,struct thing *th);
+int dip_it();

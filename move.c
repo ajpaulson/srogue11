@@ -32,8 +32,7 @@ struct coord nh;
  *	Start the hero running
  */
 
-do_run(ch)
-char ch;
+void do_run(char ch)
 {
 	running = TRUE;
 	after = FALSE;
@@ -46,8 +45,7 @@ char ch;
  *	consequences (fighting, picking up, etc.)
  */
 
-do_move(dy, dx)
-int dy, dx;
+int do_move(int dy,int dx)
 {
 	int ch;
 	struct room *rp;
@@ -206,14 +204,14 @@ int dy, dx;
 	hero = nh;
 	player.t_room = rp;
 	player.t_oldch = mvinch(hero.y, hero.x);
+  return 0;
 }
 
 /*
  * Called to illuminate a room.
  * If it is dark, remove anything that might move.
  */
-light(cp)
-struct coord *cp;
+int light(struct coord *cp)
 {
 	struct room *rp;
 	int j, k, x, y;
@@ -288,14 +286,14 @@ struct coord *cp;
 			mvwaddch(cw, y, x, ch);
 		}
 	}
+  return 0;
 }
 
 /*
  * show:
  *	returns what a certain thing will display as to the un-initiated
  */
-show(y, x)
-int y, x;
+char show(int y,int x)
 {
 	char ch = winat(y, x);
 	struct linked_list *it;
@@ -333,9 +331,7 @@ int y, x;
  * be_trapped:
  *	Hero or monster stepped on a trap.
  */
-be_trapped(tc, th)
-struct thing *th;
-struct coord *tc;
+char be_trapped(struct coord *tc,struct thing *th)
 {
 	struct trap *trp;
 	int ch, ishero;
@@ -522,7 +518,7 @@ goner:
  * dip_it:
  *	Dip an object into a magic pool
  */
-dip_it()
+int dip_it()
 {
 	struct linked_list *what;
 	struct object *ob;
@@ -649,6 +645,7 @@ dip_it()
 		}
 	}
 	cur_weapon = ob;	/* hero has to weild item to dip it */
+  return 0;
 }
 
 
@@ -656,9 +653,7 @@ dip_it()
  * trap_at:
  *	Find the trap at (y,x) on screen.
  */
-struct trap *
-trap_at(y, x)
-int y, x;
+struct trap * trap_at(y, x) int y, x;
 {
 	struct trap *tp, *ep;
 
@@ -675,9 +670,7 @@ int y, x;
  * rndmove:
  *	move in a random direction if the monster/person is confused
  */
-struct coord *
-rndmove(who)
-struct thing *who;
+struct coord * rndmove(who) struct thing *who;
 {
 	int x, y, ex, ey, ch;
 	int nopen = 0;
@@ -723,8 +716,7 @@ struct thing *who;
  * isatrap:
  *	Returns TRUE if this character is some kind of trap
  */
-bool isatrap(ch)
-char ch;
+bool isatrap(char ch)
 {
 	switch(ch) {
 		case POST:
