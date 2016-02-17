@@ -25,8 +25,7 @@ int between = 0;
  * doctor:
  *	A healing daemon that restores hit points after rest
  */
-doctor(fromfuse)
-int fromfuse;
+int doctor(int fromfuse)
 {
 	int *thp, lv, ohp, ccon;
 
@@ -58,6 +57,7 @@ int fromfuse;
 			*thp = him->s_maxhp;
 		quiet = 0;
 	}
+  return 0;
 }
 
 
@@ -65,10 +65,10 @@ int fromfuse;
  * Swander:
  *	Called when it is time to start rolling for wandering monsters
  */
-swander(fromfuse)
-int fromfuse;
+int swander(int fromfuse)
 {
 	daemon(rollwand, TRUE, BEFORE);
+  return 0;
 }
 
 
@@ -76,8 +76,7 @@ int fromfuse;
  * rollwand:
  *	Called to roll to see if a wandering monster starts up
  */
-rollwand(fromfuse)
-int fromfuse;
+int rollwand(int fromfuse)
 {
 
 	if (++between >= 4) {
@@ -89,6 +88,7 @@ int fromfuse;
 		}
 		between = 0;
 	}
+  return 0;
 }
 
 
@@ -96,47 +96,47 @@ int fromfuse;
  * unconfuse:
  *	Release the poor player from his confusion
  */
-unconfuse(fromfuse)
-int fromfuse;
+int unconfuse(int fromfuse)
 {
 	if (pl_on(ISHUH))
 		msg("You feel less confused now.");
 	player.t_flags &= ~ISHUH;
+  return 0;
 }
 
 /*
  * unsee:
  *	He lost his see invisible power
  */
-unsee(fromfuse)
-int fromfuse;
+int unsee(int fromfuse)
 {
 	player.t_flags &= ~CANSEE;
+  return 0;
 }
 
 /*
  * sight:
  *	He gets his sight back
  */
-sight(fromfuse)
-int fromfuse;
+int sight(int fromfuse)
 {
 	if (pl_on(ISBLIND))
 		msg("The veil of darkness lifts.");
 	player.t_flags &= ~ISBLIND;
 	light(&hero);
+  return 0;
 }
 
 /*
  * nohaste:
  *	End the hasting
  */
-nohaste(fromfuse)
-int fromfuse;
+int nohaste(int fromfuse)
 {
 	if (pl_on(ISHASTE))
 		msg("You feel yourself slowing down.");
 	player.t_flags &= ~ISHASTE;
+  return 0;
 }
 
 
@@ -144,8 +144,7 @@ int fromfuse;
  * stomach:
  *	Digest the hero's food
  */
-stomach(fromfuse)
-int fromfuse;
+int stomach(int fromfuse)
 {
 	int oldfood, old_hunger;
 
@@ -184,14 +183,14 @@ int fromfuse;
 	if (old_hunger != hungry_state)
 	    updpack();				/* new pack weight */
 	wghtchk(FALSE);
+  return 0;
 }
 
 /*
  * noteth:
  *	Hero is no longer etherereal
  */
-noteth(fromfuse)
-int fromfuse;
+int noteth(int fromfuse)
 {
 	int ch;
 
@@ -205,52 +204,53 @@ int fromfuse;
 		}
 	}
 	player.t_flags &= ~ISETHER;
+  return 0;
 }
 
 /*
  * sapem:
  *	Sap the hero's life away
  */
-sapem(fromfuse)
-int fromfuse;
+int sapem(int fromfuse)
 {
 	chg_abil(rnd(4) + 1, -1, TRUE);
 	fuse(sapem, TRUE, 150);
 	nochange = FALSE;
+  return 0;
 }
 
 /*
  * notslow:
  *	Restore the hero's normal speed
  */
-notslow(fromfuse)
-int fromfuse;
+int notslow(int fromfuse)
 {
 	if (pl_on(ISSLOW))
 		msg("You no longer feel hindered.");
 	player.t_flags &= ~ISSLOW;
+  return 0;
 }
 
 /*
  * notregen:
  *	Hero is no longer regenerative
  */
-notregen(fromfuse)
-int fromfuse;
+int notregen(int fromfuse)
 {
 	if (pl_on(ISREGEN))
 		msg("You no longer feel bolstered.");
 	player.t_flags &= ~ISREGEN;
+  return 0;
 }
 
 /*
  * notinvinc:
  *	Hero not invincible any more
  */
-notinvinc(fromfuse)
-int fromfuse;
+int notinvinc(int fromfuse)
 {
 	if (pl_on(ISINVINC))
 		msg("You no longer feel invincible.");
 	player.t_flags &= ~ISINVINC;
+  return 0;
 }
