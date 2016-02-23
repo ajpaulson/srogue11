@@ -85,24 +85,10 @@ char *metal[NMETAL] = {
 };
 
 /*
- * init_everything:
- *	Set up all important stuff.
- */
-init_everything()
-{
-	init_player();			/* Roll up the rogue */
-	init_things();			/* Set up probabilities */
-	init_names();			/* Set up names of scrolls */
-	init_colors();			/* Set up colors of potions */
-	init_stones();			/* Set up stones in rings */
-	init_materials();		/* Set up materials of wands */
-}
-
-/*
  * init_things:
  *	Initialize the probabilities for types of things
  */
-init_things()
+void init_things()
 {
 	struct magic_item *mi;
 	
@@ -131,7 +117,7 @@ init_things()
  * init_colors:
  *	Initialize the potion color scheme for this time
  */
-init_colors()
+void init_colors()
 {
 	int i, j;
 	char *str;
@@ -158,7 +144,7 @@ init_colors()
  * init_names:
  *	Generate the names of the various scrolls
  */
-init_names()
+void init_names()
 {
 	int nsyl;
 	char *cp, *sp;
@@ -192,7 +178,7 @@ init_names()
  *	Initialize the ring stone setting scheme for this time
  */
 
-init_stones()
+void init_stones()
 {
 	int i, j;
 	char *str;
@@ -220,7 +206,7 @@ init_stones()
  *	Initialize the construction materials for wands and staffs
  */
 
-init_materials()
+void init_materials()
 {
 	int i, j;
 	char *str;
@@ -267,9 +253,7 @@ init_materials()
 	badcheck("sticks", ws_magic);
 }
 
-badcheck(name, magic)
-char *name;
-struct magic_item *magic;
+int badcheck(char *name,struct magic_item *magic)
 {
 	struct magic_item *mg;
 
@@ -284,6 +268,7 @@ struct magic_item *magic;
 	fflush(stdout);
 	while (getchar() != '\n')
 		continue;
+  return 0;
 }
 
 
@@ -292,7 +277,7 @@ struct magic_item *magic;
  *	roll up the rogue
  */
 
-init_player()
+void init_player()
 {
 	player.t_nomove = 0;
 	player.t_nocmd = 0;
@@ -340,3 +325,18 @@ int pinit()
 	}
 	return(dicetot);
 }
+
+/*
+ * init_everything:
+ *	Set up all important stuff.
+ */
+void init_everything()
+{
+	init_player();			/* Roll up the rogue */
+	init_things();			/* Set up probabilities */
+	init_names();			/* Set up names of scrolls */
+	init_colors();			/* Set up colors of potions */
+	init_stones();			/* Set up stones in rings */
+	init_materials();		/* Set up materials of wands */
+}
+
