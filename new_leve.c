@@ -23,8 +23,7 @@
  * new_level:
  *	Dig and draw a new level 
  */
-new_level(ltype)
-int ltype;
+void new_level(int ltype)
 {
 	char ch;
 	struct coord traploc;
@@ -167,7 +166,7 @@ int rnd_room()
  *	put potions and scrolls on this level
  */
 
-put_things()
+int put_things()
 {
 	int i, cnt, rm;
 	struct linked_list *item;
@@ -251,4 +250,5 @@ put_things()
 			}
 		}
 	}
+  return 0;
 }

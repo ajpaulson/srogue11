@@ -771,3 +771,6 @@ void remove_monster(struct coord *mp,struct linked_list *item);
 bool is_magic(struct object *obj);
 void killed(struct linked_list *item,bool pr);
 int read_scroll();
+void new_level(int ltype);
+int rnd_room();
+int put_things();
