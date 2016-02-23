@@ -490,7 +490,7 @@ goner:
 			if ((trp->tr_flags & ISGONE) && rnd(100) < 10) {
 				nlmove = TRUE;
 				if (rnd(100) < 15)
-					teleport(rndspot);	   /* teleport away */
+					teleport(rndspot, &player);	   /* teleport away */
 				else if(rnd(100) < 15 && level > 2) {
 					level -= rnd(2) + 1;
 					new_level(NORMLEV);
