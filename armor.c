@@ -46,6 +46,7 @@ int wear()
 	cur_armor = obj;
 	setoflg(obj,ISKNOW);
 	nochange = FALSE;
+  return 0;
 }
 
 
@@ -66,15 +67,14 @@ int take_off()
 	cur_armor = NULL;
 	msg("Was wearing %c) %s",pack_char(obj),inv_name(obj,TRUE));
 	nochange = FALSE;
+  return 0;
 }
 
 /*
  * initarmor:
  *		Initialize some armor.
  */
-initarmor(obj, what)
-struct object *obj;
-int what;
+void initarmor(struct object *obj,int what)
 {
 	struct init_armor *iwa;
 	struct magic_item *mi;
@@ -93,8 +93,7 @@ int what;
  * hurt_armor:
  *	Returns TRUE if armor is damaged
  */
-hurt_armor(obj)
-struct object *obj;
+bool hurt_armor(struct object *obj)
 {
 	int type, ac;
 

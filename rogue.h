@@ -741,3 +741,7 @@ int getbless();
 int makemons(int what);
 int teleport(struct coord spot,struct thing *th);
 bool passwd();
+int wear();
+int take_off();
+void initarmor(struct object *obj,int what);
+bool hurt_armor(struct object *obj);
