@@ -770,3 +770,4 @@ void bounce(struct object *weap,char *mname);
 void remove_monster(struct coord *mp,struct linked_list *item);
 bool is_magic(struct object *obj);
 void killed(struct linked_list *item,bool pr);
+int read_scroll();
