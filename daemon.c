@@ -35,9 +35,7 @@ struct delayed_action d_list[MAXDAEMONS] = {
  * d_insert:
  *	Insert a function in the daemon list.
  */
-struct delayed_action *
-d_insert(func, arg, type, time)
-int arg, type, time, (*func)();
+struct delayed_action *d_insert(int (*func)(),int arg,int type,int time)
 {
 	struct delayed_action *dev;
 
@@ -53,8 +51,7 @@ int arg, type, time, (*func)();
 	return NULL;
 }
 
-d_delete(wire)
-struct delayed_action *wire;
+int d_delete(struct delayed_action *wire)
 {
 	struct delayed_action *d1, *d2;
 
@@ -69,14 +66,13 @@ struct delayed_action *wire;
 			return 0;
 		}
 	}
+  return 0;
 }
 /*
  * find_slot:
  *	Find a particular slot in the table
  */
-struct delayed_action *
-find_slot(func)
-int (*func)();
+struct delayed_action *find_slot(int (*func)())
 {
 	struct delayed_action *dev;
 
@@ -90,8 +86,7 @@ int (*func)();
  * daemon:
  *	Start a daemon, takes a function.
  */
-daemon(func, arg, type)
-int arg, type, (*func)();
+void daemon(int (*func)(),int arg,int type)
 {
 	d_insert(func, arg, type, DAEMON);
 }
@@ -101,8 +96,7 @@ int arg, type, (*func)();
  *	Run all the daemons that are active with the current
  *	flag, passing the argument to the function.
  */
-do_daemons(flag)
-int flag;
+void do_daemons(int flag)
 {
 	struct delayed_action *dev;
 
@@ -115,8 +109,7 @@ int flag;
  * fuse:
  *	Start a fuse to go off in a certain number of turns
  */
-fuse(func, arg, time)
-int (*func)(), arg, time;
+void fuse(int (*func)(),int arg,int time)
 {
 	d_insert(func, arg, AFTER, time);
 }
@@ -125,8 +118,7 @@ int (*func)(), arg, time;
  * lengthen:
  *	Increase the time until a fuse goes off
  */
-lengthen(func, xtime)
-int (*func)(), xtime;
+void lengthen(int (*func)(),int xtime)
 {
 	struct delayed_action *wire;
 
@@ -139,8 +131,7 @@ int (*func)(), xtime;
  * extinguish:
  *	Put out a fuse. Find all such fuses and kill them.
  */
-extinguish(func)
-int (*func)();
+void extinguish(int (*func)())
 {
 	struct delayed_action *dev;
 
@@ -153,7 +144,7 @@ int (*func)();
  * do_fuses:
  *	Decrement counters and start needed fuses
  */
-do_fuses()
+void do_fuses()
 {
 	struct delayed_action *dev;
 
@@ -172,8 +163,7 @@ do_fuses()
  * activity:
  *	Show wizard number of demaons and memory blocks used
  */
-activity()
+void activity()
 {
-	msg("Daemons = %d : Memory Items = %d : Memory Used = %d",
-	    demoncnt,total,sbrk(0));
+	msg("Daemons = %d : Memory Items = %d", demoncnt,total);
 }
