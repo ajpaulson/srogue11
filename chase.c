@@ -31,7 +31,7 @@ struct coord ch_ret;	/* Where chasing takes you */
  * runners:
  *	Make all the running monsters move.
  */
-runners()
+int runners()
 {
 	struct thing *tp;
 	struct linked_list *mon,*nextmon;
@@ -52,6 +52,7 @@ runners()
 			tp->t_turn ^= TRUE;
 		}
 	}
+  return 0;
 }
 
 
@@ -59,8 +60,7 @@ runners()
  * do_chase:
  *	Make one thing chase another.
  */
-do_chase(mon)
-struct linked_list *mon;
+int do_chase(struct linked_list *mon)
 {
 	struct thing *th;
 	struct room *rer, *ree, *rxx;
@@ -246,10 +246,7 @@ struct linked_list *mon;
  *	chasee.  Returns TRUE if we want to keep on chasing
  *	later FALSE if we reach the goal.
  */
-chase(tp, ee, runaway, dofight)
-struct thing *tp;
-struct coord *ee;
-bool runaway, dofight;
+int chase(struct thing *tp,struct coord *ee,bool runaway,bool dofight)
 {
 	int x, y, ch;
 	int dist, thisdist, closest;
@@ -390,9 +387,7 @@ bool runaway, dofight;
  * runto:
  *	Set a monster running after something
  */
-runto(runner, spot)
-struct coord *runner;
-struct coord *spot;
+int runto(struct coord *runner,struct coord *spot)
 {
 	struct linked_list *item;
 	struct thing *tp;
@@ -405,6 +400,7 @@ struct coord *spot;
 	tp->t_dest = spot;
 	tp->t_flags |= ISRUN;
 	tp->t_flags &= ~ISHELD;
+  return 0;
 }
 
 
@@ -413,9 +409,7 @@ struct coord *spot;
  *	Find what room some coordinates are in.
  *	NULL means they aren't in any room.
  */
-struct room *
-roomin(cp)
-struct coord *cp;
+struct room *roomin(struct coord *cp)
 {
 	struct room *rp;
 
@@ -432,9 +426,7 @@ struct coord *cp;
  * find_mons:
  *	Find the monster from his coordinates
  */
-struct linked_list *
-find_mons(y, x)
-int y, x;
+struct linked_list *find_mons(int y,int x)
 {
 	struct linked_list *item;
 	struct thing *th;
@@ -452,8 +444,7 @@ int y, x;
  * diag_ok:
  *	Check to see if the move is legal if it is diagonal
  */
-diag_ok(sp, ep)
-struct coord *sp, *ep;
+bool diag_ok(struct coord *sp,struct coord *ep)
 {
 	if (ep->x == sp->x || ep->y == sp->y)
 		return TRUE;
@@ -467,8 +458,7 @@ struct coord *sp, *ep;
  * cansee:
  *	returns true if the hero can see a certain coordinate.
  */
-cansee(y, x)
-int y, x;
+bool cansee(int y,int x)
 {
 	struct room *rer;
 	struct coord tp;
