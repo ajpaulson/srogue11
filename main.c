@@ -25,6 +25,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "rogue.h"
 
@@ -42,9 +44,7 @@
 
 struct termios terminal;
 
-main(argc, argv, envp)
-char **argv;
-char **envp;
+int main(int argc,char const* argv[],char **envp)
 {
 	char *env;
 	struct linked_list *item;
@@ -184,7 +184,7 @@ char **envp;
 		byebye(1);
 	}
 
-	if ((whoami == NULL) || (*whoami == '\0') || (strcmp(whoami,"dosuser")==0))
+	if ((whoami[0] == '\0') || (*whoami == '\0') || (strcmp(whoami,"dosuser")==0))
 	{
 		echo();
 		mvaddstr(23,2,"Rogue's Name? ");
@@ -192,7 +192,7 @@ char **envp;
 		noecho();
 	}
 
-	if ((whoami == NULL) || (*whoami == '\0'))
+	if ((whoami[0] == '\0') || (*whoami == '\0'))
 		strcpy(whoami,"Rodney");
 	
 	setup();
@@ -275,6 +275,7 @@ char **envp;
 	add_pack(item, TRUE);
 
 	playit();
+  return 0;
 }
 
 
@@ -282,8 +283,7 @@ char **envp;
  * endit:
  *	Exit the program abnormally.
  */
-void
-endit(int a)
+void endit(int a)
 {
 	fatal("Ok, if you want to exit that badly, I'll have to allow it");
 }
@@ -293,8 +293,7 @@ endit(int a)
  *	Exit the program, printing a message.
  */
 
-fatal(s)
-char *s;
+void fatal(char *s)
 {
 	clear();
 	refresh();
@@ -310,9 +309,7 @@ char *s;
  *	to the way they were when he started
  */
 
-void
-byebye(how)
-int how;
+void byebye(int how)
 {
 	if (!isendwin())
 		endwin();
@@ -325,8 +322,7 @@ int how;
  * rnd:
  *	Pick a very random number.
  */
-rnd(range)
-int range;
+int rnd(int range)
 {
 	int wh;
 
@@ -343,8 +339,7 @@ int range;
  * roll:
  *	roll a number of dice
  */
-roll(number, sides)
-int number, sides;
+int roll(int number,int sides)
 {
 	int dtotal = 0;
 
@@ -357,7 +352,7 @@ int number, sides;
 /*
 ** setup: 	Setup signal catching functions
 */
-setup()
+void setup()
 {
 	signal(SIGHUP, auto_save);
 	signal(SIGINT, auto_save);
@@ -390,7 +385,7 @@ setup()
 **		refreshing things and looking at the proper times.
 */
 
-playit()
+void playit()
 {
 	char *opts;
 
@@ -414,7 +409,7 @@ playit()
 /*
 ** author:	See if a user is an author of the program
 */
-author()
+bool author()
 {
 	switch (playuid) {
 		case 100:
@@ -425,8 +420,7 @@ author()
 	}
 }
 
-int
-directory_exists(char *dirname)
+int directory_exists(char *dirname)
 {
     struct stat sb;
 
@@ -436,8 +430,7 @@ directory_exists(char *dirname)
     return(0);
 }
 
-char *
-roguehome()
+char *roguehome()
 {
     static char path[1024];
     char *end,*home;

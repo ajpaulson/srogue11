@@ -837,3 +837,8 @@ void option();
 int get_str(char *opt,WINDOW *awin);
 void parse_opts(char *str);
 void strucpy(char *s1,char *s2,int len);
+void fatal(char *s);
+int roll(int number,int sides);
+void setup();
+void playit();
+bool author();
