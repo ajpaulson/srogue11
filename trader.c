@@ -25,7 +25,7 @@
  * do_post:
  *	Put a trading post room and stuff on the screen
  */
-do_post()
+void do_post()
 {
 	struct coord tp;
 	int i;
@@ -71,7 +71,7 @@ do_post()
  * price_it:
  *	Price the object that the hero stands on
  */
-price_it()
+bool price_it()
 {
 	static char *bargain[] = {
 		"great bargain",
@@ -105,7 +105,7 @@ price_it()
  * buy_it:
  *	Buy the item on which the hero stands
  */
-buy_it()
+int buy_it()
 {
 	int wh;
 
@@ -150,13 +150,14 @@ buy_it()
 		curprice = NOTPRICED;
 		curpurch[0] = '\0';
 	}
+  return 0;
 }
 
 /*
  * sell_it:
  *	Sell an item to the trading post
  */
-sell_it()
+int sell_it()
 {
 	struct linked_list *item;
 	struct object *obj;
@@ -198,13 +199,14 @@ sell_it()
 		obj->o_count = wo;
 		trans_line();			/* show remaining deals */
 	}
+  return 0;
 }
 
 /*
  * open_market:
  *	Retruns TRUE when ok do to transacting
  */
-open_market()
+bool open_market()
 {
 	if (trader >= MAXPURCH) {
 		msg("The market is closed. The stairs are that-a-way.");
@@ -218,8 +220,7 @@ open_market()
  * get_worth:
  *	Calculate an objects worth in gold
  */
-get_worth(obj)
-struct object *obj;
+int get_worth(struct object *obj)
 {
 	int worth, wh;
 
@@ -277,7 +278,7 @@ struct object *obj;
  * trans_line:
  *	Show how many transactions the hero has left
  */
-trans_line()
+void trans_line()
 {
 	sprintf(prbuf,"You have %d transactions remaining.",MAXPURCH-trader);
 	mvwaddstr(cw, LINES - 4, 0, prbuf);
@@ -287,7 +288,7 @@ trans_line()
  * domaze:
  *	Draw the maze on this level.
  */
-do_maze()
+void do_maze()
 {
 	struct coord tp;
 	int i, least;
@@ -340,7 +341,7 @@ int tlines, tcols;
  * draw_maze:
  *	Generate and draw the maze on the screen
  */
-draw_maze()
+void draw_maze()
 {
 	int i, j, more;
 	char *ptr;
@@ -376,9 +377,7 @@ draw_maze()
  * moffset:
  *	Calculate memory address for bits
  */
-char *
-moffset(y, x)
-int y, x;
+char *moffset(int y,int x)
 {
 	char *ptr;
 
@@ -390,9 +389,7 @@ int y, x;
  * foffset:
  *	Calculate memory address for frontier
  */
-char *
-foffset(y, x)
-int y, x;
+char *foffset(int y,int x)
 {
 	char *ptr;
 
@@ -404,8 +401,7 @@ int y, x;
  * findcells:
  *	Figure out cells to open up 
  */
-findcells(y,x)
-int x, y;
+int findcells(int y,int x)
 {
 	int rtpos, i;
 
@@ -455,8 +451,7 @@ int x, y;
  * rmwall:
  *	Removes appropriate walls from the maze
  */
-rmwall(newy, newx, oldy, oldx)
-int newy, newx, oldy, oldx;
+void rmwall(int newy,int newx,int oldy,int oldx)
 {
 	int xdif,ydif;
 	
@@ -472,7 +467,7 @@ int newy, newx, oldy, oldx;
  * crankout:
  *	Does actual drawing of maze to window
  */
-crankout()
+void crankout()
 {
 	int x, y, i;
 
