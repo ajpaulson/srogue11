@@ -28,9 +28,7 @@
  * is non-null use it as the linked_list pointer instead of
  * getting it off the ground.
  */
-add_pack(item, silent)
-struct linked_list *item;
-bool silent;
+bool add_pack(struct linked_list *item,bool silent)
 {
 	struct linked_list *ip, *lp;
 	struct object *obj, *op;
@@ -195,9 +193,7 @@ picked_up:
  * inventory:
  *	Show what items are in a specific list
  */
-inventory(list, type)
-struct linked_list *list;
-int type;
+bool inventory(struct linked_list *list,int type)
 {
 	struct linked_list *pc;
 	struct object *obj;
@@ -233,8 +229,7 @@ int type;
  * pick_up:
  *	Add something to characters pack.
  */
-pick_up(ch)
-char ch;
+void pick_up(char ch)
 {
 	nochange = FALSE;
 	switch(ch) {
@@ -258,7 +253,7 @@ char ch;
  * picky_inven:
  *	Allow player to inventory a single item
  */
-picky_inven()
+int picky_inven()
 {
 	struct linked_list *item;
 	char ch, mch;
@@ -285,16 +280,14 @@ picky_inven()
 			ch -= 1;
 		msg("Range is 'a' to '%c'", ch);
 	}
+  return 0;
 }
 
 /*
  * get_item:
  *	pick something out of a pack for a purpose
  */
-struct linked_list *
-get_item(purpose, type)
-char *purpose;
-int type;
+struct linked_list *get_item(char *purpose,int type)
 {
 	struct linked_list *obj, *pit, *savepit;
 	struct object *pob;
@@ -411,9 +404,7 @@ int type;
  * pack_char:
  *	Get the character of a particular item in the pack
  */
-char
-pack_char(obj)
-struct object *obj;
+char pack_char(struct object *obj)
 {
 	struct linked_list *item;
 	char c;
@@ -431,7 +422,7 @@ struct object *obj;
  * idenpack:
  *	Identify all the items in the pack
  */
-idenpack()
+void idenpack()
 {
 	struct linked_list *pc;
 
@@ -444,8 +435,7 @@ idenpack()
  * del_pack:
  *	Take something out of the hero's pack
  */
-del_pack(what)
-struct linked_list *what;
+void del_pack(struct linked_list *what)
 {
 	struct object *op;
 
@@ -465,8 +455,7 @@ struct linked_list *what;
  * cur_null:
  *	This updates cur_weapon etc for dropping things
  */
-cur_null(op)
-struct object *op;
+void cur_null(struct object *op)
 {
 	if (op == cur_weapon)
 		cur_weapon = NULL;
