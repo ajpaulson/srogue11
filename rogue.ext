@@ -15,10 +15,10 @@ EXTINT foodlev, total, count, demoncnt, fung_hit, ntraps;
 EXTINT lastscore, purse, mpos, seed, dnum, no_food, packvol, playuid;
 EXTINT curprice, trader, group, levcount, levtype, ringfood, playgid;
 EXTINT chkstairs(), rollwand(), swander(), notslow(), notfight(), rnd();
-EXTINT rchg_str(), wghtchk(), stomach(), doctor(), runners(), status(), sight();
+EXTINT rchg_str(), wghtchk(), stomach(), doctor(), runners(), status(), sight();;
 extern void quit(), auto_save(), endit(), byebye(), game_err();
 EXTINT prntfile(), unconfuse(), sapem();
-EXTINT noteth(), notregen(), notinvinc(), unsee(), nohaste(), npch();
+EXTINT noteth(), notregen(), notinvinc(), unsee(), nohaste();
 EXTBOOL running, nochange, after, inwhgt, isfight, firstmove, nlmove;
 EXTBOOL wizard, waswizard, in_shell, amulet, door_stop, playing;
 EXTBOOL notify, ws_know[], p_know[], s_know[], r_know[], inpool;
@@ -45,4 +45,4 @@ extern char *sylls[NSYLS];
 extern char *stones[NSTONES];
 extern char *wood[NWOOD];
 extern char *metal[NMETAL];
-
+extern char npch(char ch);

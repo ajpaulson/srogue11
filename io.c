@@ -30,7 +30,7 @@
 static char msgbuf[BUFSIZ];
 static int newpos = 0;
 
-msg(char *fmt, ...)
+int msg(char *fmt, ...)
 {
 	va_list ap;
 	/*
@@ -49,13 +49,14 @@ msg(char *fmt, ...)
 	doadd(fmt, ap);
 	va_end(ap);
 	endmsg();
+  return 0;
 }
 
 /*
  * addmsg:
  *	Add things to the current message
  */
-addmsg(char *fmt, ...)
+void addmsg(char *fmt, ...)
 {
 	va_list ap;
 
@@ -69,7 +70,7 @@ addmsg(char *fmt, ...)
  * 	Display a new msg, giving him a chance to see the
  *	previous one if it is up there with the --More--
  */
-endmsg()
+void endmsg()
 {
 	strcpy(huh, msgbuf);
 	if (mpos > 0) {
@@ -89,7 +90,7 @@ endmsg()
  * doadd:
  *	Perform a printf into a buffer
  */
-doadd(char *fmt, va_list ap)
+void doadd(char *fmt, va_list ap)
 {
 	vsprintf(&msgbuf[newpos], fmt, ap);
 	newpos = strlen(msgbuf);
@@ -99,8 +100,7 @@ doadd(char *fmt, va_list ap)
  * step_ok:
  *	Returns TRUE if it is ok to step on ch
  */
-step_ok(ch)
-unsigned char ch;
+bool step_ok(unsigned char ch)
 {
 	if (dead_end(ch))
 		return FALSE;
@@ -114,8 +114,7 @@ unsigned char ch;
  * dead_end:
  *	Returns TRUE if you cant walk through that character
  */
-dead_end(ch)
-char ch;
+bool dead_end(char ch)
 {
 	if (ch == '-' || ch == '|' || ch == ' ' || ch == SECRETDOOR)
 		return TRUE;
@@ -130,7 +129,7 @@ char ch;
  *	getchar.
  */
 
-readchar()
+char readchar()
 {
 	char c;
 
@@ -149,8 +148,7 @@ char *hungstr[] = {
  * status:
  *	Display the important stats line.  Keep the cursor where it was.
  */
-status(fromfuse)
-int fromfuse;
+int status(int fromfuse)
 {
 	int totwght, carwght;
 	struct real *stef, *stre, *stmx;
@@ -215,13 +213,14 @@ int fromfuse;
 	waddstr(cw, hungstr[hungry_state]);
 	wclrtoeol(cw);
 	wmove(cw, oy, ox);
+  return 0;
 }
 
 /*
  * dispmax:
  *	Display the hero's maximum status
  */
-dispmax()
+void dispmax()
 {
 	struct real *hmax;
 
@@ -234,8 +233,7 @@ dispmax()
  * illeg_ch:
  * 	Returns TRUE if a char shouldn't show on the screen
  */
-bool illeg_ch(ch)
-unsigned char ch;
+bool illeg_ch(unsigned char ch)
 {
 	if (ch < 32 || ch > 127)
 		return TRUE;
@@ -248,9 +246,7 @@ unsigned char ch;
  * wait_for:
  *	Sit around until the guy types the right key
  */
-wait_for(win,ch)
-WINDOW *win;
-char ch;
+void wait_for(WINDOW *win,char ch)
 {
 	char c;
 
@@ -277,8 +273,7 @@ char ch;
 #include <sys/time.h>
 #endif
 
-char *
-gettime()
+char *gettime()
 {
 	char *timeptr;
 	char *ctime();
@@ -295,9 +290,7 @@ gettime()
  * dbotline:
  *	Displays message on bottom line and waits for a space to return
  */
-dbotline(scr,message)
-WINDOW *scr;
-char *message;
+void dbotline(WINDOW *scr,char *message)
 {
 	mvwaddstr(scr,LINES-1,0,message);
 	draw(scr);
@@ -309,8 +302,7 @@ char *message;
  * restscr:
  *	Restores the screen to the terminal
  */
-restscr(scr)
-WINDOW *scr;
+void restscr(WINDOW *scr)
 {
 	clearok(scr,TRUE);
 	touchwin(scr);
@@ -320,8 +312,7 @@ WINDOW *scr;
  * npch:
  *	Get the next char in line for inventories
  */
-npch(ch)
-char ch;
+char npch(char ch)
 {
 	char nch;
 	if (ch >= 'z')
