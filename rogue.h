@@ -833,3 +833,7 @@ bool dosave();
 void save_file(FILE *savef);
 bool restore(char *file,char **envp);
 int quaff();
+void option();
+int get_str(char *opt,WINDOW *awin);
+void parse_opts(char *str);
+void strucpy(char *s1,char *s2,int len);

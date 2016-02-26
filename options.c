@@ -49,7 +49,7 @@ OPTION	optlist[] = {
 /*
  * print and then set options from the terminal
  */
-option()
+void option()
 {
 	OPTION	*op;
 	int	wh;
@@ -98,9 +98,7 @@ option()
  *	Set a string option
  */
 #define CTRLB	2
-get_str(opt, awin)
-char *opt;
-WINDOW *awin;
+int get_str(char *opt,WINDOW *awin)
 {
 	char *sp;
 	int c, oy, ox;
@@ -178,8 +176,7 @@ WINDOW *awin;
  *	or the end of the entire option string.
  */
 
-parse_opts(str)
-char *str;
+void parse_opts(char *str)
 {
 	char *sp;
 	OPTION *op;
@@ -220,9 +217,7 @@ char *str;
 /*
  * copy string using unctrl for things
  */
-strucpy(s1, s2, len)
-char *s1, *s2;
-int len;
+void strucpy(char *s1,char *s2,int len)
 {
 	char *sp;
 
