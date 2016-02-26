@@ -52,7 +52,7 @@ static char *rip[] = {
 
 #define RIP_LINES (sizeof rip / (sizeof (char *)))
 
-char	*killname();
+char *killname(unsigned char monst);
 
 /*
  * death:
@@ -61,8 +61,7 @@ char	*killname();
 
 #include <time.h>
 
-death(monst)
-char monst;
+void death(char monst)
 {
 	char dp, *killer;
 	struct tm *lt;
@@ -117,9 +116,7 @@ int oldpurse;
  * score:
  *	Figure score and post it.
  */
-score(amount, aflag, monst)
-char monst;
-int amount, aflag;
+int score(int amount,int aflag,char monst)
 {
 	struct sc_ent *scp, *sc2;
 	int i, fd, prflags = 0;
@@ -218,14 +215,14 @@ int amount, aflag;
 	refresh();
 	endwin();
 	showtop(prflags);		/* print top ten list */
+  return 0;
 }
 
 /*
  * showtop:
  *	Display the top ten on the screen
  */
-showtop(showname)
-int showname;
+bool showtop(int showname)
 {
 	int fd, i;
 	char *killer;
@@ -278,7 +275,7 @@ int showname;
  * total_winner:
  *	The hero made it back out alive
  */
-total_winner()
+void total_winner()
 {
 	clear();
 addstr("                                                               \n");
@@ -309,9 +306,7 @@ addstr("a great profit and are admitted to the fighters guild.\n");
  * showpack:
  *	Display the contents of the hero's pack
  */
-showpack(winner, howso)
-bool winner;
-char *howso;
+void showpack(bool winner,char *howso)
 {
 	char *iname;
 	int cnt, worth, ch;
@@ -355,9 +350,7 @@ char *howso;
  * killname:
  *	Returns what the hero was killed by.
  */
-char *
-killname(monst)
-unsigned char monst;
+char *killname(unsigned char monst)
 {
 	if (monst < MAXMONS + 1)
 		return monsters[monst].m_name;
