@@ -25,8 +25,7 @@
  *	Takes an item out of whatever linked list it might be in
  */
 
-_detach(list, item)
-struct linked_list **list, *item;
+void _detach(struct linked_list **list,struct linked_list *item)
 {
 	if (*list == item)
 		*list = next(item);
@@ -41,8 +40,7 @@ struct linked_list **list, *item;
 /*
  * _attach:	add an item to the head of a list
  */
-_attach(list, item)
-struct linked_list **list, *item;
+void _attach(struct linked_list **list,struct linked_list *item)
 {
 	if (*list != NULL) 	{
 		item->l_next = *list;
@@ -59,8 +57,7 @@ struct linked_list **list, *item;
 /*
  * _free_list:	Throw the whole blamed thing away
  */
-_free_list(ptr)
-struct linked_list **ptr;
+void _free_list(struct linked_list **ptr)
 {
 	struct linked_list *item;
 
@@ -74,8 +71,7 @@ struct linked_list **ptr;
 /*
  * discard:  free up an item
  */
-discard(item)
-struct linked_list *item;
+void discard(struct linked_list *item)
 {
 	total -= 2;
 	FREE(item->l_data);
@@ -85,9 +81,7 @@ struct linked_list *item;
 /*
  * new_item:	get a new item with a specified size
  */
-struct linked_list *
-new_item(size)
-int size;
+struct linked_list *new_item(int size)
 {
 	struct linked_list *item;
 
@@ -97,9 +91,7 @@ int size;
 	return item;
 }
 
-char *
-new(size)
-int size;
+char *new(int size)
 {
 	char *space = ALLOC(size);
 

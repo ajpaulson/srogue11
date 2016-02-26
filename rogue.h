@@ -795,3 +795,8 @@ char pack_char(struct object *obj);
 void idenpack();
 void del_pack(struct linked_list *what);
 void cur_null(struct object *op);
+void _detach(struct linked_list **list,struct linked_list *item);
+void _attach(struct linked_list **list,struct linked_list *item);
+void _free_list(struct linked_list **ptr);
+void discard(struct linked_list *item);
+struct linked_list *new_item(int size);
