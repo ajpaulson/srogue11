@@ -40,7 +40,7 @@ STAT sbuf;
  * ignore:
  *	Ignore ALL signals possible
  */
-ignore()
+void ignore()
 {
 	int i;
 
@@ -52,7 +52,7 @@ ignore()
  * save_game:
  *	Save the current game
  */
-save_game()
+int save_game()
 {
 	FILE *savef;
 	int c;
@@ -92,8 +92,7 @@ gotfile:
  * auto_save:
  *	Automatically save a game
  */
-void
-auto_save(int a)
+void auto_save(int a)
 {
 	dosave();		/* save this game */
 	byebye(1);		/* so long for now */
@@ -103,8 +102,7 @@ auto_save(int a)
  * game_err:
  *	When an error occurs. Set error flag and save game.
  */
-void
-game_err(int a)
+void game_err(int a)
 {
 	int ok;
 
@@ -133,7 +131,7 @@ game_err(int a)
  * dosave:
  *	Set UID back to user and save the game
  */
-dosave()
+bool dosave()
 {
 	FILE *savef;
 
@@ -156,8 +154,7 @@ dosave()
  * save_file:
  *	Do the actual save of this game to a file
  */
-save_file(savef)
-FILE *savef;
+void save_file(FILE *savef)
 {
 	int fnum;
 	int slines = LINES;
@@ -195,8 +192,7 @@ FILE *savef;
  * restore:
  *	Restore a saved game from a file
  */
-restore(file, envp)
-char *file, **envp;
+bool restore(char *file,char **envp)
 {
   char inf;
   int pid;
@@ -339,4 +335,5 @@ char *file, **envp;
 	restscr(cw);
 	srand48(getpid());
 	playit();
+  return TRUE;
 }

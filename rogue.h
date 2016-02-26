@@ -827,3 +827,8 @@ struct room *roomin(struct coord *cp);
 struct linked_list *find_mons(int y,int x);
 bool diag_ok(struct coord *sp,struct coord *ep);
 bool cansee(int y,int x);
+void ignore();
+int save_game();
+bool dosave();
+void save_file(FILE *savef);
+bool restore(char *file,char **envp);
