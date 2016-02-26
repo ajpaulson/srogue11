@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <termios.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "rogue.h"
 #include "rogue.ext"

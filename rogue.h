@@ -16,6 +16,7 @@
 
 #include <ctype.h>
 #include <curses.h>
+#include <stdlib.h>
 
 #ifdef ATT
 #define CBREAK FALSE
