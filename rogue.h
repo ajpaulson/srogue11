@@ -854,3 +854,6 @@ void draw_maze();
 int findcells(int y,int x);
 void rmwall(int newy,int newx,int oldy,int oldx);
 void crankout();
+void fix_stick(struct object *cur);
+int do_zap(bool gotdir);
+int drain(int ymin,int  ymax,int xmin,int xmax);
