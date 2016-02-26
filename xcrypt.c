@@ -50,6 +50,7 @@
  */
 
 #include <string.h>
+#include <arpa/inet.h>
 
 #ifdef DEBUG
 # include <stdio.h>
@@ -179,9 +180,7 @@ static unsigned char	ascii64[] =
 /*	  0000000000111111111122222222223333333333444444444455555555556666 */
 /*	  0123456789012345678901234567890123456789012345678901234567890123 */
 
-static __inline int
-ascii_to_bin(ch)
-	char ch;
+static __inline int ascii_to_bin(char ch)
 {
 	if (ch > 'z')
 		return(0);
@@ -198,8 +197,7 @@ ascii_to_bin(ch)
 	return(0);
 }
 
-static void
-des_init()
+static void des_init()
 {
 	int	i, j, b, k, inbit, obit;
 	unsigned int	*p, *il, *ir, *fl, *fr;
@@ -327,9 +325,7 @@ des_init()
 	des_initialised = 1;
 }
 
-static void
-setup_salt(salt)
-	int salt;
+static void setup_salt(int salt)
 {
 	unsigned int	obit, saltbit;
 	int	i;
@@ -349,9 +345,7 @@ setup_salt(salt)
 	}
 }
 
-static int
-des_setkey(key)
-	const char *key;
+static int des_setkey(const char *key)
 {
 	unsigned int k0, k1, rawkey0, rawkey1;
 	int	shifts, round;
@@ -430,10 +424,7 @@ des_setkey(key)
 	return(0);
 }
 
-static int
-do_des(l_in, r_in, l_out, r_out, count)
-	unsigned int l_in, r_in, *l_out, *r_out;
-	int count;
+static int do_des(unsigned int l_in,unsigned int r_in,unsigned int *l_out,unsigned int *r_out,int count)
 {
 	/*
 	 *	l_in, r_in, l_out, and r_out are in pseudo-"big-endian" format.
@@ -548,12 +539,7 @@ do_des(l_in, r_in, l_out, r_out, count)
 	return(0);
 }
 
-static int
-des_cipher(in, out, salt, count)
-	const char *in;
-	char *out;
-	int salt;
-	int count;
+static int des_cipher(const char *in,char *out,int salt,int count)
 {
 	unsigned int l_out, r_out, rawl, rawr;
 	unsigned int x[2];
@@ -575,10 +561,7 @@ des_cipher(in, out, salt, count)
 	return(retval);
 }
 
-char *
-xcrypt(key, setting)
-	const char *key;
-	const char *setting;
+char *xcrypt(const char *key,const char *setting)
 {
 	int		i;
 	unsigned int	count, salt, l, r0, r1, keybuf[2];
