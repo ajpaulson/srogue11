@@ -800,3 +800,7 @@ void _attach(struct linked_list **list,struct linked_list *item);
 void _free_list(struct linked_list **ptr);
 void discard(struct linked_list *item);
 struct linked_list *new_item(int size);
+void do_passages();
+void conn(int r1,int r2);
+void door(struct room *rm,struct coord *cp);
+void add_pass();

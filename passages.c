@@ -26,7 +26,7 @@
  *	Draw all the passages on a level.
  */
 
-do_passages()
+void do_passages()
 {
 	struct rdes *r1, *r2;
 	int i, j;
@@ -127,8 +127,7 @@ do_passages()
  *	Cconnect two rooms.
  */
 
-conn(r1, r2)
-int r1, r2;
+void conn(int r1,int r2)
 {
 	struct room *rpf, *rpt;
 	char rmt, direc;
@@ -259,9 +258,7 @@ int r1, r2;
  * also enters the door in the exits array of the room.
  */
 
-door(rm, cp)
-struct room *rm;
-struct coord *cp;
+void door(struct room *rm,struct coord *cp)
 {
 	cmov(*cp);
 	addch(rnd(10) < level - 1 && rnd(100) < 20 ? SECRETDOOR : DOOR);
@@ -273,7 +270,7 @@ struct coord *cp;
  * add_pass:
  *	add the passages to the current window (wizard command)
  */
-add_pass()
+void add_pass()
 {
 	int y, x, ch;
 
