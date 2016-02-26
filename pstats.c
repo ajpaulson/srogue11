@@ -21,10 +21,7 @@
  * chg_hpt:
  *	Changes players hit points
  */
-chg_hpt(howmany, alsomax, what)
-int howmany;
-bool alsomax;
-char what;
+void chg_hpt(int howmany,bool alsomax,char what)
 {
 	nochange = FALSE;
 	if(alsomax)
@@ -41,18 +38,17 @@ char what;
  * rchg_str:
  *	Update the players real strength 
  */
-rchg_str(amt)
-int amt;
+int rchg_str(int amt)
 {
 	chg_abil(STR,amt,TRUE);
+  return 0;
 }
 
 /*
  * chg_abil:
  *	Used to modify the hero's abilities
  */
-chg_abil(what,amt,how)
-int amt, what, how;
+int chg_abil(int what,int amt,int how)
 {
 	if (amt == 0)
 		return 0;
@@ -63,15 +59,14 @@ int amt, what, how;
 	updabil(what,amt,&pstats.s_ef,how);	/* effective */
 	updpack();
 	wghtchk(FALSE);
+  return 0;
 }
 
 /*
  * updabil:
  *	Do the actual abilities updating
  */
-updabil(what, amt, pst, how)
-struct real *pst;
-int what, amt, how;
+int updabil(int what,int amt,struct real *pst,int how)
 {
 	int *wh, *mx, *mr;
 	struct real *mst, *msr;
@@ -134,6 +129,7 @@ int what, amt, how;
 		if (*wh > *mx)
 			*mx = *wh;
 	}
+  return 0;
 }
 
 
@@ -141,8 +137,7 @@ int what, amt, how;
  * add_haste:
  *	add a haste to the player
  */
-add_haste(potion)
-bool potion;
+void add_haste(bool potion)
 {
 	if (pl_on(ISHASTE)) {
 		msg("You faint from exhaustion.");
@@ -163,9 +158,7 @@ bool potion;
  * getpdex:
  *	Gets players added dexterity for fighting
  */
-getpdex(who, heave)
-struct stats *who;
-bool heave;
+int getpdex(struct stats *who,bool heave)
 {
 	int edex;
 
@@ -220,8 +213,7 @@ bool heave;
  * getpwis:
  *	Get a players wisdom for fighting
  */
-getpwis(who)
-struct stats *who;
+int getpwis(struct stats *who)
 {
 	int ewis;
 
@@ -252,8 +244,7 @@ struct stats *who;
  * getpcon:
  *	Get added hit points from players constitution
  */
-getpcon(who)
-struct stats *who;
+int getpcon(struct stats *who)
 {
 	int econ;
 
@@ -285,8 +276,7 @@ struct stats *who;
  * str_plus:
  *	compute bonus/penalties for strength on the "to hit" roll
  */
-str_plus(who)
-struct stats *who;
+int str_plus(struct stats *who)
 {
 	int hitplus, str;
 
@@ -318,8 +308,7 @@ struct stats *who;
  * add_dam:
  *	Compute additional damage done depending on strength
  */
-add_dam(who)
-struct stats *who;
+int add_dam(struct stats *who)
 {
 	int exdam, str;
 
@@ -353,7 +342,7 @@ struct stats *who;
  * hungdam:
  *	Calculate damage depending on players hungry state
  */
-hungdam()
+int hungdam()
 {
 	switch (hungry_state) {
 		case F_OKAY:
@@ -361,15 +350,14 @@ hungdam()
 		when F_WEAK:	return -1;
 		when F_FAINT:	return -2;
 	}
+  return 0;
 }
 
 /*
  * heal_self:
  *	Heal the hero.
  */
-heal_self(factor, updmaxhp)
-int factor;
-bool updmaxhp;
+void heal_self(int factor,bool updmaxhp)
 {
 	him->s_hpt += roll(him->s_lvl + getpcon(him), factor);
 	if (updmaxhp)
