@@ -832,3 +832,4 @@ int save_game();
 bool dosave();
 void save_file(FILE *savef);
 bool restore(char *file,char **envp);
+int quaff();

@@ -26,7 +26,7 @@
  * quaff:
  *	Let the hero drink a potion
  */
-quaff()
+int quaff()
 {
 	struct object *obj;
 	struct linked_list *item, *titem;
@@ -325,4 +325,5 @@ quaff()
 			strcpy(p_guess[wh], buf);
 		}
 	}
+  return 0;
 }
