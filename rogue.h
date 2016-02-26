@@ -813,7 +813,7 @@ char *killname(unsigned char monst);
 struct delayed_action *d_insert(int (*func)(),int arg,int type,int time);
 int d_delete(struct delayed_action *wire);
 struct delayed_action *find_slot(int (*func)());
-void daemon(int (*func)(),int arg,int type);
+void srdaemon(int (*func)(),int arg,int type);
 void do_daemons(int flag);
 void fuse(int (*func)(),int arg,int time);
 void lengthen(int (*func)(),int xtime);

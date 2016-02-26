@@ -86,7 +86,7 @@ struct delayed_action *find_slot(int (*func)())
  * daemon:
  *	Start a daemon, takes a function.
  */
-void daemon(int (*func)(),int arg,int type)
+void srdaemon(int (*func)(),int arg,int type)
 {
 	d_insert(func, arg, type, DAEMON);
 }

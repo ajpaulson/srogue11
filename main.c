@@ -210,10 +210,10 @@ char **envp;
 
 	/* Start up daemons and fuses */
 
-	daemon(status, TRUE, BEFORE);
-	daemon(doctor, TRUE, BEFORE);
-	daemon(stomach, TRUE, BEFORE);
-	daemon(runners, TRUE, AFTER);
+	srdaemon(status, TRUE, BEFORE);
+	srdaemon(doctor, TRUE, BEFORE);
+	srdaemon(stomach, TRUE, BEFORE);
+	srdaemon(runners, TRUE, AFTER);
 	fuse(swander, TRUE, WANDERTIME);
 
 	/* Give the rogue his weaponry */

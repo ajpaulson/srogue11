@@ -67,7 +67,7 @@ int doctor(int fromfuse)
  */
 int swander(int fromfuse)
 {
-	daemon(rollwand, TRUE, BEFORE);
+	srdaemon(rollwand, TRUE, BEFORE);
   return 0;
 }
 
