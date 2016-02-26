@@ -27,7 +27,7 @@ EXTCHAR *r_stones[], *p_colors[], *s_names[], *ws_type[], *ws_made[];
 EXTCHAR *ws_guess[], *s_guess[], *r_guess[], *p_guess[];/*, *unctrl();*/
 EXTCHAR morestr[], prbuf[], huh[], *identify(), *vowelstr();
 EXTCHAR *new(int size), *strcpy(), *strcat(), *inv_name(), pack_char(), *prname(char *who, bool upper);
-EXTCHAR *num(), *getenv(), *tr_name(), *release, take, runch;
+EXTCHAR *num(int n1,int n2), *getenv(), *tr_name(), *release, take, runch;
 EXTCHAR retstr[], wizstr[], spacemsg[], illegal[], callit[], starlist[];
 EXTSTAT max_stats, *him;
 extern struct magic_info thnginfo[];
