@@ -27,9 +27,8 @@
  *	Pick a monster to show up.  The lower the level,
  *	the meaner the monster.
  */
-rnd_mon(wander,baddie)
-bool wander;
-bool baddie;		/* TRUE when from a polymorph stick */
+int rnd_mon(bool wander,bool baddie)
+/* baddie == TRUE when from a polymorph stick */
 {
 	int i, ok, cnt;
 
@@ -64,7 +63,7 @@ bool baddie;		/* TRUE when from a polymorph stick */
  * lev_mon:
  *	This gets all monsters possible on this level
  */
-lev_mon()
+void lev_mon()
 {
 	int i;
 	struct monster *mm;
@@ -86,11 +85,7 @@ lev_mon()
  * new_monster:
  *	Pick a new monster and add it to the list
  */
-struct linked_list *
-new_monster(type, cp, treas)
-struct coord *cp;
-bool treas;
-char type;
+struct linked_list *new_monster(char type,struct coord *cp,bool treas)
 {
 	struct linked_list *item;
 	struct thing *tp;
@@ -195,7 +190,7 @@ char type;
  * wanderer:
  *	A wandering monster has awakened and is headed for the player
  */
-wanderer()
+void wanderer()
 {
 	int ch;
 	struct room *rp, *hr = player.t_room;
@@ -220,9 +215,7 @@ wanderer()
  * wake_monster:
  *	What to do when the hero steps next to a monster
  */
-struct linked_list *
-wake_monster(y, x)
-int y, x;
+struct linked_list *wake_monster(int y,int x)
 {
 	struct thing *tp;
 	struct linked_list *it;
@@ -283,7 +276,7 @@ int y, x;
  * genocide:
  *	Eradicate a monster forevermore
  */
-genocide()
+int genocide()
 {
 	struct linked_list *ip, *nip;
 	struct thing *mp;
@@ -329,14 +322,14 @@ tryagain:
 	lev_mon();							/* redo monster list */
 	mpos = 0;
 	msg("You have wiped out the %s.",mm->m_name);
+  return 0;
 }
 
 /*
  * unhold:
  *	Release the player from being held
  */
-unhold(whichmon)
-char whichmon;
+void unhold(char whichmon)
 {
 	switch (whichmon) {
 		case 'F':
@@ -351,8 +344,7 @@ char whichmon;
  * midx:
  *	This returns an index to 'whichmon'
  */
-midx(whichmon)
-char whichmon;
+int midx(char whichmon)
 {
 	if (isupper(whichmon))
 		return(whichmon - 'A');			/* 0 to 25 for uppercase */
@@ -367,8 +359,7 @@ char whichmon;
  *	See when monster should run or fight. Return
  *	TRUE if hit points less than acceptable.
  */
-monhurt(th)
-struct thing *th;
+bool monhurt(struct thing *th)
 {
 	int ewis, crithp, f1, f2;
 	struct stats *st;

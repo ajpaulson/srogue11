@@ -5,7 +5,7 @@ EXTMON monsters[], *mtlev[];
 EXTTRAP *trap_at(), traps[];
 EXTROOM *roomin(), *oldrp, rooms[];
 EXTCORD *rndmove(), *rnd_pos(), delta, stairs, oldpos, rndspot;
-EXTLKL *mlist, *lvl_obj, *new_item(), *new_thing(), *new_monster();
+EXTLKL *mlist, *lvl_obj, *new_item(), *new_thing(), *new_monster(char type,struct coord *cp,bool treas);
 EXTLKL *find_mons(), *wake_monster(), *find_obj(), *get_item();
 EXTOBJ *cur_armor, *cur_weapon, *cur_ring[];
 EXTMAG r_magic[], s_magic[], ws_magic[], p_magic[];
