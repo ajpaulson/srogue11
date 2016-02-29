@@ -26,21 +26,21 @@
  * waste_time:
  *	Do nothing but let other things happen
  */
-waste_time()
+int waste_time()
 {
 	if (inwhgt)		/* if from wghtchk, then done */
 	     return 0;
 	do_daemons(BEFORE);
 	do_daemons(AFTER);
 	do_fuses();
+  return 0;
 }
 
 /*
  * getindex:
  *	Convert a type into an index for the things structures
  */
-getindex(what)
-char what;
+int getindex(char what)
 {
 	int index = -1;
 
@@ -61,9 +61,7 @@ char what;
  * tr_name:
  *	print the name of a trap
  */
-char *
-tr_name(ch)
-char ch;
+char *tr_name(char ch)
 {
 	char *s;
 
@@ -96,8 +94,7 @@ char ch;
  * Look:
  *	A quick glance all around the player
  */
-look(wakeup)
-bool wakeup;
+void look(bool wakeup)
 {
 	char ch;
 	int oldx, oldy, y, x;
@@ -233,9 +230,7 @@ bool wakeup;
  * find_obj:
  *	find the unclaimed object at y, x
  */
-struct linked_list *
-find_obj(y, x)
-int y, x;
+struct linked_list *find_obj(int y,int x)
 {
 	struct linked_list *obj;
 	struct object *op;
@@ -252,7 +247,7 @@ int y, x;
  * eat:
  *	Let the hero eat some food.
  */
-eat()
+int eat()
 {
 	struct linked_list *item;
 	struct object *obj;
@@ -295,13 +290,14 @@ eat()
 	if (obj == cur_weapon)
 		cur_weapon = NULL;
 	del_pack(item);		/* get rid of the food */
+  return 0;
 }
 
 /*
  * aggravate:
  *	aggravate all the monsters on this level
  */
-aggravate()
+void aggravate()
 {
 	struct linked_list *mi;
 
@@ -313,9 +309,7 @@ aggravate()
  * vowelstr:
  * 	If string starts with a vowel, return "n" for an "an"
  */
-char *
-vowelstr(str)
-char *str;
+char *vowelstr(char *str)
 {
 	switch (tolower(*str)) {
 		case 'a':
@@ -333,8 +327,7 @@ char *str;
  * is_current:
  *	See if the object is one of the currently used items
  */
-is_current(obj)
-struct object *obj;
+bool is_current(struct object *obj)
 {
 	if (obj == NULL)
 		return FALSE;
@@ -350,7 +343,7 @@ struct object *obj;
  * get_dir:
  *	Set up the direction coordinates
  */
-get_dir()
+bool get_dir()
 {
 	char *prompt;
 	bool gotit;
@@ -388,8 +381,7 @@ get_dir()
  * initfood:
  *	Set up stuff for a food-type object
  */
-initfood(what)
-struct object *what;
+void initfood(struct object *what)
 {
 	what->o_type = FOOD;
 	what->o_group = NORMFOOD;
