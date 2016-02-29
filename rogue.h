@@ -917,3 +917,5 @@ void aggravate();
 bool is_current(struct object *obj);
 bool get_dir();
 void initfood(struct object *what);
+int rs_save_file(FILE *savef);
+int rs_restore_file(int inf);
