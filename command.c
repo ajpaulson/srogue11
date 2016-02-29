@@ -21,6 +21,9 @@
 #include <unctrl.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 #include "rogue.h"
 #include "rogue.ext"
@@ -32,7 +35,7 @@
  * command:
  *	Process the user commands
  */
-command()
+void command()
 {
 	char ch;
 	int ntimes = 1;		/* Number of player moves */
@@ -361,8 +364,7 @@ command()
  * quit:
  *	Have player make certain, then exit.
  */
-void
-quit(int a)
+void quit(int a)
 {
 	char ch, good;
 	/*
@@ -405,7 +407,7 @@ quit(int a)
  *	Player gropes about him to find hidden things.
  */
 
-search()
+int search()
 {
 	int x, y;
 	char ch;
@@ -444,13 +446,14 @@ search()
 			}
 		}
 	}
+  return 0;
 }
 
 /*
  * help:
  *	Give single character help, or the whole mess if he wants it
  */
-help()
+int help()
 {
 	extern struct h_list helpstr[];
 	struct h_list *strp;
@@ -500,6 +503,7 @@ help()
 	wclrtoeol(cw);
 	touchwin(cw);
 	nochange = FALSE;
+  return 0;
 }
 
 
@@ -507,9 +511,7 @@ help()
  * identify:
  *	Tell the player what a certain thing is.
  */
-char *
-identify(what)
-int what;
+char *identify(int what)
 {
 	char ch, *str;
 
@@ -570,7 +572,7 @@ int what;
  * d_level:
  *	He wants to go down a level
  */
-d_level()
+int d_level()
 {
 	if (winat(hero.y, hero.x) != STAIRS)
 		msg("I see no way down.");
@@ -582,13 +584,14 @@ d_level()
 		level++;
 		new_level(NORMLEV);
 	}
+  return 0;
 }
 
 /*
  * u_level:
  *	He wants to go up a level
  */
-u_level()
+int u_level()
 {
 	if (winat(hero.y, hero.x) == STAIRS)  {
 		if (pl_on(ISHELD)) {
@@ -607,13 +610,14 @@ u_level()
 		}
 	}
 	msg("I see no way up.");
+  return 0;
 }
 
 
 /*
  * Let him escape for a while
  */
-shell()
+void shell()
 {
 	int pid;
 	char *sh;
@@ -678,7 +682,7 @@ shell()
  * call:
  *	Allow a user to call a potion, scroll, or ring something
  */
-call()
+int call()
 {
 	struct object *obj;
 	struct linked_list *item;
@@ -716,4 +720,5 @@ call()
 		guess[wh] = new(strlen(prbuf) + 1);
 		strcpy(guess[wh], prbuf);
 	}
+  return 0;
 }
