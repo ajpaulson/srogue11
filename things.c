@@ -30,10 +30,7 @@
  * inv_name:
  *	Return the name of something as it would appear in an inventory.
  */
-char *
-inv_name(obj, drop)
-struct object *obj;
-bool drop;
+char *inv_name(struct object *obj,bool drop)
 {
 	char *pb, *tn, *pl;
 	int wh, knowit;
@@ -186,7 +183,7 @@ bool drop;
  * money:
  *	Add to characters purse
  */
-money()
+void money()
 {
 	struct room *rp;
 	struct linked_list *item;
@@ -218,8 +215,7 @@ money()
  * drop:
  *	put something down
  */
-drop(item)
-struct linked_list *item;
+bool drop(struct linked_list *item)
 {
 	char ch;
 	struct linked_list *ll, *nll;
@@ -284,8 +280,7 @@ struct linked_list *item;
  * dropcheck:
  *	Do special checks for dropping or unweilding|unwearing|unringing
  */
-dropcheck(op)
-struct object *op;
+bool dropcheck(struct object *op)
 {
 	if (op == NULL)
 		return TRUE;
@@ -322,10 +317,7 @@ struct object *op;
  * new_thing:
  *	Return a new thing
  */
-struct linked_list *
-new_thing(treas, type, which)
-int type, which;
-bool treas;
+struct linked_list *new_thing(bool treas,int type,int which)
 {
 	struct linked_list *item;
 	struct magic_item *mi;
@@ -407,8 +399,7 @@ bool treas;
  * basic_init:
  *	Set all params of an object to the basic values.
  */
-basic_init(cur)
-struct object *cur;
+void basic_init(struct object *cur)
 {
 	cur->o_ac = 11;
 	cur->o_count = 1;
@@ -426,7 +417,7 @@ struct object *cur;
  * extras:
  *	Return the number of extra items to be created
  */
-extras()
+int extras()
 {
 	int i;
 
@@ -444,8 +435,7 @@ extras()
  * pick_one:
  * 	Pick an item out of a list of nitems possible magic items
  */
-pick_one(mag)
-struct magic_item *mag;
+int pick_one(struct magic_item *mag)
 {
 	struct magic_item *start;
 	int i;
