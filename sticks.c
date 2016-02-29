@@ -18,6 +18,7 @@
 #include <ctype.h>
 #include <curses.h>
 #include <stdbool.h>
+#include <string.h>
 #include <stdio.h>
 
 #include "rogue.h"
