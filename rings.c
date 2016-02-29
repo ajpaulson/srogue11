@@ -57,7 +57,7 @@ int ring_on()
 	if (is_current(obj))
 		return 0;
 	if (cur_ring[LEFT] == NULL && cur_ring[RIGHT] == NULL) {
-		if ((ring = gethand(FALSE)) < 0)
+		if ((ring = gethand(FALSE)))
 			return 0;
 	}
 	else if (cur_ring[LEFT] == NULL)
@@ -164,7 +164,7 @@ int ring_off()
 	else if (cur_ring[RIGHT] == NULL)
 		ring = LEFT;
 	else
-		if ((ring = gethand(TRUE)) < 0)
+		if ((ring = gethand(TRUE)))
 			return 0;
 	mpos = 0;
 	obj = cur_ring[ring];
