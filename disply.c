@@ -100,7 +100,7 @@ void dispmons()
  */
 char winat(int y,int x)
 {
-	char ch;
+	unsigned long ch;
 
 	if (mvwinch(mw,y,x) == ' ')
 		ch = mvinch(y, x);			/* non-monsters */
