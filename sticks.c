@@ -211,7 +211,7 @@ int do_zap(bool gotdir)
 	case WS_CANCEL:
 	case WS_MINVIS:
 	{
-		char monster, oldch;
+		int monster, oldch;
 
 		y = hero.y;
 		x = hero.x;

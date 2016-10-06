@@ -33,7 +33,7 @@ int read_scroll()
 	struct object *obj;
 	struct linked_list *item;
 	int i, j, wh;
-	char ch, nch;
+	int ch, nch;
 	struct room *rp;
 	struct linked_list *titem;
 	char buf[LINLEN];
