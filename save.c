@@ -194,7 +194,7 @@ void save_file(FILE *savef)
  * restore:
  *	Restore a saved game from a file
  */
-bool restore(char *file,char **envp)
+bool restore(char const *file,char **envp)
 {
   char inf;
   int pid;

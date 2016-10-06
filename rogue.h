@@ -832,7 +832,7 @@ void ignore();
 int save_game();
 bool dosave();
 void save_file(FILE *savef);
-bool restore(char *file,char **envp);
+bool restore(char const *file,char **envp);
 int quaff();
 void option();
 int get_str(char *opt,WINDOW *awin);
