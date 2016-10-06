@@ -776,7 +776,7 @@ int rnd_room();
 int put_things();
 int msg(char *fmt, ...);
 bool dead_end(char ch);
-bool step_ok(unsigned char ch);
+bool step_ok(unsigned long ch);
 bool illeg_ch(unsigned char ch);
 char *gettime();
 void dbotline(WINDOW *scr,char *message);

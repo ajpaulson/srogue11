@@ -100,7 +100,7 @@ void doadd(char *fmt, va_list ap)
  * step_ok:
  *	Returns TRUE if it is ok to step on ch
  */
-bool step_ok(unsigned char ch)
+bool step_ok(unsigned long ch)
 {
 	if (dead_end(ch))
 		return FALSE;
