@@ -215,7 +215,7 @@ int light(struct coord *cp)
 {
 	struct room *rp;
 	int j, k, x, y;
-	int ch, rch;
+	unsigned long ch, rch;
 	struct linked_list *item;
 
 	rp = roomin(cp);
@@ -295,7 +295,7 @@ int light(struct coord *cp)
  */
 char show(int y,int x)
 {
-	int ch = winat(y, x);
+	unsigned long ch = winat(y, x);
 	struct linked_list *it;
 	struct thing *tp;
 	struct trap *ta;

@@ -23,7 +23,7 @@
  */
 void displevl()
 {
-	int ch, mch;
+	unsigned long ch, mch;
 	int i,j;
 	struct room *rp;
 
