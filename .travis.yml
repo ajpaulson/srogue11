@@ -22,7 +22,7 @@ addons:
       description: "Build Submitted via travis.ci"
     notification_email: whileforkdofork@gmail.com
     build_command_prepend: "make clean"
-    build_command:   "make"
+    build_command:   "make coverity"
     branch_pattern: coverity_scan
 
 branches:
