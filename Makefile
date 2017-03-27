@@ -70,3 +70,8 @@ dist.linux:
 	groff -P-c -t -mm -Tascii rogue.nr | sed -e 's/.\x08//g' >$(PROGRAM).doc
 	tar cf $(DISTNAME)-linux.tar $(PROGRAM) LICENSE.TXT $(PROGRAM).doc
 	gzip -f $(DISTNAME)-linux.tar
+
+coverity: CFLAGS := $(filter-out -Werror,$(CFLAGS))
+
+coverity: $(HDRS) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(CRLIB) -o $@
